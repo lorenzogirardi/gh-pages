@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>wwwk8sit</title>
-    <link href="https://lorenzogirardi.github.io/gh-pages/feed.xml" rel="self" />
-    <link href="https://lorenzogirardi.github.io/gh-pages" />
+    <link href="http://www.k8s.it/feed.xml" rel="self" />
+    <link href="http://www.k8s.it" />
     <updated>1970-01-01T01:00:00+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
-    <id>https://lorenzogirardi.github.io/gh-pages</id>
+    <id>http://www.k8s.it</id>
 
 </feed>
