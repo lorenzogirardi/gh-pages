@@ -3,7 +3,7 @@
     <title>lab</title>
     <link href="http://www.k8s.it/feed.xml" rel="self" />
     <link href="http://www.k8s.it" />
-    <updated>2018-04-10T23:25:15+02:00</updated>
+    <updated>2018-04-10T23:26:27+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -17,11 +17,11 @@
         <link href="http://www.k8s.it/this-is-a-post.html"/>
         <id>http://www.k8s.it/this-is-a-post.html</id>
 
-        <updated>2018-04-10T23:25:11+02:00</updated>
+        <updated>2018-04-10T23:26:23+02:00</updated>
             <summary></summary>
         <content type="html">
             <![CDATA[
-                <p><img class="align-center" src="http://www.k8s.it/media/posts/1/k8s.arm.jpeg" alt="k8s_on_arm" width="735" height="395"></p>
+                <p><img src="http://www.k8s.it/media/posts/1/k8s.arm.jpeg" alt="" width="744" height="400"></p>
 <p>well, what do you need to build your homemade cluster?</p>
 <ul>
 <li>1x usb hub Anker 60W PowerPort 6</li>
