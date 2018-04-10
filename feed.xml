@@ -3,7 +3,7 @@
     <title>lab</title>
     <link href="http://www.k8s.it/feed.xml" rel="self" />
     <link href="http://www.k8s.it" />
-    <updated>2018-04-10T23:27:40+02:00</updated>
+    <updated>2018-04-10T23:29:39+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -14,14 +14,14 @@
         <author>
             <name>lgirardi</name>
         </author>
-        <link href="http://www.k8s.it/this-is-a-post-copy.html"/>
-        <id>http://www.k8s.it/this-is-a-post-copy.html</id>
+        <link href="http://www.k8s.it/kubernetes-for-mere-mortals.html"/>
+        <id>http://www.k8s.it/kubernetes-for-mere-mortals.html</id>
 
-        <updated>2018-04-10T23:27:35+02:00</updated>
+        <updated>2018-04-10T23:29:30+02:00</updated>
             <summary></summary>
         <content type="html">
             <![CDATA[
-                <p><img src="http://www.k8s.it/media/posts/2/k8s.arm.jpeg" alt="" width="744" height="400"></p>
+                <p><img src="file:///Users/lgirardi/Documents/Publii/sites/lab/input/media/posts/2/k8s.arm.jpeg" alt="" width="744" height="400"></p>
 <p>well, what do you need to build your homemade cluster?</p>
 <ul>
 <li>1x usb hub Anker 60W PowerPort 6</li>
@@ -59,7 +59,6 @@ kube-system   traefik-ingress-controller<span class="hljs-number">-49053153</sp
 <p>backend docker example (nginx on arm) k8s-helloworld-arm</p>
 <p><a href="https://services.k8s.it/hello/" target="_blank" rel="nofollow noopener noreferrer">live demo</a></p>
 <p><a href="https://services.k8s.it/grafana/dashboard/db/all-k8s-nodes?refresh=1m&amp;orgId=2&amp;from=now-24h&amp;to=now" target="_blank" rel="nofollow noopener noreferrer">monitoring</a></p>
-<p> </p>
             ]]>
         </content>
     </entry>
