@@ -9,5 +9,18 @@
         "name": "lgirardi"
     },
     "items": [
+        {
+            "id": "http://www.k8s.it/this-is-a-post.html",
+            "url": "http://www.k8s.it/this-is-a-post.html",
+            "title": "this is a post",
+            "content_html": "this is the post n1",
+            "author": {
+                "name": "lgirardi"
+            },
+            "tags": [
+            ],
+            "date_published": "2018-04-10T23:09:44+02:00",
+            "date_modified": "2018-04-10T23:09:44+02:00"
+        }
     ]
 }
