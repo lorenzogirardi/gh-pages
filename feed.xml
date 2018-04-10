@@ -3,7 +3,7 @@
     <title>lab</title>
     <link href="http://www.k8s.it/feed.xml" rel="self" />
     <link href="http://www.k8s.it" />
-    <updated>2018-04-10T23:50:26+02:00</updated>
+    <updated>2018-04-10T23:52:53+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -16,8 +16,15 @@
         </author>
         <link href="http://www.k8s.it/kubernetes-for-mere-mortals.html"/>
         <id>http://www.k8s.it/kubernetes-for-mere-mortals.html</id>
+            <category term="traefik"/>
+            <category term="orangepi"/>
+            <category term="lab"/>
+            <category term="kubernetes"/>
+            <category term="k8s"/>
+            <category term="armbian"/>
+            <category term="arm"/>
 
-        <updated>2018-04-10T23:50:21+02:00</updated>
+        <updated>2018-04-10T23:52:47+02:00</updated>
             <summary></summary>
         <content type="html">
             <![CDATA[
