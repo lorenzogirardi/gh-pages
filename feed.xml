@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>lab</title>
-    <link href="http://www.k8s.it/feed.xml" rel="self" />
-    <link href="http://www.k8s.it" />
-    <updated>2018-05-13T20:27:30+02:00</updated>
+    <link href="https://www.k8s.it/feed.xml" rel="self" />
+    <link href="https://www.k8s.it" />
+    <updated>2018-05-13T20:39:10+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
-    <id>http://www.k8s.it</id>
+    <id>https://www.k8s.it</id>
 
     <entry>
         <title>Kubernetes for mere mortals</title>
         <author>
             <name>lgirardi</name>
         </author>
-        <link href="http://www.k8s.it/kubernetes-for-mere-mortals.html"/>
-        <id>http://www.k8s.it/kubernetes-for-mere-mortals.html</id>
+        <link href="https://www.k8s.it/kubernetes-for-mere-mortals.html"/>
+        <id>https://www.k8s.it/kubernetes-for-mere-mortals.html</id>
             <category term="traefik"/>
             <category term="orangepi"/>
             <category term="lab"/>
@@ -29,8 +29,8 @@
         <content type="html">
             <![CDATA[
                 <p>Well, what do you need to build your homemade cluster?</p>
-<p><img src="http://www.k8s.it/media/posts/3/k8s.arm-lg.jpeg" alt="" width="744" height="400"></p>
-<p><img src="http://www.k8s.it/media/posts/3/IMG_20170605_150237.jpg" alt="" width="832" height="624"></p>
+<p><img src="https://www.k8s.it/media/posts/3/k8s.arm-lg.jpeg" alt="" width="744" height="400"></p>
+<p><img src="https://www.k8s.it/media/posts/3/IMG_20170605_150237.jpg" alt="" width="832" height="624"></p>
 <ul>
 <li>1x usb hub Anker 60W PowerPort 6</li>
 <li>4x orangepi plus 2e</li>
