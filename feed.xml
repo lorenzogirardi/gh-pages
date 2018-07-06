@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2018-07-06T22:53:32+02:00</updated>
+    <updated>2018-07-06T22:55:25+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -23,7 +23,7 @@
             <category term="cdn"/>
             <category term="automation"/>
 
-        <updated>2018-07-06T22:53:20+02:00</updated>
+        <updated>2018-07-06T22:55:21+02:00</updated>
             <summary></summary>
         <content type="html">
             <![CDATA[
@@ -36,13 +36,13 @@
 <p>It's now the moment to talk about Cloudflare</p>
 <p> </p>
 <p> </p>
-<p><a href="#INTERNAL_LINK#/post/null" title="https://www.cloudflare.com/">Claudflare</a> provide a good free account that allow you to hide your source ip or you want to discover how it's work the free waf protection or have a https certificate having your origin in http and so on ... but what is really cool and quickwin than the competitors is the API support and the native integration with <a href="#INTERNAL_LINK#/post/null" title="https://www.terraform.io/docs/providers/cloudflare/index.html">Terraform</a></p>
+<p><a href="https://www.cloudflare.com/">Claudflare</a> provide a good free account that allow you to hide your source ip or you want to discover how it's work the free waf protection or have a https certificate having your origin in http and so on ... but what is really cool and quickwin than the competitors is the API support and the native integration with <a href="https://www.terraform.io/docs/providers/cloudflare/index.html">Terraform</a></p>
 <p>Terraform is the most integrated tool for cloud (not only) automation and infrastructure as a code </p>
 <p>Here some steps that can show how it's esay deploy a configuration</p>
 <p>First of all , retrive the api key from Cloudflare portal</p>
 <p><img src="https://www.k8s.it/media/posts/5/cloudflare-api-key.png" alt="" width="1922" height="556"></p>
 <p><img src="https://www.k8s.it/media/posts/5/cloudflare-global-apikey.png" alt="" width="1910" height="396"> </p>
-<p>then start the main terraform file in a dedicated folder (better in a <a href="#INTERNAL_LINK#/post/null" title="https://gitlab.com/">gitlab</a> repo)</p>
+<p>then start the main terraform file in a dedicated folder (better in a <a href="https://gitlab.com/">gitlab</a> repo)</p>
 <p><code>$ cat cloudflare-auth.tf</code><br><code>provider "cloudflare" {</code><br><code> email = "cloudflare_registration_email"</code><br><code> token = "cloudflare_token_api_key"</code><br><code>}</code></p>
 <p>make a $<code>terraform init</code> and now you can start to configure your account</p>
 <p>manage your domain(s) $ <code>cat cloudflare_domains.tf</code><br><code>variable "domain" {</code><br><code> default = "k8s.it"</code><br><code>} </code></p>
