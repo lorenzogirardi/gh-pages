@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2018-07-06T22:55:25+02:00</updated>
+    <updated>2018-07-06T23:01:09+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -23,7 +23,7 @@
             <category term="cdn"/>
             <category term="automation"/>
 
-        <updated>2018-07-06T22:55:21+02:00</updated>
+        <updated>2018-07-06T23:01:05+02:00</updated>
             <summary></summary>
         <content type="html">
             <![CDATA[
@@ -34,9 +34,7 @@
 <p>and some others with Incapsula</p>
 <p><code><em>bunker.ethzero.it is an alias for ve7cu.x.incapdns.net.</em></code><br><code><em>ve7cu.x.incapdns.net has address 107.154.167.38</em></code></p>
 <p>It's now the moment to talk about Cloudflare</p>
-<p> </p>
-<p> </p>
-<p><a href="https://www.cloudflare.com/">Claudflare</a> provide a good free account that allow you to hide your source ip or you want to discover how it's work the free waf protection or have a https certificate having your origin in http and so on ... but what is really cool and quickwin than the competitors is the API support and the native integration with <a href="https://www.terraform.io/docs/providers/cloudflare/index.html">Terraform</a></p>
+<p> <a href="https://www.cloudflare.com/">Claudflare</a> provide a good free account that allow you to hide your source ip or you want to discover how it's work the free waf protection or have a https certificate having your origin in http and so on ... but what is really cool and quickwin than the competitors is the API support and the native integration with <a href="https://www.terraform.io/docs/providers/cloudflare/index.html">Terraform</a></p>
 <p>Terraform is the most integrated tool for cloud (not only) automation and infrastructure as a code </p>
 <p>Here some steps that can show how it's esay deploy a configuration</p>
 <p>First of all , retrive the api key from Cloudflare portal</p>
