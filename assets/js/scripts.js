@@ -18,7 +18,7 @@
                     e.stopPropagation();
                     link.parent().attr('aria-expanded', 'true');
                 }
-                
+
                 $('.js-navbar li[aria-expanded="true"]').each(function(i, item) {
                     if (!$.contains(item, link[0])) {
                         $(item).attr('aria-expanded', 'false');
@@ -27,11 +27,11 @@
             });
         });
     });
-    
+
     // iOS :hover fix
     document.addEventListener("touchend", function () {});
-    
-     // Post image class    
+
+     // Post image class
      $(function ($) {
          var contentImages = $('.post__content').find('img');
          if(contentImages.length) {
@@ -49,27 +49,6 @@
              });
          }
      });
-    
-    // EU Cookie Law Bar
-    $(window).on("load", function () {
-        var cookieBar = $('.js-cookie-bar');
-
-        if (!cookieBar.length) {
-            return;
-        }
-
-        var cookieBarClose = cookieBar.find('.cookie-bar__close');
-
-        cookieBarClose.on('click', function (event) {
-            event.preventDefault();
-            localStorage.setItem('theme-cookie-bar', true);
-            cookieBar.removeClass('cookie-bar--is-sticky');
-        });
-
-        if (!localStorage.getItem('theme-cookie-bar')) {
-            cookieBar.addClass('cookie-bar--is-sticky');
-        }
-    });
 
     // Mainmenu improvements
     $(function ($) {
