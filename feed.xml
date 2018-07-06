@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <title>lab</title>
+    <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2018-05-26T19:34:54+02:00</updated>
+    <updated>2018-07-06T20:53:06+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
