@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2019-04-29T18:13:38+02:00</updated>
+    <updated>2019-04-29T18:49:20+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -16,23 +16,15 @@
         </author>
         <link href="https://www.k8s.it/terraform-your-free-claudflare-account.html"/>
         <id>https://www.k8s.it/terraform-your-free-claudflare-account.html</id>
-            <category term="waf"/>
-            <category term="terraform"/>
-            <category term="gitlab"/>
-            <category term="cloudflare"/>
-            <category term="cdn"/>
-            <category term="automation"/>
 
         <updated>2018-07-07T11:47:37+02:00</updated>
             <summary>
                 <![CDATA[
-                        <img src="https://www.k8s.it/media/posts/5/" alt="" />
                     So... after some experience with akamai www.ethzero.it is an alias for aku-cs-akamaiflowers.com.edgesuite.net. aku-cs-akamaiflowers.com.edgesuite.net is an alias for a169.dscksd.akamai.net. a169.dscksd.akamai.net has address 193.45.15.98 a169.dscksd.akamai.net has address 193.45.15.122 a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f62 a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f7aand some others with Incapsula bunker.ethzero.it is an alias for&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <img src="https://www.k8s.it/media/posts/5/" alt="" />
                 <p>So...</p>
 <p>after some experience with akamai </p>
 <pre><code><em>www.ethzero.it is an alias for aku-cs-akamaiflowers.com.edgesuite.net.</em></code><br><code><em>aku-cs-akamaiflowers.com.edgesuite.net is an alias for a169.dscksd.akamai.net.</em></code><br><code><em>a169.dscksd.akamai.net has address 193.45.15.98</em></code><br><code><em>a169.dscksd.akamai.net has address 193.45.15.122</em></code><br><code><em>a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f62</em></code><br><code><em>a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f7a</em></code></pre>
@@ -73,13 +65,6 @@
         </author>
         <link href="https://www.k8s.it/kubernetes-for-mere-mortals.html"/>
         <id>https://www.k8s.it/kubernetes-for-mere-mortals.html</id>
-            <category term="traefik"/>
-            <category term="orangepi"/>
-            <category term="lab"/>
-            <category term="kubernetes"/>
-            <category term="k8s"/>
-            <category term="armbian"/>
-            <category term="arm"/>
 
         <updated>2018-04-10T23:52:47+02:00</updated>
             <summary>
