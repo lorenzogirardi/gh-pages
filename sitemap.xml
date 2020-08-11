@@ -5,6 +5,10 @@
 <loc>https://www.k8s.it/</loc>
 </url>
 <url>
+<loc>https://www.k8s.it/docker-latency.html</loc>
+<lastmod>2020-08-11T20:42:02+02:00</lastmod>
+</url>
+<url>
 <loc>https://www.k8s.it/kubernetes-for-mere-mortals.html</loc>
 <lastmod>2018-04-10T23:52:47+02:00</lastmod>
 <image:image>
