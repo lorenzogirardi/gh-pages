@@ -21,8 +21,15 @@
 </image:image>
 </url>
 <url>
+<loc>https://www.k8s.it/kubernetes-guacamole.html</loc>
+<lastmod>2020-08-11T20:46:54+02:00</lastmod>
+</url>
+<url>
 <loc>https://www.k8s.it/kubernetes-strongswan.html</loc>
-<lastmod>2020-08-11T20:44:46+02:00</lastmod>
+<lastmod>2020-08-11T20:47:06+02:00</lastmod>
+</url>
+<url>
+<loc>https://www.k8s.it/page/2/</loc>
 </url>
 <url>
 <loc>https://www.k8s.it/terraform-your-free-claudflare-account.html</loc>
