@@ -20,8 +20,8 @@
             },
             "tags": [
             ],
-            "date_published": "2020-08-11T21:17:30+02:00",
-            "date_modified": "2020-08-11T21:17:30+02:00"
+            "date_published": "2020-08-11T21:19:11+02:00",
+            "date_modified": "2020-08-11T21:19:11+02:00"
         },
         {
             "id": "https://www.k8s.it/kubernetes-apacherr.html",
@@ -34,8 +34,8 @@
             },
             "tags": [
             ],
-            "date_published": "2020-08-11T21:17:30+02:00",
-            "date_modified": "2020-08-11T21:17:30+02:00"
+            "date_published": "2020-08-11T21:19:11+02:00",
+            "date_modified": "2020-08-11T21:19:11+02:00"
         },
         {
             "id": "https://www.k8s.it/kubernetes-guacamole.html",
@@ -48,8 +48,8 @@
             },
             "tags": [
             ],
-            "date_published": "2020-08-11T21:17:30+02:00",
-            "date_modified": "2020-08-11T21:17:30+02:00"
+            "date_published": "2020-08-11T21:19:11+02:00",
+            "date_modified": "2020-08-11T21:19:11+02:00"
         },
         {
             "id": "https://www.k8s.it/kubernetes-strongswan.html",
@@ -62,8 +62,8 @@
             },
             "tags": [
             ],
-            "date_published": "2020-08-11T21:17:30+02:00",
-            "date_modified": "2020-08-11T21:17:30+02:00"
+            "date_published": "2020-08-11T21:19:11+02:00",
+            "date_modified": "2020-08-11T21:19:11+02:00"
         },
         {
             "id": "https://www.k8s.it/docker-latency.html",
@@ -76,8 +76,8 @@
             },
             "tags": [
             ],
-            "date_published": "2020-08-11T21:17:30+02:00",
-            "date_modified": "2020-08-11T21:17:30+02:00"
+            "date_published": "2020-08-11T21:19:11+02:00",
+            "date_modified": "2020-08-11T21:19:11+02:00"
         },
         {
             "id": "https://www.k8s.it/terraform-your-free-claudflare-account.html",
@@ -96,8 +96,8 @@
                    "cdn",
                    "automation"
             ],
-            "date_published": "2020-08-11T21:17:30+02:00",
-            "date_modified": "2020-08-11T21:17:30+02:00"
+            "date_published": "2020-08-11T21:19:11+02:00",
+            "date_modified": "2020-08-11T21:19:11+02:00"
         },
         {
             "id": "https://www.k8s.it/kubernetes-for-mere-mortals.html",
@@ -117,8 +117,8 @@
                    "armbian",
                    "arm"
             ],
-            "date_published": "2020-08-11T21:17:30+02:00",
-            "date_modified": "2020-08-11T21:17:30+02:00"
+            "date_published": "2020-08-11T21:19:11+02:00",
+            "date_modified": "2020-08-11T21:19:11+02:00"
         }
     ]
 }
