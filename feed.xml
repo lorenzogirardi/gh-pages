@@ -3,12 +3,354 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-08-11T20:47:10+02:00</updated>
+    <updated>2020-08-11T20:50:40+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
     <id>https://www.k8s.it</id>
 
+    <entry>
+        <title>Kubernetes-servicemesh</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/kubernetes-servicemesh.html"/>
+        <id>https://www.k8s.it/kubernetes-servicemesh.html</id>
+
+        <updated>2020-08-11T20:50:36+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Do we need a service mesh ?few years ago i started to evaluate this feature fitting in an existing infrastructure There are many concept to consider and many mistake the people usually think Better to start with what is NOT a work for a service mesh So&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h2 id="mcetoc_1effdnjle0">Do we need a service mesh ?</h2>
+<p>few years ago i started to evaluate this feature fitting in an existing infrastructure</p>
+<p>There are many concept to consider and many mistake the people usually think<br>Better to start with what is <em>NOT</em> a work for a service mesh</p>
+<ul>
+<li>is not an apigw (even if could share some components)</li>
+<li>is not the place to put firewall rules</li>
+<li>is not something magic that boost the applications</li>
+<li>is something that if not used with a know scope could generate a mess</li>
+</ul>
+<p>So what is ...<br>well short answer</p>
+<ul>
+<li>is the missing link in the infrastructure observability</li>
+<li>is a way to handle in a structured way the application routing</li>
+<li>is an internal ratelimit / anti ddos / infrastructure layer (be careful)</li>
+<li>could be a clever way to improve some application limits (expanded next)</li>
+</ul>
+<p>Anyway is this something that we can add in our infrastructure ?</p>
+<p>There no YES/NO , however we can evaluate the company and the maturity of microservices<br>internal rate limit , is usually a feature that could safe the infrastructure during snowball effects<br>however means that if the infrastructure is SYNC (no decoupling) have the rate limit can just<br>stop the application to serve requests , and this will propagated to the others below.</p>
+<p>result: no answer<br>threads safe</p>
+<p>Sometimes it's better to have a strategic business login using the a circuit breaker that bring a huge complexity in configuration.</p>
+<p>The other point related to rate limit is .. who will maintain those values ?<br>Should be part of deployment pipeline and directly correlated with the application scope<br>In a 200+ micro services infrastructure this could be a huge problem:</p>
+<ul>
+<li>project that lost ownership</li>
+<li>projects not well maintained</li>
+<li>new legacy projects</li>
+</ul>
+<p>So my idea about rate limit is to use it in a specific "strategic" applications and should not indiscriminately added to the whole infrastructure</p>
+<p>About the routing feature, we can consider as a more detailed and customized blue green deployment , this specific case it's really useful when we have to deploy new features in production and <em>canary</em> deployment is not enough to cover the business measurement we need.</p>
+<p>This feature could be used to keep a specific affinity within the microservices and this is the real feature that some of you can consider, imagine a strict dependencies between application an cache (as usual)<br>So the application <em>Pippo</em> is using the cache <em>Paperino</em></p>
+<p>Pippo is a namespace composed by 10 pods<br>Paperino is a cache composed by 6 pods</p>
+<p>Imagine that we have the cache as a replication/sharded and we have 2 availability zones</p>
+<p>With service mesh we can use labels to say to Pippo to use the cache Paperino only in the availability zone where the call start from Pippo av, this will reduce dramatically the roundtrip and the answer</p>
+<p>I played a bit with service mesh in order to answer some questions,<br>however related to firewall rules the right answer is Cilium :-)</p>
+<p>With this, I'd like to say that service mash give you a great value only<br>if your infrastructure is able to embrace it and only if you know what you are doing with this infrastructure.</p>
+<ul>
+<li>observability</li>
+<li>routing purpose (this is strictly related to the microservice architecture)</li>
+<li>rate limitng</li>
+</ul>
+<h2 id="mcetoc_1effdnjle1"><a id="user-content-service-mesh-sample-lab" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#service-mesh-sample-lab"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Service Mesh sample lab</h2>
+<p>This lab is provided to discover and test the functionality w'd like to implement in our environment</p>
+<h3 id="mcetoc_1effdnjle2"><a id="user-content-basic-setup" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#basic-setup"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Basic setup</h3>
+<ul>
+<li>minikube v1.6.2</li>
+<li>Kubernetes v1.17.0 on Docker '19.03.5'</li>
+</ul>
+<p><code>curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64</code> <code>chmod +x minikube</code><br><code>sudo install minikube /usr/local/bin/</code><br><code>minikube start --memory=3000 --cpus=3</code></p>
+<ul>
+<li>network (since in production we are using flannel that is not able to manage network policy we can start using no CNI to have the environment as much as close to lmn environment)</li>
+</ul>
+<h4 id="mcetoc_1effdnjle3"><a id="user-content-namespaces" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#namespaces"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Namespaces</h4>
+<p>a → traefik (ingress)<br>b → apache<br>c → application<br>d → redis</p>
+<p>b is a namespaces that manage an apache used for some rewrite rules<br>c is a python application that is connected to a redis database, provide some function to set a time, get a time with /set context and /get context<br>d is the redis database</p>
+<p>c code</p>
+<pre><code>"""
+    Example app that integrates with redis and save/get timing
+"""
+from os import environ
+from datetime import datetime
+import json
+import redis
+from flask import Flask, redirect
+
+VERSION = "1.1.1"
+REDIS_ENDPOINT = environ.get("REDIS_ENDPOINT", "redis-svc.d-redis.svc.cluster.local")
+REDIS_PORT = int(environ.get("REDIS_PORT", "6379"))
+
+
+APP = Flask(__name__)
+
+
+@APP.route("/")
+def redisapp():
+    """Main redirect"""
+    return redirect("/get", code=302)
+
+
+@APP.route("/set")
+def set_var():
+    """Set the time"""
+    red = redis.StrictRedis(host=REDIS_ENDPOINT, port=REDIS_PORT, db=0)
+    red.set("time", str(datetime.now()))
+    return json.dumps({"time": str(red.get("time"))})
+
+
+@APP.route("/get")
+def get_var():
+    """Get the time"""
+    red = redis.StrictRedis(host=REDIS_ENDPOINT, port=REDIS_PORT, db=0)
+    return json.dumps({"time": str(red.get("time"))})
+
+
+@APP.route("/reset")
+def reset():
+    """Reset the time"""
+    red = redis.StrictRedis(host=REDIS_ENDPOINT, port=REDIS_PORT, db=0)
+    red.delete("time")
+    return json.dumps({"time": str(red.get("time"))})
+
+
+@APP.route("/version")
+def version():
+    """Get the app version"""
+    return json.dumps({"version": VERSION})
+
+
+@APP.route("/healthz")
+def health():
+    """Check the app health"""
+    try:
+        red = redis.StrictRedis(host=REDIS_ENDPOINT, port=REDIS_PORT, db=0)
+        red.ping()
+    except redis.exceptions.ConnectionError:
+        return json.dumps({"ping": "FAIL"})
+
+    return json.dumps({"ping": red.ping()})
+
+
+@APP.route("/readyz")
+def ready():
+    """Check the app readiness"""
+    return health()
+
+
+if __name__ == "__main__":
+    APP.run(debug=True, host="0.0.0.0")
+</code></pre>
+<p>Dokerfile</p>
+<pre><code>FROM python:3.6-alpine
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python"]
+CMD ["app.py"]
+</code></pre>
+<p>requirements.txt</p>
+<pre><code>Flask
+redis
+pytest
+pytest-flask
+</code></pre>
+<h3 id="mcetoc_1effdnjle4"><a id="user-content-folders-structure" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#folders-structure"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Folders structure</h3>
+<pre><code>kubernetes/
+├── 00-traefik
+│   ├── A-00-traefik-ns.yaml
+│   ├── A-01-traefik-rbac.yaml
+│   └── A-02-traefik-ds.yaml
+├── 01-apache
+│   ├── B-00-k8s-apacherr-ns.yaml
+│   ├── B-01-k8s-apacherr-svc.yaml
+│   ├── B-02-k8s-apacherr-ing.yaml
+│   ├── B-03-k8s-apacherr-dpl.yaml
+│   └── B-04-k8s-apacherr-cfm.yaml
+├── 02-redis
+│   ├── D-00-lab-redis-ns.yaml
+│   ├── D-01-lab-redis-svc.yaml
+│   └── D-02-lab-redis-dpl.yaml
+└── 03-app
+    ├── C-00-app-ns.yaml
+    ├── C-01-app-svc.yaml
+    └── C-02-app-dpl.yaml
+</code></pre>
+<h3 id="mcetoc_1effdnjle5"><a id="user-content-startup" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#startup"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Startup</h3>
+<p>kubernetes$ kubectl apply -f 00-traefik/</p>
+<pre><code>namespace/a-ingress-traefik created  
+clusterrole.rbac.authorization.k8s.io/traefik-ingress-controller created    
+serviceaccount/traefik-ingress-controller created  
+clusterrolebinding.rbac.authorization.k8s.io/traefik-ingress-controller created
+serviceaccount/traefik-ingress-controller created
+daemonset.apps/traefik-ingress-controller created
+service/traefik-ingress-service created
+</code></pre>
+<p>kubernetes$ kubectl apply -f 01-apache/</p>
+<pre><code>namespace/b-apacherr created
+service/apacherr-svc created
+ingress.extensions/apacherr-ingress created
+deployment.apps/apacherr created
+configmap/apacherr-80-config created
+</code></pre>
+<p>kubernetes$ kubectl apply -f 02-redis/</p>
+<pre><code>namespace/d-redis created
+service/redis-svc created
+deployment.apps/redis created
+</code></pre>
+<p>kubernetes$ kubectl apply -f 03-app/</p>
+<pre><code>namespace/c-app-count created    
+service/app-count-svc created  
+deployment.apps/pythonapp created  
+</code></pre>
+<p>kubectl get po --all-namespaces</p>
+<pre><code>NAMESPACE           NAME                               READY   STATUS    RESTARTS   AGE
+a-ingress-traefik   traefik-ingress-controller-jkppg   1/1     Running   0          5m29s
+b-apacherr          apacherr-8b786b45d-g9vcl           1/1     Running   0          5m19s
+c-app-count         pythonapp-555d6d88cd-slhfb         1/1     Running   0          4m55s
+d-redis             redis-b869b89d-pf6ms               1/1     Running   0          5m12s
+kube-system         coredns-6955765f44-6nrdr           1/1     Running   1          74m
+kube-system         coredns-6955765f44-9fbgt           1/1     Running   1          74m
+kube-system         etcd-minikube                      1/1     Running   1          74m
+kube-system         kube-addon-manager-minikube        1/1     Running   1          74m
+kube-system         kube-apiserver-minikube            1/1     Running   1          74m
+kube-system         kube-controller-manager-minikube   1/1     Running   1          74m
+kube-system         kube-proxy-cchls                   1/1     Running   1          74m
+kube-system         kube-scheduler-minikube            1/1     Running   1          74m
+kube-system         storage-provisioner                1/1     Running   2          74m
+</code></pre>
+<p>make sure virtualbox 8081 port should be available</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/f303afac85505ee6e02651c55518f1eb809a6f97/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313539343537333731352f6d6973632f696d675f7669727475616c626f782d706f7274666f7277617264696e672e706e67"><img title="Virtualbox port forwarding" src="https://camo.githubusercontent.com/f303afac85505ee6e02651c55518f1eb809a6f97/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313539343537333731352f6d6973632f696d675f7669727475616c626f782d706f7274666f7277617264696e672e706e67" alt="Virtualbox port forwarding" ></a></p>
+<h2 id="mcetoc_1effdnjle6"><a id="user-content-flow" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#flow"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>flow</h2>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/70a420864968278b8940023ba6aa95dd7bf932a6/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313539343537333731342f6d6973632f696d675f666c6f772e706e67"><img title="flow" src="https://camo.githubusercontent.com/70a420864968278b8940023ba6aa95dd7bf932a6/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313539343537333731342f6d6973632f696d675f666c6f772e706e67" alt="flow" ></a></p>
+<h5 id="mcetoc_1effdnjle7"><a id="user-content-inizialize-the-redis-database" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#inizialize-the-redis-database"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>inizialize the redis database</h5>
+<p><code>$ curl http://pippo.lan/count/set</code><br>{"time": "b'2019-12-28 20:06:33.919059'"}</p>
+<h5 id="mcetoc_1effdnjle8"><a id="user-content-test-from-apache-to-application-case-1" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#test-from-apache-to-application-case-1"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>test from apache to application (case 1)</h5>
+<p><code>$ curl http://pippo.lan/count/get</code><br>{"time": "b'2019-12-28 20:06:33.919059'"}</p>
+<h5 id="mcetoc_1effdnjle9"><a id="user-content-test-from-apache-to-redis-case-2" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#test-from-apache-to-redis-case-2"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>test from apache to redis (case 2)</h5>
+<p><code>$ curl http://pippo.lan/redis/GET/time</code><br>{"GET":"2019-12-28 20:06:33.919059"}</p>
+<h5 id="mcetoc_1effdnjlea"><a id="user-content-network-rule-example" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#network-rule-example"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>network rule example</h5>
+<p>cilium labels</p>
+<pre><code>ENDPOINT   POLICY (ingress)   POLICY (egress)   IDENTITY   LABELS (source:key[=value])                           IPv6   IPv4            STATUS   
+           ENFORCEMENT        ENFORCEMENT                                                                                               
+201        Disabled           Disabled          32580      k8s:app=redis                                                10.15.182.193   ready   
+                                                           k8s:io.cilium.k8s.namespace.labels.name=d-redis                                      
+                                                           k8s:io.cilium.k8s.policy.cluster=default                                             
+                                                           k8s:io.cilium.k8s.policy.serviceaccount=default                                      
+                                                           k8s:io.kubernetes.pod.namespace=d-redis                                              
+                                                           k8s:track=redis                                                                      
+1257       Disabled           Disabled          4          reserved:health                                              10.15.197.106   ready   
+1663       Disabled           Disabled          54130      k8s:app=apacherr                                             10.15.192.41    ready   
+                                                           k8s:io.cilium.k8s.namespace.labels.name=b-apacherr                                   
+                                                           k8s:io.cilium.k8s.policy.cluster=default                                             
+                                                           k8s:io.cilium.k8s.policy.serviceaccount=default                                      
+                                                           k8s:io.kubernetes.pod.namespace=b-apacherr                                           
+3167       Disabled           Disabled          33702      k8s:app=pythonapp                                            10.15.247.186   ready   
+                                                           k8s:io.cilium.k8s.namespace.labels.name=c-app-count                                  
+                                                           k8s:io.cilium.k8s.namespace.labels.purpose=app                                       
+                                                           k8s:io.cilium.k8s.policy.cluster=default                                             
+                                                           k8s:io.cilium.k8s.policy.serviceaccount=default                                      
+                                                           k8s:io.kubernetes.pod.namespace=c-app-count                                          
+                                                           k8s:track=pythonapp-stable         
+</code></pre>
+<p>network rule</p>
+<pre><code>apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: isolate-namespace
+  namespace: d-redis
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: c-app-count
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: c-app-count
+
+</code></pre>
+<p>   </p>
+<p>cilium/hubble <a href="https://github.com/cilium/hubble">https://github.com/cilium/hubble</a> <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/70234ad4768db6537d28a417f0e73061ce2e51b4/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313539343537343036392f6d6973632f687562626c652d64726f702e706e67"><img title="hubble" src="https://camo.githubusercontent.com/70234ad4768db6537d28a417f0e73061ce2e51b4/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313539343537343036392f6d6973632f687562626c652d64726f702e706e67" alt="hubble" ></a></p>
+<p> </p>
+<p>istio/kiali <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/79a5b07227e5651705810596cef972d074ed201f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313539343537343036392f6d6973632f697374696f2d6b69616c692e706e67"><img title="kiali" src="https://camo.githubusercontent.com/79a5b07227e5651705810596cef972d074ed201f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313539343537343036392f6d6973632f697374696f2d6b69616c692e706e67" alt="kiali" ></a></p>
+<p> </p>
+<p>video Cilium example --&gt; <a href="https://res.cloudinary.com/ethzero/video/upload/v1594574074/misc/cilium.mkv" rel="nofollow">img/cilium.mkv</a></p>
+<p>video Istio + Cilium example --&gt; <a href="https://res.cloudinary.com/ethzero/video/upload/v1594574090/misc/istio.mkv" rel="nofollow">img/istio.mkv</a><br> </p>
+<h2 id="mcetoc_1effdnjleb"><a id="user-content-requirements" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-servicemesh#requirements"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>requirements</h2>
+<ul>
+<li>use service mesh to segregate redis "d" to accept connections only from application "c"<br>expected "case 1" still working, "case 2" stop working and receive an error</li>
+</ul>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Kubernetes-apacherr</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/kubernetes-apacherr.html"/>
+        <id>https://www.k8s.it/kubernetes-apacherr.html</id>
+
+        <updated>2020-08-11T20:48:57+02:00</updated>
+            <summary>
+                <![CDATA[
+                    The semi-unuseful apache implementation in kubernetesWell , why we are talking about apache httpd in kubernetes ? We have ingress resources , we have ambassador and we are using microservices... True but internet was not built yesterday and for some reasons out of my knowledge&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <h2 id="mcetoc_1effdkkor0">The semi-unuseful apache implementation in kubernetes</h2>
+<p>Well , why we are talking about apache httpd in kubernetes ?<br>We have ingress resources , we have ambassador and we are using microservices...<br>True but internet was not built yesterday and for some reasons out of my knowledge ,<br>people are ostinated to manage rewrite rules in apache instead to use a dedicated router application (react, zuul .. database!?!?! etc etc)<br>However sometimes we have to balance between the academic vision and the reality.</p>
+<h2 id="mcetoc_1effdkkor1"><a id="user-content-digression" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-apacherr#digression"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>digression</h2>
+<p>Talking about apache https , nginx , haproxy ... i'm referring to the idea behind manage a complex website.<br>A website could be composed my hundreds of microservices but the domain it's usually one<br><a href="http://www.example.com/" rel="nofollow">www.example.com</a></p>
+<p><a href="http://www.example.com/" rel="nofollow">www.example.com</a> has the root path /<br>/it/ managed by cms<br>/it/offerte managed by cms<br>/uk/ managed by cms<br>/uk/offers managed by cms<br>/../ whatever<br>/it/clienti/ managed by customer-app<br>/uk/customers/ managed by customers-app<br>/../somethingelse<br>/secure/ managey by payment-app<br>...<br>omg path clash ... so we need to exclude in apache /uk/customers/ from cms proxypass but<br>meantime enable a dedicated proxy pass to a specific application endpoint.<br>and we are mannually manage all language , all applications with static configurations...<br>and if tomorrow we will open APAC ... what we have to do ?<br>and if we need to cover a former third parti company and acquire his seo ranking we should create<br>thousands of redirects ? and how we can can validate avoiding loops ?</p>
+<p>A better design start giving the right responsability , that could be managed using a business layer<br>that we can call "front controller" where we can apply all rules.</p>
+<p>In terms of responsability all applaction behind this layer should be working by selfcontained logic<br>example... if i have a seo application this should be working without this layer , removing direct dependency<br>same concept for cms application , customers application and so on.<br>So what this layer will do ?</p>
+<p>A front controller should be the owner of root path of our websites "/"<br>Should be also responsible to handle all the others paths after the root ones.</p>
+<p>Main duties:</p>
+<ul>
+<li>handle all requests and manage the backend application with business logic</li>
+<li>provide dynamic path based on business rules (language + brand + something else)</li>
+<li>provide the AB test logic</li>
+<li>provide a validation logic</li>
+<li>expose a company backoffice to trim the website layout</li>
+</ul>
+<p>Examples</p>
+<p>Having a global websites spread with multiple countris with differents domains/brands and languages we can immagine</p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/184bca691d84bf02cd01d06642b3aac6f582d28f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538323238393238352f6d6973632f66726f6e742d636f6e74726f6c6c65722e706e67"><img src="https://camo.githubusercontent.com/184bca691d84bf02cd01d06642b3aac6f582d28f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538323238393238352f6d6973632f66726f6e742d636f6e74726f6c6c65722e706e67" alt="frontcontroller" ></a></p>
+<p>Where the microservice/application CMS is responsible to hangle all domains and all languages and the<br>front controller take the ownership to match brand plus .tld (or paths "/fr/")<br>in order to dinamically generate the right url with canonical pages.</p>
+<p>Many and many others assumptions can be covered by this componet, however we have to stay grounded<br>and check how we can manage an apache responsible to redirects proxypass an rewrite rules.</p>
+<h2 id="mcetoc_1effdkkor2"><a id="user-content-some-concepts-about-this-project" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-apacherr#some-concepts-about-this-project"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Some concepts about this project</h2>
+<p>Even if we are working in a dynamic environment it's no rare to have the traditional layers</p>
+<p>DMZ --&gt; layer 1<br>Application --&gt; layer 2<br>Database --&gt;layer 3</p>
+<p>In this picture apache httpd should usually placed on layer 1 ,<br>but consider apache not for the common web server but like a "product" ,<br>something that could be managed not by SRE , but Product Engeneer.<br>A product that own a dedicated business, like seo, sem , vanity urls etc etc.</p>
+<p>Having those considerations, we can "downgrade" apache httpd in layer 2 like any application<br>and honor the DMZ (if needed ?!?!) on top by ingress/haproxy/bigf5 (where maybe we can terminate the TLS).</p>
+<h2 id="mcetoc_1effdkkor3"><a id="user-content-implementation" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-apacherr#implementation"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Implementation</h2>
+<p>The code in this project is designet to manage apache configuration by configmap,<br>however some websites are really complex and there are some limits implication with ectd max object size.</p>
+<p>In this scenario it's higly raccomended to deploy the release with a standard pipeline with compiled<br>container on the source.</p>
+<h2 id="mcetoc_1effdkkor4"><a id="user-content-deploy" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-apacherr#deploy"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>deploy</h2>
+<p><code>kubectl apply -f apacherr/deployment/</code></p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Kubernetes-guacamole</title>
         <author>
@@ -287,14 +629,14 @@ charon (13) started after 80 ms
         </content>
     </entry>
     <entry>
-        <title>docker-latency</title>
+        <title>Docker-latency</title>
         <author>
             <name>lgirardi</name>
         </author>
         <link href="https://www.k8s.it/docker-latency.html"/>
         <id>https://www.k8s.it/docker-latency.html</id>
 
-        <updated>2020-08-11T20:42:02+02:00</updated>
+        <updated>2020-08-11T20:49:02+02:00</updated>
             <summary>
                 <![CDATA[
                     aka the network blaming toolSo again another grafana stack with docker Well yes but with a precise scope In this period we are almost all working from home, the blaming topic is usually the connection with our offices or the datacenters. Is not so rare&hellip;
