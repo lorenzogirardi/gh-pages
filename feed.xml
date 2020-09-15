@@ -17,7 +17,7 @@
         <link href="https://www.k8s.it/kubernetes-postfix.html"/>
         <id>https://www.k8s.it/kubernetes-postfix.html</id>
 
-        <updated>2020-09-15T22:10:30+02:00</updated>
+        <updated>2020-09-15T22:16:33+02:00</updated>
             <summary>
                 <![CDATA[
                      Long story short my vps provider changed tha ammount for the small instance from 1$ to 3$ so i took the advantage to switch my postfix service from cloud to onprem. Why, since the world is moving to cloud ? Because my own domain is&hellip;
@@ -261,7 +261,7 @@ spec:
         <link href="https://www.k8s.it/kubernetes-servicemesh.html"/>
         <id>https://www.k8s.it/kubernetes-servicemesh.html</id>
 
-        <updated>2020-09-15T22:10:30+02:00</updated>
+        <updated>2020-09-15T22:16:33+02:00</updated>
             <summary>
                 <![CDATA[
                     Do we need a service mesh ?few years ago i started to evaluate this feature fitting in an existing infrastructure There are many concept to consider and many mistake the people usually think Better to start with what is NOT a work for a service mesh So&hellip;
@@ -553,7 +553,7 @@ spec:
         <link href="https://www.k8s.it/kubernetes-apacherr.html"/>
         <id>https://www.k8s.it/kubernetes-apacherr.html</id>
 
-        <updated>2020-09-15T22:10:30+02:00</updated>
+        <updated>2020-09-15T22:16:33+02:00</updated>
             <summary>
                 <![CDATA[
                     The semi-unuseful apache implementation in kubernetesWell , why we are talking about apache httpd in kubernetes ? We have ingress resources , we have ambassador and we are using microservices... True but internet was not built yesterday and for some reasons out of my knowledge&hellip;
@@ -603,7 +603,7 @@ spec:
         <link href="https://www.k8s.it/kubernetes-guacamole.html"/>
         <id>https://www.k8s.it/kubernetes-guacamole.html</id>
 
-        <updated>2020-09-15T22:10:30+02:00</updated>
+        <updated>2020-09-15T22:16:33+02:00</updated>
             <summary>
                 <![CDATA[
                     Here we are , another apache guacamole implementation in kubernetesThis service is designed to avoid the usage of mysql and create a standalone project The main idea is to use the user-mapping.xml as a config map For production environment i suggest to add the ldap auth (ad.openldap,freeipa),&hellip;
@@ -652,7 +652,7 @@ spec:
         <link href="https://www.k8s.it/kubernetes-strongswan.html"/>
         <id>https://www.k8s.it/kubernetes-strongswan.html</id>
 
-        <updated>2020-09-15T22:10:30+02:00</updated>
+        <updated>2020-09-15T22:16:33+02:00</updated>
             <summary>
                 <![CDATA[
                     How we can manage vpn in kubernetes environmentHi there , this project is to cover the vpn ipsec-xauth topic in a kubernetes evironment, the goal of this is to have the less effort possible when we have to manage users. Architecture Requirements: WHYThe traditional ipsec-xauth&hellip;
@@ -880,7 +880,7 @@ charon (13) started after 80 ms
         <link href="https://www.k8s.it/docker-latency.html"/>
         <id>https://www.k8s.it/docker-latency.html</id>
 
-        <updated>2020-09-15T22:10:30+02:00</updated>
+        <updated>2020-09-15T22:16:33+02:00</updated>
             <summary>
                 <![CDATA[
                     aka the network blaming toolSo again another grafana stack with docker Well yes but with a precise scope In this period we are almost all working from home, the blaming topic is usually the connection with our offices or the datacenters. Is not so rare&hellip;
@@ -990,7 +990,7 @@ Creating telegraf ... done
             <category term="cdn"/>
             <category term="automation"/>
 
-        <updated>2020-09-15T22:10:30+02:00</updated>
+        <updated>2020-09-15T22:16:33+02:00</updated>
             <summary>
                 <![CDATA[
                     So... after some experience with akamai www.ethzero.it is an alias for aku-cs-akamaiflowers.com.edgesuite.net. aku-cs-akamaiflowers.com.edgesuite.net is an alias for a169.dscksd.akamai.net. a169.dscksd.akamai.net has address 193.45.15.98 a169.dscksd.akamai.net has address 193.45.15.122 a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f62 a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f7aand some others with Incapsula bunker.ethzero.it is an alias for&hellip;
@@ -1005,12 +1005,12 @@ Creating telegraf ... done
 <pre><code><em>bunker.ethzero.it is an alias for ve7cu.x.incapdns.net.</em></code><br><code><em>ve7cu.x.incapdns.net has address 107.154.167.38</em></code></pre>
 <p>It's now the moment to talk about Cloudflare</p>
 <p> <a href="https://www.cloudflare.com/">Claudflare</a> provide a good free account that allow you to hide your source ip or you want to discover how it's work the free waf protection or have a https certificate having your origin in http and so on ... but what is really cool and quickwin than the competitors is the API support and the native integration with <a href="https://www.terraform.io/docs/providers/cloudflare/index.html">Terraform</a></p>
-<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/git-terraform-cloudflare.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-md.png 768w"  alt="" width="2394" height="1254"></p>
+<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/git-terraform-cloudflare.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-md.png 768w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-lg.png 1024w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-xl.png 1360w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-2xl.png 1600w"  alt="" width="2394" height="1254"></p>
 <p>Terraform is the most integrated tool for cloud (not only) automation and infrastructure as a code </p>
 <p>Here some steps that can show how it's esay deploy a configuration</p>
 <p>First of all , retrive the api key from Cloudflare portal</p>
-<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/cloudflare-api-key.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-md.png 768w"  alt="" width="1922" height="556"></p>
-<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/cloudflare-global-apikey.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-md.png 768w"  alt="" width="1910" height="396"> </p>
+<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/cloudflare-api-key.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-md.png 768w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-lg.png 1024w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-xl.png 1360w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-2xl.png 1600w"  alt="" width="1922" height="556"></p>
+<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/cloudflare-global-apikey.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-md.png 768w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-lg.png 1024w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-xl.png 1360w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-2xl.png 1600w"  alt="" width="1910" height="396"> </p>
 <p>then start the main terraform file in a dedicated folder (better in a <a href="https://gitlab.com/">gitlab</a> repo)</p>
 <pre><code>$ cat cloudflare-auth.tf</code><code><br>provider "cloudflare" {<br> email = "cloudflare_registration_email"<br> token = "cloudflare_token_api_key"<br>}<br></code></pre>
 <p>make a $<code>terraform init</code> and now you can start to configure your account</p>
@@ -1046,7 +1046,7 @@ Creating telegraf ... done
             <category term="armbian"/>
             <category term="arm"/>
 
-        <updated>2020-09-15T22:10:30+02:00</updated>
+        <updated>2020-09-15T22:16:33+02:00</updated>
             <summary>
                 <![CDATA[
                     Well, what do you need to build your homemade cluster? armbian 4.10.1 kubeadm and kubelet 1.6.4 traefik as a ingress controller heapster, collectd, influxdb and grafana as a monitoring stack NAMESPACE NAME READY STATUS RESTARTS AGEhome-prd k8s-helloworld-3468567185-2fwhb 1/1 Running 0 10dhome-prd k8s-helloworld-3468567185-lbgpk 1/1 Running 2&hellip;
@@ -1055,8 +1055,8 @@ Creating telegraf ... done
         <content type="html">
             <![CDATA[
                 <p>Well, what do you need to build your homemade cluster?</p>
-<p><img loading="lazy" src="https://www.k8s.it/media/posts/3/k8s.arm-lg.jpeg" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-xs.jpeg 300w ,https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-sm.jpeg 480w ,https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-md.jpeg 768w"  alt="" width="744" height="400"></p>
-<p><img loading="lazy" src="https://www.k8s.it/media/posts/3/IMG_20170605_150237.jpg" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-xs.jpg 300w ,https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-sm.jpg 480w ,https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-md.jpg 768w"  alt="" width="832" height="624"></p>
+<p><img loading="lazy" src="https://www.k8s.it/media/posts/3/k8s.arm-lg.jpeg" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-xs.jpeg 300w ,https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-sm.jpeg 480w ,https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-md.jpeg 768w ,https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-lg.jpeg 1024w ,https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-xl.jpeg 1360w ,https://www.k8s.it/media/posts/3/responsive/k8s.arm-lg-2xl.jpeg 1600w"  alt="" width="744" height="400"></p>
+<p><img loading="lazy" src="https://www.k8s.it/media/posts/3/IMG_20170605_150237.jpg" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-xs.jpg 300w ,https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-sm.jpg 480w ,https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-md.jpg 768w ,https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-lg.jpg 1024w ,https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-xl.jpg 1360w ,https://www.k8s.it/media/posts/3/responsive/IMG_20170605_150237-2xl.jpg 1600w"  alt="" width="832" height="624"></p>
 <ul>
 <li>1x usb hub Anker 60W PowerPort 6</li>
 <li>4x orangepi plus 2e</li>
