@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-08-25T18:53:57+02:00</updated>
+    <updated>2020-09-30T21:53:46+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -16,8 +16,14 @@
         </author>
         <link href="https://www.k8s.it/kubernetes-postfix.html"/>
         <id>https://www.k8s.it/kubernetes-postfix.html</id>
+            <category term="tls"/>
+            <category term="spf"/>
+            <category term="postfix"/>
+            <category term="kubernetes"/>
+            <category term="dmarc"/>
+            <category term="dkim"/>
 
-        <updated>2020-08-25T18:53:57+02:00</updated>
+        <updated>2020-09-30T21:52:19+02:00</updated>
             <summary>
                 <![CDATA[
                      Long story short my vps provider changed tha ammount for the small instance from 1$ to 3$ so i took the advantage to switch my postfix service from cloud to onprem. Why, since the world is moving to cloud ? Because my own domain is&hellip;
@@ -260,8 +266,18 @@ spec:
         </author>
         <link href="https://www.k8s.it/kubernetes-servicemesh.html"/>
         <id>https://www.k8s.it/kubernetes-servicemesh.html</id>
+            <category term="service mesh"/>
+            <category term="rate limit"/>
+            <category term="observability"/>
+            <category term="metrics"/>
+            <category term="linkerd"/>
+            <category term="kubernetes"/>
+            <category term="kiali"/>
+            <category term="istio"/>
+            <category term="cilium"/>
+            <category term="api"/>
 
-        <updated>2020-08-11T20:50:36+02:00</updated>
+        <updated>2020-09-30T21:53:46+02:00</updated>
             <summary>
                 <![CDATA[
                     Do we need a service mesh ?few years ago i started to evaluate this feature fitting in an existing infrastructure There are many concept to consider and many mistake the people usually think Better to start with what is NOT a work for a service mesh So&hellip;
