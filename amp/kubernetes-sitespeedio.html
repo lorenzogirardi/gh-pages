@@ -1,0 +1,591 @@
+<!doctype html><html amp lang="en-us"><head><meta charset="utf-8"><title>Kubernetes-sitespeed.io - LAB</title><meta name="description" content="Hello First of all, this is a thought around a website metrics management, is not the only way, but is one way for a high level overview. How to read this ... However you can reach the GOAL just using docker and crontab for example&hellip;"><link rel="canonical" href="https://www.k8s.it/kubernetes-sitespeedio.html"><meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"><link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" type="text/css"><script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script><script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script><script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script><script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.k8s.it/amp/kubernetes-sitespeedio.html"},"headline":"Kubernetes-sitespeed.io","datePublished":"2020-10-02T20:41","dateModified":"2020-10-02T20:41","description":"Hello First of all, this is a thought around a website metrics management, is not the only way, but is one way for a high level overview. How to read this ... However you can reach the GOAL just using docker and crontab for example&hellip;","author":{"@type":"Person","name":"lgirardi"},"publisher":{"@type":"Organization","name":"lgirardi"}}</script><style amp-custom>article,
+aside,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
+  display: block; }
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0;
+  padding: 0; }
+
+li {
+  list-style: none; }
+
+amp-img {
+  max-width: 100%; }
+
+button,
+input,
+select,
+textarea {
+  font: inherit; }
+
+html {
+  font-size: 1rem; }
+
+body {
+  background: #f1f1f1;
+  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.6; }
+
+a {
+  color:  #039be5;
+  text-decoration: none;
+  -webkit-transition: all 0.12s linear 0s;
+  -o-transition: all 0.12s linear 0s;
+  transition: all 0.12s linear 0s; }
+
+a:hover {
+  color: #262626;
+  text-decoration: underline;
+  -webkit-text-decoration-skip: ink;
+  text-decoration-skip: ink; }
+
+a:active {
+  color: #262626; }
+
+a:focus {
+  outline: 2px dotted #039be5; }
+
+figure,
+blockquote,
+p,
+ul,
+ol,
+dl,
+table,
+hr,
+fieldset {
+  margin-top: 1.6rem; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: 2.13333rem; }
+
+h1 {
+  font-size: 1.67583rem;
+  font-weight: normal; }
+
+h2 {
+  font-size: 1.4729rem; }
+
+h3 {
+  font-size: 1.29454rem; }
+
+h4 {
+  font-size: 1.13778rem; }
+
+h5 {
+  font-size: 1rem; }
+
+h6 {
+  font-size: 0.87891rem; }
+
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p {
+  margin-top: 0.8rem; }
+
+b,
+strong {
+  font-weight: 600; }
+
+blockquote {
+  color: #6c7175;
+  font-family: "Droid Serif", "Times", "Source Serif Pro", serif;
+  font-style: italic;
+  padding: 1.33333rem 0.53333rem 1.33333rem 3.2rem;
+  position: relative; }
+  blockquote:before {
+    display: block;
+    content: "\201C";
+    font-size: 4.41226rem;
+    position: absolute;
+    left: 0;
+    top: -12px;
+    color: rgba(108, 113, 117, 0.5); }
+  blockquote > :nth-child(1) {
+    margin-top: 0; }
+
+ul,
+ol {
+  margin-left: 2rem; }
+  ul > li,
+  ol > li {
+    list-style: inherit;
+    padding: 0 0 0.26667rem 0.26667rem; }
+
+dl dt {
+  color: #262626;
+  font-weight: 600; }
+
+code,
+pre {
+  background-color: #f1f1f1;
+  font-family: monospace; }
+
+pre {
+  margin: 1.6rem 0 0;
+  padding: 1.6rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto; }
+  pre > code {
+    color: #262626;
+    padding: 0; }
+
+code {
+  border-radius: 3px;
+  color: #262626;
+  padding: 0.26667rem 0.53333rem; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #d4d4d4;
+  width: 100%;
+  overflow-x: auto;
+  vertical-align: top;
+  text-align: left;
+  white-space: nowrap; }
+  table th {
+    font-weight: 500;
+    padding: 0.53333rem 1.06667rem; }
+  table tr {
+    border-bottom: 1px solid #d4d4d4; }
+    table tr:nth-child(2n) {
+      background: #f1f1f1; }
+  table td {
+    padding: 0.53333rem 1.06667rem; }
+
+figcaption {
+  clear: both;
+  color: rgba(108, 113, 117, 0.6);
+  font-size: 0.82397rem;
+  margin: 0.8rem 0 0;
+  text-align: center; }
+
+sub,
+sup {
+  font-size: 65%; }
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+
+.btn, [type=button],
+[type=submit],
+button {
+  background: #039be5;
+  border: none;
+  border-radius: 2px;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.87891rem;
+  font-weight: 500;
+  line-height: 1.9;
+  padding: 0.53333rem 1.33333rem;
+  text-align: center;
+  text-decoration: none;
+  -webkit-transition: all .15s ease;
+  -o-transition: all .15s ease;
+  transition: all .15s ease;
+  width: auto; }
+  .btn:hover, [type=button]:hover,
+  [type=submit]:hover,
+  button:hover {
+    background: #262626;
+    color: #ffffff; }
+  .btn:focus, [type=button]:focus,
+  [type=submit]:focus,
+  button:focus {
+    outline: none; }
+  .btn-outline {
+    border: 1px solid #ddd;
+    background: #ffffff;
+    border-radius: 3px;
+    color: #262626; }
+
+[type=button],
+[type=submit],
+button {
+  text-transform: uppercase;
+  -webkit-appearance: none;
+  -moz-appearance: none; }
+
+.navbar {
+  background: #039be5;
+  -webkit-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  line-height: 3;
+  max-height: 4rem; }
+  .navbar > div {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: left;
+    max-width: 700px;
+    margin: 0 auto; }
+  .navbar a {
+    color: #ffffff;
+    text-decoration: none; }
+  .navbar-sidebar-toggle {
+    left: 0;
+    position: relative;
+    text-indent: -99999rem; }
+    .navbar-sidebar-toggle:before {
+      content: "";
+      display: block;
+      border-top: 0.375rem double #ffffff;
+      border-bottom: 0.125rem solid #ffffff;
+      height: 0.125rem;
+      position: absolute;
+      text-indent: 0;
+      top: 50%;
+      width: 1.3rem;
+      -webkit-transform: translate(0px, -50%);
+      -ms-transform: translate(0px, -50%);
+      transform: translate(0px, -50%); }
+
+
+.logo {
+            display: inline-block;
+  font-weight: 600;
+  line-height: 1;
+            margin: 0 auto;
+            height: 2rem;
+            text-indent: -9999px;
+            width: 240px;vertical-align: middle;
+        }
+        .logo.logo-text {
+            line-height: 2;
+            text-align: center;
+            text-indent: 0;
+        }
+
+amp-sidebar {
+  background: #ffffff;
+  width: 240px; }
+  amp-sidebar > ul {
+    margin: 0.8rem 0 0;
+    padding: 0; }
+    amp-sidebar > ul ul {
+      border-left: 1px solid #d4d4d4;
+      margin: 0.53333rem 0 0; }
+    amp-sidebar > ul li {
+      color: #262626;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      list-style: none;
+      line-height: 1.4;
+      padding: 0.42667rem 1.06667rem; }
+      amp-sidebar > ul li li {
+        font-weight: normal;
+        padding: 0.26667rem 0 0.26667rem 1.06667rem; }
+    amp-sidebar > ul a,
+    amp-sidebar > ul a:visited {
+      color: #262626; }
+
+.bg-white {
+  background: #ffffff; }
+
+.wrap-page {
+  max-width: 700px;
+  margin: 0 auto; }
+
+@media all and (max-width: 43.6875em) {
+  .wrap-inner {
+    padding: 0 6%; } }
+
+.page-title {
+  background: #ffffff;
+  -webkit-box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  margin-bottom: 0.8rem;
+  padding: 1.6rem 6%; }
+  .page-title > h1 {
+    margin: 0;
+    font-size: 1.29454rem; }
+  .page-title > p {
+    font-size: 0.87891rem;
+    color: #6c7175;
+    line-height: 1.3;
+    margin: 0.26667rem 0 0; }
+  .page-title-author {
+    border-radius: 50%;
+    float: left;
+    height: 2.5rem;
+    width: 2.5rem; }
+    .page-title-author + h1 {
+      margin-left: 3.5rem; }
+      .page-title-author + h1 + p {
+        margin-left: 3.5rem; }
+
+.card {
+  background: #ffffff;
+  -webkit-box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  margin-bottom: 0.8rem;
+  padding-bottom: 1.06667rem; }
+
+  .card-meta {
+    border-top: 1px solid #d4d4d4;
+    color: rgba(108, 113, 117, 0.6);
+    font-size: 0.7242rem;
+    font-weight: 500;
+    margin-top: 1.06667rem;
+    padding-top: 1.06667rem;
+    text-transform: uppercase; }
+    .card-meta a + time:before {
+      content: "";
+      background: #d4d4d4;
+      display: inline-block;
+      height: 3px;
+      margin: 0 8px;
+      width: 3px;
+      vertical-align: middle;
+      border-radius: 50%; }
+  .card-text {
+    font-size: 0.9375rem;
+    overflow: hidden;
+    padding: 0 6%; }
+    .card-text h2 {
+      font-size: 1.13778rem; }
+
+.post {
+  margin-bottom: 2.13333rem; }
+  .post-featured-image {
+    margin-top: 0;
+    position: relative; }
+    .post-featured-image > figcaption {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 3px;
+      color: #ffffff;
+      position: absolute;
+      bottom: 0.8rem;
+      padding: 0 0.26667rem;
+      right: 6%; }
+  .post-header {
+    margin-bottom: 2.13333rem; }
+  .post-meta {
+    border-bottom: 1px solid #d4d4d4;
+    color: rgba(108, 113, 117, 0.6);
+    font-size: 0.7242rem;
+    font-weight: 500;
+    margin-top: 1.06667rem;
+    padding-bottom: 1.06667rem;
+    text-transform: uppercase; }
+    .post-meta a + time:before {
+      content: "";
+      background: #d4d4d4;
+      display: inline-block;
+      height: 3px;
+      margin: 0 8px;
+      width: 3px;
+      vertical-align: middle;
+      border-radius: 50%; }
+  .post-tag {
+    margin: 0; }
+    .post-tag > li {
+      display: inline-block;
+      padding: 0; }
+      .post-tag > li a {
+        background: #f1f1f1;
+        border-radius: 2px;
+        color: #6c7175;
+        font-size: 0.77248rem;
+        display: inline-block;
+        margin: 0 0.26667rem 0.26667rem 0;
+        padding: 0.26667rem 0.53333rem; }
+        .post-tag > li a:hover {
+          background: #039be5;
+          color: #ffffff;
+          text-decoration: none; }
+  .post-share {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-top: 1.6rem;
+    width: 100%; }
+    .post-share amp-social-share {
+      -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
+      background-size: 24px; }
+  .post-scroll {
+    color: #ffffff;
+    background: #039be5;
+    bottom: 10px;
+    border-radius: 50%;
+    border: none;
+    -webkit-box-shadow: 0 1px 1.5px 0 rgba(38, 38, 38, 0.12), 0 1px 1px 0 rgba(38, 38, 38, 0.24);
+    box-shadow: 0 1px 1.5px 0 rgba(38, 38, 38, 0.12), 0 1px 1px 0 rgba(38, 38, 38, 0.24);
+    font-size: 1.13778rem;
+    height: 46px;
+    opacity: 0;
+    outline: none;
+    position: fixed;
+    padding: 0;
+    right: 4%;
+    visibility: hidden;
+    width: 46px;
+    z-index: 9999; }
+    .post-scroll-marker {
+      height: 0px;
+      position: absolute;
+      top: 100px;
+      width: 0px; }
+        .post-pagination {
+    background: #f1f1f1;
+    -webkit-box-shadow: inset 0 2px 3px rgba(38, 38, 38, 0.1);
+    box-shadow: inset 0 2px 3px rgba(38, 38, 38, 0.1);
+    border-top: 1px solid #d4d4d4;
+    padding: 1.06667rem 0; }
+    .post-pagination > div {
+      line-height: 1.2;
+      padding: 0.53333rem 1.06667rem;
+      text-align: center; }
+      .post-pagination > div span {
+        display: block;
+        color: #6c7175;
+        font-size: 0.7242rem;
+        font-weight: 500;
+        margin-bottom: 0.26667rem;
+        text-transform: uppercase; }
+    .post-pagination-prev a:before {
+      content: "\2190";
+      margin-right: 0.26667rem; }
+    .post-pagination-next a:after {
+      content: "\2192";
+      margin-left: 0.26667rem; }
+
+aside {
+  margin: 1.6rem 0 0; }
+
+.align-left {
+  text-align: left; }
+
+.align-right {
+  text-align: right; }
+
+.align-center {
+  text-align: center; }
+
+.align-justify {
+  text-align: justify; }
+
+.msg {
+  border-left: 2px solid transparent;
+  padding: 1.06667rem 1.06667rem; }
+  .msg--highlight {
+    background-color: #fff8e6;
+    border-color: #e2ac4f; }
+  .msg--info {
+    background: rgba(45, 97, 201, 0.03);
+    border-color: #039be5; }
+  .msg--success {
+    background: #f7fbf6;
+    border-color: #5ab44b; }
+  .msg--warning {
+    background: #fff3f3;
+    border-color: #c06367;
+    color: #a94442; }
+
+.dropcap:first-letter {
+  float: left;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 2.16943rem;
+  line-height: 0.7;
+  margin-right: 0.53333rem;
+  padding: 0.53333rem 0.53333rem 0.53333rem 0; }
+
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0.8rem 0; }
+  .pagination > a {
+    padding-left: 0;
+    padding-right: 0;
+    width: 49%; }
+  .pagination-right {
+    margin-left: auto; }
+
+.bottom {
+  background: #039be5;
+  color: #ffffff;
+  padding: 1.06667rem 4%;
+  text-align: center; }</style><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><script custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js" async></script><script custom-element="amp-position-observer" src="https://cdn.ampproject.org/v0/amp-position-observer-0.1.js" async></script></head><body class="bg-white"><nav class="navbar wrap-inner" id="top"><div><a on="tap:navbar-sidebar.toggle" class="navbar-sidebar-toggle" title="Menu">Menu</a> <a class="logo logo-text" href="https://www.k8s.it/amp/">LAB</a></div></nav><main class="wrap-page"><article class="post"><div class="wrap-inner"><header class="post-header"><h1>Kubernetes-sitespeed.io</h1><p class="post-meta"><time datetime="2020-10-02T20:41">2 Oct 2020</time></p></header><p>Hello</p><p>First of all, this is a thought around a website metrics management, is not the only way, but is one way for a high level overview.</p><p>How to read this ...</p><ul><li>i'm focused to share some concept about website monitoring</li><li>i'm sharing a possible way to manage in kubernetes</li><li>i'm using some other tools in kubernetes just because i'm evaluating this for other purpose</li></ul><p>However you can reach the GOAL just using docker and crontab for example<br><br><br><br></p><h2><a id="user-content-motivations" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#motivations"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Motivations</h2><p>Well ... a website is a product itself,<br>it could be a Wordpress, a Magento ecommerce or a structured multiple applications that owns each ones a different section of the website.</p><p>However if running a business on top, you should move your evolution as a customer perspective:</p><ul><li>how long does is take the website asnwer ?</li><li>is the response time common for all sections ?</li><li>new versions/deployments are better than before for the customer ?</li></ul><p>You know, if the response time is more than X seconds ... and you are selling a common gadgets that could be retrieved elsewhere , you are losing money and customer affiliation.</p><p>There are also some others problems... when someone in your company or a customer will say ... the website il slow</p><ul><li>Faster from my fiber home connection</li><li>Faster from my mobile premium plus SIM</li><li>Slow from wireless</li><li>Fast from wireless</li><li>No idea</li><li>Faster than … ?!?! compared to ... ?!?!</li></ul><p>No, look how it's slow (2g connection in the sahara desert)<br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/3251fd1e9ec686be58b3f6c8669b185187843283/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3238362f76313630313533343536332f6d6973632f53637265656e73686f745f323032302d31302d30315f61745f30382e34302e30362e706e67"><amp-img title="reaction" src="https://camo.githubusercontent.com/3251fd1e9ec686be58b3f6c8669b185187843283/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3238362f76313630313533343536332f6d6973632f53637265656e73686f745f323032302d31302d30315f61745f30382e34302e30362e706e67" data-is-external-image="true" alt="reaction" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_286/v1601534563/misc/Screenshot_2020-10-01_at_08.40.06.png" layout="responsive"></amp-img></a><br><br><br></p><p>Now, we know what we need ... DATA<br>Evaluate those during a long therm periode looking for performance</p><ul><li>release by release</li><li>feature by feature</li><li>etc etc</li></ul><p>First of all we have to test our websites on the customer position... so no 1gbit inline connection with 0.00001 roundtrip :)</p><p>From the multitude of products , webtest , lighthouse , selenium and so on i really like sitespeed.io<br><br><br></p><h3><a id="user-content-goal" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#goal"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>GOAL</h3><ul><li>be able to have an objective trend</li><li>check the goodness of releases</li></ul><p><br><br><br><br></p><h2><a id="user-content-the-customer-point-of-view" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#the-customer-point-of-view"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>The customer point of view</h2><p>You have to know your product and your customer ...</p><p>If you own the product you know that the customer is "forced" to buy by you. Immgine to are Apple, you know that customers are affiliated to you... so if something is slow, probably even if the device is available in other websites the customer will wait the answer.</p><p>On the opposite side if you are a retailer , and the product is quite common with no brandlove etc etc ... if the website is slow the user will change immediatly the website to land to somewhere else.<br><br></p><h3><a id="user-content-speed" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#speed"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Speed</h3><p>we usually define a <em>slowness</em> by a perception.</p><p>However , in 2020 you know the Data that comes from GA and understand when people leave a page , after some amount of time.</p><p>Consider those, rate and the timing to tune the threadshold</p><ul><li>Bounce</li><li>Leave/Exit</li></ul><p>and <ins>create the awareness</ins> about the limits and improvements you can achieve.</p><p>Example. If a search take more than 10seconds, say <em>ciao ciao</em> to the customer.</p><p>As said, when you mesure the speed you have to move yourself in the customer side ... so not all people has 1gbit connection , maybe the major are using mobile , maybe your host is in US and the customer in KR.<br>So ... internet connection should reflect the avg/wrost scenario Believe me that those data <a href="https://www.speedtest.net/global-index" rel="nofollow">https://www.speedtest.net/global-index</a> are quite optimistic :) i appreciate instead the documentation of sitespeed that has classified 4 networks</p><p><a href="https://www.sitespeed.io/documentation/sitespeed.io/connectivity/" rel="nofollow">https://www.sitespeed.io/documentation/sitespeed.io/connectivity/</a></p><ul><li>3g</li><li>3gfast</li><li>3gslow</li><li>cable</li></ul><p>I'd like to say that in 2020 <em>cable</em> and <em>3gfast</em> cover perfectly the wrost scenario</p><p>Even if you don't agree with the speed category, remember to look the graphs and the metrics considering the DELTA<br><br><br><br></p><h2><a id="user-content-sitespeedio" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#sitespeedio"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Sitespeed.io</h2><p>This tool is open source , has a huge extension , in this scenario<br>i'll use only parts of that since i don't need the video recording, or HAR files and so on.</p><p>A full report could be useful to check all feature and you can find here<br><a href="https://lorenzogirardi.github.io/sitespeedio-results/" rel="nofollow">https://lorenzogirardi.github.io/sitespeedio-results/</a></p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/48cabf3aeb609d823d3b407a2eede60b8039c554/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630313338373533332f6d6973632f7369746573706565642d726573756c74732e706e67"><amp-img title="sitespeed-results" src="https://camo.githubusercontent.com/48cabf3aeb609d823d3b407a2eede60b8039c554/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630313338373533332f6d6973632f7369746573706565642d726573756c74732e706e67" data-is-external-image="true" alt="sitespeed-results" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1601387533/misc/sitespeed-results.png" layout="responsive"></amp-img></a></p><p>and you can have those results only with using the docker image</p><p><code>docker run --rm -v "$(pwd):/sitespeed.io" sitespeedio/sitespeed.io:15.2.0 https://www.k8s.it/</code></p><p>is know easy understand that you can extend in crontab this code and add some other option to store metrics and results files in s3 for example</p><p><code>/usr/bin/docker run --privileged --shm-size=1g --rm --network=cable sitespeedio/sitespeed.io httos://www.example.com -v -b chrome --video --speedIndex -c cable --browsertime.iterations 1 --s3.key S3_KEY --s3.secret S3_SECRET --s3.bucketname S3_BUCKET --s3.removeLocalResult true --s3.path S3_PATH www.ecample.com --graphite.host GRAPHITE_HOST --graphite.port GRAPHITE_PORT --graphite.namespace GRAPHITE_PREFIX</code></p><p><br><br><br><br></p><h3><a id="user-content-case-of-study" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#case-of-study"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Case of study</h3><p>Since we have identified the tool i have to specify the use case</p><ul><li>I need only metrics in this example because, so i don't need to store the output artifact</li><li>I want to store the metrics in influxdb</li><li>I want to run it not as a docker but inside kubernetes</li><li>TBD i'd like to orchestrate actions</li></ul><p>The sitespeed.io docker fit perfectly in a kubernetes cronjob vision<br><a href="https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/" rel="nofollow">https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/</a><br>is done to start, execute an action and exit</p><p>However i'd like to explore a workflow manager ... not just for this case but also to exend some other <em>jobs</em><br><br><br></p><h4><a id="user-content-argo" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#argo"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Argo</h4><p>I chose this product because i was interested to have something similar to Rundeck , but with more extended capability in order to be possible build a ci/cd without spinnaker<br><a href="https://argoproj.github.io/" rel="nofollow">https://argoproj.github.io/</a></p><p>The installation is quite easy , i've just trick a configmap due to volume mount problem genereted by my small kubernetes installation</p><p>For a basic installation you need to create a dedicated namespace<br><code>kubectl create namespace argo</code></p><p>and than deploy the argo infrastructure (server and workflow)<br><code>kubectl apply -n argo -f https://raw.githubusercontent.com/argoproj/argo/stable/manifests/install.yaml</code></p><pre><code>NAMESPACE      NAME                                       READY   STATUS      RESTARTS   AGE
+argo           argo-server-6c886c5b77-l8jfv               1/1     Running     1          2d13h
+argo           workflow-controller-65948977d-zc9vt        1/1     Running     0          2d14h
+</code></pre><p>As mentioned before i discover a <em>bug</em> (just because i use containerd instead docker in microk8s) , running the firt job<br><code>MountVolume.SetUp failed for volume "docker-lib" : hostPath type check failed: /var/lib/docker is not a directory</code><br>However adding</p><pre><code>data:
+  config: |
+    containerRuntimeExecutor: pns
+</code></pre><p>in <code>workflow-controller-configmap</code></p><p>i fixed the issue.</p><p><br><br></p><p>Well now Argo is running and you can interact with the web UI or creating a services and a ingress configuration or with the port forwarding.<br>Since i'm now experimenting the solution i'm just using the second option.</p><pre><code>$ kubectl -n argo port-forward deployment/argo-server 2746:2746
+Forwarding from 127.0.0.1:2746 -&gt; 2746
+Forwarding from [::1]:2746 -&gt; 2746
+</code></pre><p>The UI interface is pretty clean and the authentication model follow the RBAC policy</p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/c71a2d41217a3e5ddd0f1f0f5d8be257c5837273/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313535393038372f6d6973632f6172676f5f342e706e67"><amp-img title="argo_4" src="https://camo.githubusercontent.com/c71a2d41217a3e5ddd0f1f0f5d8be257c5837273/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313535393038372f6d6973632f6172676f5f342e706e67" data-is-external-image="true" alt="argo_4" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601559087/misc/argo_4.png" layout="responsive"></amp-img></a></p><p>The editor as well is really good and if i have to think about a solution to share to other teams/depts , this has a good level of abstraction (at least you need to know what is contab)</p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/8018d2f4ee3abd5e64fab8b04a8a8942cd5be16f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313535393038372f6d6973632f6172676f5f312e706e67"><amp-img title="argo_1" src="https://camo.githubusercontent.com/8018d2f4ee3abd5e64fab8b04a8a8942cd5be16f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313535393038372f6d6973632f6172676f5f312e706e67" data-is-external-image="true" alt="argo_1" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601559087/misc/argo_1.png" layout="responsive"></amp-img></a></p><p>All informations are shared with the most relevant needs<br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/edbf1e994dd7efc315e1d356c7222b3829b36891/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313535393038382f6d6973632f6172676f5f332e706e67"><amp-img title="argo_3" src="https://camo.githubusercontent.com/edbf1e994dd7efc315e1d356c7222b3829b36891/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313535393038382f6d6973632f6172676f5f332e706e67" data-is-external-image="true" alt="argo_3" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601559088/misc/argo_3.png" layout="responsive"></amp-img></a></p><p>Events could be retrieved and evaluated as well<br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/a472dbd7228b9b098ad942a92a2f336a228f32d0/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3432302f76313630313535393038372f6d6973632f6172676f5f362e706e67"><amp-img title="argo_6" src="https://camo.githubusercontent.com/a472dbd7228b9b098ad942a92a2f336a228f32d0/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3432302f76313630313535393038372f6d6973632f6172676f5f362e706e67" data-is-external-image="true" alt="argo_6" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_420/v1601559087/misc/argo_6.png" layout="responsive"></amp-img></a></p><p>Last but not least .... logs are in the UI <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/75169652516669d95b5549e5791198c3a937b5cc/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313535393038372f6d6973632f6172676f5f352e706e67"><amp-img title="argo_5" src="https://camo.githubusercontent.com/75169652516669d95b5549e5791198c3a937b5cc/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313535393038372f6d6973632f6172676f5f352e706e67" data-is-external-image="true" alt="argo_5" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601559087/misc/argo_5.png" layout="responsive"></amp-img></a></p><p><br><br></p><h3><a id="user-content-results" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#results"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Results</h3><p>We are now able to see the metrics in grafana...</p><p>you have 2 option , what is used in the<br><code>001-argo-job-sitespeedio.yaml</code><br>is the <em>influxdb</em> backend that could be rendered using</p><p><a href="https://github.com/sitespeedio/grafana-bootstrap-docker/blob/main/dashboards/influxdb/pageSummary.json">https://github.com/sitespeedio/grafana-bootstrap-docker/blob/main/dashboards/influxdb/pageSummary.json</a></p><p>LIVE VIEW <a href="https://services.k8s.it/grafana/d/000000053/pagesummary-influxdb?orgId=2&amp;refresh=15m" rel="nofollow">https://services.k8s.it/grafana/d/000000053/pagesummary-influxdb?orgId=2&amp;refresh=15m</a></p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/db62aefc87c98b7a8ded25c187d55e255a412a62/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313234342f6d6973632f67726166616e615f312e706e67"><amp-img title="grafana_1" src="https://camo.githubusercontent.com/db62aefc87c98b7a8ded25c187d55e255a412a62/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313234342f6d6973632f67726166616e615f312e706e67" data-is-external-image="true" alt="grafana_1" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601661244/misc/grafana_1.png" layout="responsive"></amp-img></a></p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/3eebdf9d9e19c08aa1a4f21dfd711c20ecce1c6a/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313234332f6d6973632f67726166616e615f322e706e67"><amp-img title="grafana_2" src="https://camo.githubusercontent.com/3eebdf9d9e19c08aa1a4f21dfd711c20ecce1c6a/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313234332f6d6973632f67726166616e615f322e706e67" data-is-external-image="true" alt="grafana_2" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601661243/misc/grafana_2.png" layout="responsive"></amp-img></a></p><p>However you can also use <em>graphite</em> backend with the same metrics (even more with provided dashboards)</p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/cfd27795ad1dfe9a29dd6658313cb044de1b8a80/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313832382f6d6973632f67726170686974655f312e706e67"><amp-img title="graphite_1" src="https://camo.githubusercontent.com/cfd27795ad1dfe9a29dd6658313cb044de1b8a80/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313832382f6d6973632f67726170686974655f312e706e67" data-is-external-image="true" alt="graphite_1" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601661828/misc/graphite_1.png" layout="responsive"></amp-img></a></p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/f9f4a443bf3d57412c65f77a94bc1eb149ba0d4e/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313832382f6d6973632f67726170686974655f322e706e67"><amp-img title="graphite_2" src="https://camo.githubusercontent.com/f9f4a443bf3d57412c65f77a94bc1eb149ba0d4e/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313832382f6d6973632f67726170686974655f322e706e67" data-is-external-image="true" alt="graphite_2" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601661828/misc/graphite_2.png" layout="responsive"></amp-img></a></p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/7e56609ce946b33a53517c01bd7ab7e0f5516334/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313832382f6d6973632f67726170686974655f332e706e67"><amp-img title="graphite_3" src="https://camo.githubusercontent.com/7e56609ce946b33a53517c01bd7ab7e0f5516334/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313832382f6d6973632f67726170686974655f332e706e67" data-is-external-image="true" alt="graphite_3" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601661828/misc/graphite_3.png" layout="responsive"></amp-img></a></p><p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/c6079d0125e7cc38de67e40345b234313a3bf107/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313832392f6d6973632f67726170686974655f342e706e67"><amp-img title="graphite_4" src="https://camo.githubusercontent.com/c6079d0125e7cc38de67e40345b234313a3bf107/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313038302f76313630313636313832392f6d6973632f67726170686974655f342e706e67" data-is-external-image="true" alt="graphite_4" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1080/v1601661829/misc/graphite_4.png" layout="responsive"></amp-img></a></p><p><br><br><br><br></p><h2><a id="user-content-whats-next" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-sitespeed.io#whats-next"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>WHAT'S NEXT</h2><p>Sitespeed is really good to have an high level view but also details that probably could save load time.</p><p>The introduction of Argo can orchestrate multiple checks on all pages/application you need to monitor without a specific crontab time for each job but considering a producer/consumer workflow.</p><aside><ul class="post-tag"><li><a href="https://www.k8s.it/amp/argo/">argo</a></li><li><a href="https://www.k8s.it/amp/customer-view/">customer-view</a></li><li><a href="https://www.k8s.it/amp/grafana/">grafana</a></li><li><a href="https://www.k8s.it/amp/kubernetes/">kubernetes</a></li><li><a href="https://www.k8s.it/amp/metrics/">metrics</a></li><li><a href="https://www.k8s.it/amp/observability/">observability</a></li><li><a href="https://www.k8s.it/amp/sitespeed/">sitespeed</a></li><li><a href="https://www.k8s.it/amp/sitespeedio/">sitespeed.io</a></li><li><a href="https://www.k8s.it/amp/workflow/">workflow</a></li></ul><div class="post-share"><amp-social-share type="system" width="40" height="40" data-param-text="Kubernetes-sitespeed.io"></amp-social-share><amp-social-share type="facebook" width="40" height="40" data-param-app_id="" data-param-text="Kubernetes-sitespeed.io" data-param-href="https://www.k8s.it/amp/kubernetes-sitespeedio.html"></amp-social-share><amp-social-share type="twitter" width="40" height="40" data-param-text="Kubernetes-sitespeed.io" data-param-url="https://www.k8s.it/amp/kubernetes-sitespeedio.html"></amp-social-share><amp-social-share type="pinterest" width="40" height="40" data-param-url="https://www.k8s.it/amp/kubernetes-sitespeedio.html"></amp-social-share><amp-social-share type="tumblr" width="40" height="40" data-param-text="Kubernetes-sitespeed.io" data-param-url="https://www.k8s.it/amp/kubernetes-sitespeedio.html"></amp-social-share><amp-social-share type="whatsapp" width="40" height="40" data-param-text="Kubernetes-sitespeed.io"></amp-social-share></div></aside></div></article><nav class="post-pagination wrap-inner"><div class="post-pagination-prev"><span>Previous</span> <a href="https://www.k8s.it/amp/kubernetes-postfix.html"> Kubernetes-postfix</a></div></nav></main><amp-animation id="showAnim" layout="nodisplay"><script type="application/json">{
+                    "duration": "200ms",
+                    "fill": "both",
+                    "iterations": "1",
+                    "direction": "alternate",
+                    "animations": [{
+                        "selector": ".post-scroll",
+                        "keyframes": [{
+                            "opacity": "1",
+                            "visibility": "visible",
+                            "transform": "scale(1)"
+                        }]
+                    }]
+                }</script></amp-animation><amp-animation id="hideAnim" layout="nodisplay"><script type="application/json">{
+                    "duration": "200ms",
+                    "fill": "both",
+                    "iterations": "1",
+                    "direction": "alternate",
+                    "animations": [{
+                        "selector": ".post-scroll",
+                        "keyframes": [{
+                            "opacity": "0",
+                            "visibility": "hidden",
+                            "transform": "scale(0.1)"
+                        }]
+                    }]
+                }</script></amp-animation><div class="post-scroll-marker"><amp-position-observer on="enter:hideAnim.start; exit:showAnim.start" layout="nodisplay"></amp-position-observer></div><button class="post-scroll" on="tap:top.scrollTo(duration=200)">&#8593;</button><footer class="bottom">Powered by Publii</footer><amp-sidebar id="navbar-sidebar" layout="nodisplay"><ul><li><a href="https://www.linkedin.com/in/lgirardi/">linkedin</a></li><li><a href="https://services.k8s.it/grafana/?orgId&#x3D;2">live monitoring</a></li><li><a href="https://www.k8s.it/amp/whoami.html">whoami</a></li></ul></amp-sidebar></body></html>
