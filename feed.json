@@ -86,9 +86,13 @@
                 "name": "lgirardi"
             },
             "tags": [
+                   "rewrite rules",
+                   "kubernetes",
+                   "front controller",
+                   "apache"
             ],
             "date_published": "2020-08-11T20:48:50+02:00",
-            "date_modified": "2020-08-11T20:48:57+02:00"
+            "date_modified": "2020-10-03T15:05:51+02:00"
         },
         {
             "id": "https://www.k8s.it/kubernetes-guacamole.html",
@@ -100,9 +104,16 @@
                 "name": "lgirardi"
             },
             "tags": [
+                   "ssh",
+                   "rdp",
+                   "kubernetes",
+                   "guacd",
+                   "guacamole",
+                   "bastion host",
+                   "bastion"
             ],
             "date_published": "2020-08-11T20:46:54+02:00",
-            "date_modified": "2020-08-11T20:46:54+02:00"
+            "date_modified": "2020-10-03T15:06:44+02:00"
         },
         {
             "id": "https://www.k8s.it/kubernetes-strongswan.html",
@@ -114,9 +125,15 @@
                 "name": "lgirardi"
             },
             "tags": [
+                   "vpn",
+                   "strongswan",
+                   "ldap",
+                   "kubernetes",
+                   "ipsec",
+                   "active directory"
             ],
             "date_published": "2020-08-11T20:44:46+02:00",
-            "date_modified": "2020-08-11T20:47:06+02:00"
+            "date_modified": "2020-10-03T15:07:16+02:00"
         },
         {
             "id": "https://www.k8s.it/docker-latency.html",

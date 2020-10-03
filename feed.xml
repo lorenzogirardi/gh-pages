@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-10-02T20:41:53+02:00</updated>
+    <updated>2020-10-03T15:07:16+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -727,8 +727,12 @@ spec:
         </author>
         <link href="https://www.k8s.it/kubernetes-apacherr.html"/>
         <id>https://www.k8s.it/kubernetes-apacherr.html</id>
+            <category term="rewrite rules"/>
+            <category term="kubernetes"/>
+            <category term="front controller"/>
+            <category term="apache"/>
 
-        <updated>2020-08-11T20:48:57+02:00</updated>
+        <updated>2020-10-03T15:05:51+02:00</updated>
             <summary>
                 <![CDATA[
                     The semi-unuseful apache implementation in kubernetesWell , why we are talking about apache httpd in kubernetes ? We have ingress resources , we have ambassador and we are using microservices... True but internet was not built yesterday and for some reasons out of my knowledge&hellip;
@@ -777,8 +781,15 @@ spec:
         </author>
         <link href="https://www.k8s.it/kubernetes-guacamole.html"/>
         <id>https://www.k8s.it/kubernetes-guacamole.html</id>
+            <category term="ssh"/>
+            <category term="rdp"/>
+            <category term="kubernetes"/>
+            <category term="guacd"/>
+            <category term="guacamole"/>
+            <category term="bastion host"/>
+            <category term="bastion"/>
 
-        <updated>2020-08-11T20:46:54+02:00</updated>
+        <updated>2020-10-03T15:06:44+02:00</updated>
             <summary>
                 <![CDATA[
                     Here we are , another apache guacamole implementation in kubernetesThis service is designed to avoid the usage of mysql and create a standalone project The main idea is to use the user-mapping.xml as a config map For production environment i suggest to add the ldap auth (ad.openldap,freeipa),&hellip;
@@ -826,8 +837,14 @@ spec:
         </author>
         <link href="https://www.k8s.it/kubernetes-strongswan.html"/>
         <id>https://www.k8s.it/kubernetes-strongswan.html</id>
+            <category term="vpn"/>
+            <category term="strongswan"/>
+            <category term="ldap"/>
+            <category term="kubernetes"/>
+            <category term="ipsec"/>
+            <category term="active directory"/>
 
-        <updated>2020-08-11T20:47:06+02:00</updated>
+        <updated>2020-10-03T15:07:16+02:00</updated>
             <summary>
                 <![CDATA[
                     How we can manage vpn in kubernetes environmentHi there , this project is to cover the vpn ipsec-xauth topic in a kubernetes evironment, the goal of this is to have the less effort possible when we have to manage users. Architecture Requirements: WHYThe traditional ipsec-xauth&hellip;
