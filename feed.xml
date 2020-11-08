@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-11-08T14:35:13+01:00</updated>
+    <updated>2020-11-08T14:37:47+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -16,15 +16,17 @@
         </author>
         <link href="https://www.k8s.it/kubernetes-apigw.html"/>
         <id>https://www.k8s.it/kubernetes-apigw.html</id>
+            <category term="token"/>
             <category term="rate limit"/>
             <category term="kubernetes"/>
             <category term="konga"/>
             <category term="kong"/>
             <category term="auth"/>
+            <category term="apigw"/>
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-11-08T14:35:13+01:00</updated>
+        <updated>2020-11-08T14:37:47+01:00</updated>
             <summary>
                 <![CDATA[
                     It's time to talk about the api gateway In a modern infrastructure , especially in a microservices environment you probably know what i'm referring to ,however it's better to clarify some points. An API gateway takes all API calls from clients, then routes them to&hellip;
