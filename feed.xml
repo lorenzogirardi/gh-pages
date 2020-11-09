@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-11-08T15:28:34+01:00</updated>
+    <updated>2020-11-09T21:24:30+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -26,7 +26,7 @@
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-11-08T14:37:47+01:00</updated>
+        <updated>2020-11-09T21:24:30+01:00</updated>
             <summary>
                 <![CDATA[
                     It's time to talk about the api gateway In a modern infrastructure , especially in a microservices environment you probably know what i'm referring to ,however it's better to clarify some points. An API gateway takes all API calls from clients, then routes them to&hellip;
@@ -603,6 +603,9 @@ cf-ray: 5eee86d319770f72-MXP
 <li>Dashboard which provides User-Interface for API administration and viewing analytics (embedded in th Enerprise, third party for the community <em>Konga</em>)</li>
 </ul>
 <p>The Powerful of Kong is also supported by plugins from authentication, security, traffic control, logging, and etc…</p>
+<p>Monitoring is also covered well by default kong official prometheus available here <a href="https://github.com/Kong/kong-plugin-prometheus">https://github.com/Kong/kong-plugin-prometheus</a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/80ee02d693fdb44ecad03744c6075c7e81e55b47d39f4e061a4e6f79fc12cdd7/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630343935333336322f6d6973632f6b6f6e672e6d6f6e69746f722e706e67"><img loading="lazy" title="kong_monitor" src="https://camo.githubusercontent.com/80ee02d693fdb44ecad03744c6075c7e81e55b47d39f4e061a4e6f79fc12cdd7/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630343935333336322f6d6973632f6b6f6e672e6d6f6e69746f722e706e67" data-is-external-image="true"  alt="kong_monitor" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1604953362/misc/kong.monitor.png"></a></p>
+<p>Live: <a href="https://services.k8s.it/grafana/d/mY9p7dQmz/kong?orgId=2&amp;refresh=1m" rel="nofollow">https://services.k8s.it/grafana/d/mY9p7dQmz/kong?orgId=2&amp;refresh=1m</a></p>
 <p><br><br></p>
 <p>If your business exposes APIs, the API GATEWAY is a required to handle the third party.</p>
             ]]>
