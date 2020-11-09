@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-11-09T21:26:16+01:00</updated>
+    <updated>2020-11-09T22:00:24+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -26,7 +26,7 @@
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-11-09T21:26:16+01:00</updated>
+        <updated>2020-11-09T22:00:24+01:00</updated>
             <summary>
                 <![CDATA[
                     It's time to talk about the api gateway In a modern infrastructure , especially in a microservices environment you probably know what i'm referring to ,however it's better to clarify some points. An API gateway takes all API calls from clients, then routes them to&hellip;
@@ -310,13 +310,16 @@ spec:
         - name: NODE_ENV
           value: "production"
 </code></pre>
-<p>where NODE_TLS_REJECT_UNAUTHORIZED is the option to not verify the kong api certificate and<br>NODE_ENV is way to enable production or development , if you are not using production, the other two option enables the debug model and increase the cpu usage, i suggest to use production anyway <strong>during the first deploy you should enable development in order to bootstrap the sql schema</strong> that production is not able to do ... or create an init container to deploy the schema</p>
+<p>where NODE_TLS_REJECT_UNAUTHORIZED is the option to not verify the kong api certificate and</p>
+<p><br>NODE_ENV is way to enable production or development , if you are not using production, the other two option enables the debug model and increase the cpu usage, i suggest to use production anyway <strong>during the first deploy you should enable development in order to bootstrap the sql schema</strong> that production is not able to do ... or create an init container to deploy the schema</p>
 <p><code>konga konga-stable-8957b9d85-tq72z 2/2 Running 2 6d3h</code></p>
 <p>since is now up and running it will be available on the standard infrastructure ingress</p>
 <pre><code>  - host: konga.ing.h4x0r3d.lan
 </code></pre>
-<p>Konga Home <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/0f76d690a796607e512cffaaf5f1405516e613575ecdf562d91399e1c646b05b/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313032342f76313630343737373233372f6d6973632f6b6f6e67615f75692e706e67"><img loading="lazy" title="konga_home" src="https://camo.githubusercontent.com/0f76d690a796607e512cffaaf5f1405516e613575ecdf562d91399e1c646b05b/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313032342f76313630343737373233372f6d6973632f6b6f6e67615f75692e706e67" data-is-external-image="true"  alt="konga_home" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1024/v1604777237/misc/konga_ui.png"></a></p>
-<p>Konga node configuration <a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/cda833f675290b3538fa9b4e4d49f8c91ea586bae71505e705d7646646b30fa8/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313032342f76313630343737373233382f6d6973632f6b6f6e67615f75695f6b6f6e676e6f64652e706e67"><img loading="lazy" title="konga_node" src="https://camo.githubusercontent.com/cda833f675290b3538fa9b4e4d49f8c91ea586bae71505e705d7646646b30fa8/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313032342f76313630343737373233382f6d6973632f6b6f6e67615f75695f6b6f6e676e6f64652e706e67" data-is-external-image="true"  alt="konga_node" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1024/v1604777238/misc/konga_ui_kongnode.png"></a></p>
+<p>Konga Home </p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/0f76d690a796607e512cffaaf5f1405516e613575ecdf562d91399e1c646b05b/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313032342f76313630343737373233372f6d6973632f6b6f6e67615f75692e706e67"><img loading="lazy" title="konga_home" src="https://camo.githubusercontent.com/0f76d690a796607e512cffaaf5f1405516e613575ecdf562d91399e1c646b05b/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313032342f76313630343737373233372f6d6973632f6b6f6e67615f75692e706e67" data-is-external-image="true"  alt="konga_home" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1024/v1604777237/misc/konga_ui.png"></a></p>
+<p>Konga node configuration </p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/cda833f675290b3538fa9b4e4d49f8c91ea586bae71505e705d7646646b30fa8/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313032342f76313630343737373233382f6d6973632f6b6f6e67615f75695f6b6f6e676e6f64652e706e67"><img loading="lazy" title="konga_node" src="https://camo.githubusercontent.com/cda833f675290b3538fa9b4e4d49f8c91ea586bae71505e705d7646646b30fa8/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f313032342f76313630343737373233382f6d6973632f6b6f6e67615f75695f6b6f6e676e6f64652e706e67" data-is-external-image="true"  alt="konga_node" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_1024/v1604777238/misc/konga_ui_kongnode.png"></a></p>
 <p><br><br></p>
 <ul>
 <li>kong [INSTALLED]</li>
