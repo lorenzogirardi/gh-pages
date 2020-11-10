@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-11-10T18:29:02+01:00</updated>
+    <updated>2020-11-10T18:31:40+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -26,7 +26,7 @@
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-11-10T18:29:02+01:00</updated>
+        <updated>2020-11-10T18:31:40+01:00</updated>
             <summary>
                 <![CDATA[
                     It's time to talk about the api gateway In a modern infrastructure , especially in a microservices environment you probably know what i'm referring to ,however it's better to clarify some points. An API gateway takes all API calls from clients, then routes them to&hellip;
@@ -395,37 +395,37 @@ X-Kong-Admin-Latency: 10
 <p><br><br></p>
 <p>routes.id where created when we created the kong ingress configuration for pytbak <code>curl -k -i -X GET <a href="https://192.168.1.14:31793/routes/">https://192.168.1.14:31793/routes/</a></code></p>
 <p> </p>
-<table style="border-collapse: collapse; width: 99.2766%; height: 294px;" border="1">
+<table style="border-collapse: collapse; width: 93.4879%; height: 294px;" border="1">
 <tbody>
 <tr style="height: 49px;">
 <td style="width: 19.2341%; height: 49px;">ROUTE NAME</td>
 <td style="width: 19.7563%; height: 49px;">PATH </td>
-<td style="width: 61.4194%; height: 49px;">ROUTE.ID</td>
+<td style="width: 55.5885%; height: 49px;">ROUTE.ID</td>
 </tr>
 <tr style="height: 49px;">
 <td style="width: 19.2341%; height: 49px;">pytbak.api.00</td>
 <td style="width: 19.7563%; height: 49px;">/api/</td>
-<td style="width: 61.4194%; height: 49px;">0a78b572-cfe0-4228-bdfe-639ef04b5117</td>
+<td style="width: 55.5885%; height: 49px;">0a78b572-cfe0-4228-bdfe-639ef04b5117</td>
 </tr>
 <tr style="height: 49px;">
 <td style="width: 19.2341%; height: 49px;">pytbak.api.01</td>
 <td style="width: 19.7563%; height: 49px;">/api/get/</td>
-<td style="width: 61.4194%; height: 49px;">8d2a24aa-636d-43ee-b0aa-b0fd1d3643fd</td>
+<td style="width: 55.5885%; height: 49px;">8d2a24aa-636d-43ee-b0aa-b0fd1d3643fd</td>
 </tr>
 <tr style="height: 49px;">
 <td style="width: 19.2341%; height: 49px;">pytbak.api.02</td>
 <td style="width: 19.7563%; height: 49px;">/api/post/</td>
-<td style="width: 61.4194%; height: 49px;">f75ed3b6-07c3-4293-932b-4f53d0c38f74</td>
+<td style="width: 55.5885%; height: 49px;">f75ed3b6-07c3-4293-932b-4f53d0c38f74</td>
 </tr>
 <tr style="height: 49px;">
 <td style="width: 19.2341%; height: 49px;">pytbak.api.03</td>
 <td style="width: 19.7563%; height: 49px;">/api/put  </td>
-<td style="width: 61.4194%; height: 49px;">f4823063-04e4-4da8-9c11-21977a93b1ba</td>
+<td style="width: 55.5885%; height: 49px;">f4823063-04e4-4da8-9c11-21977a93b1ba</td>
 </tr>
 <tr style="height: 49px;">
 <td style="width: 19.2341%; height: 49px;">pytbak.api.04</td>
 <td style="width: 19.7563%; height: 49px;">/api/delete</td>
-<td style="width: 61.4194%; height: 49px;">e396750c-9158-4a96-8d79-047197669cff</td>
+<td style="width: 55.5885%; height: 49px;">e396750c-9158-4a96-8d79-047197669cff</td>
 </tr>
 </tbody>
 </table>
