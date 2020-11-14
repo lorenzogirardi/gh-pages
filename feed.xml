@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-11-10T18:31:40+01:00</updated>
+    <updated>2020-11-14T22:40:33+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -26,7 +26,7 @@
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-11-10T18:31:40+01:00</updated>
+        <updated>2020-11-14T22:40:33+01:00</updated>
             <summary>
                 <![CDATA[
                     It's time to talk about the api gateway In a modern infrastructure , especially in a microservices environment you probably know what i'm referring to ,however it's better to clarify some points. An API gateway takes all API calls from clients, then routes them to&hellip;
@@ -440,7 +440,7 @@ X-Kong-Admin-Latency: 10
 &gt;             --data "consumer.id=3d45a73d-4024-4813-b356-43a14ecea702" \
 &gt;             --data "route.id=0a78b572-cfe0-4228-bdfe-639ef04b5117"
 </code></pre>
-<p><code>{"created_at":1604780031,"id":"cfd3d752-7864-493c-a3b7-3970ab6eca86","tags":null,"enabled":true,"protocols":["grpc","grpcs","http","https"],"name":"rate-limiting","consumer":{"id":"3d45a73d-4024-4813-b356-43a14ecea702"},"service":null,"route":{"id":"0a78b572-cfe0-4228-bdfe-639ef04b5117"},"config":{"hide_client_headers":false,"minute":null,"policy":"local","month":null,"redis_timeout":2000,"limit_by":"consumer","redis_password":null,"second":4,"day":null,"redis_database":0,"year":null,"hour":1200,"redis_host":null,"redis_port":6379,"header_name":null,"fault_tolerant":true}}</code></p>
+<p><code>{"created_at":1604780031,"id":"cfd3d752-7864-493c-a3b7-3970ab6eca86","tags":null,"enabled":true,"protocols":["grpc","grpcs","http","https"],"name":"rate-limiting","consumer":{"id":"3d45a73d-4024-4813-b356-43a14ecea702"},"service":null,"route":{"id":"0a78b572-cfe0-4228-bdfe-639ef04b5117"},"config":{"hide_client_headers":false,"minute":null,"policy":"local",</code><code>"month":null,"redis_timeout":2000,"limit_by":"consumer","redis_password":null,"second":4,"day":null,"redis_database":0,"year":null,"hour":1200,"redis_host":null,"redis_port":6379,"header_name":null,"fault_tolerant":true}}</code></p>
 <pre><code>curl -k -X POST https://192.168.1.14:31793/plugins/ \
                 --data "name=rate-limiting"  \
                 --data "config.second=2" \
