@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-11-14T22:55:59+01:00</updated>
+    <updated>2020-11-18T19:18:46+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -26,7 +26,7 @@
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-11-14T22:54:56+01:00</updated>
+        <updated>2020-11-18T19:18:46+01:00</updated>
             <summary>
                 <![CDATA[
                     It's time to talk about the api gateway In a modern infrastructure , especially in a microservices environment you probably know what i'm referring to ,however it's better to clarify some points. An API gateway takes all API calls from clients, then routes them to&hellip;
@@ -640,9 +640,9 @@ cf-ray: 5eee86d319770f72-MXP
 </ul>
 <p>The Powerful of Kong is also supported by plugins from authentication, security, traffic control, logging, and etc…</p>
 <p>Monitoring is also covered well by default kong official prometheus available here <a href="https://github.com/Kong/kong-plugin-prometheus">https://github.com/Kong/kong-plugin-prometheus</a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/8b3082fb4db97225c1ff0fece019ad4edf6d1c1f3bdb54ad3a5d2af60120d2e9/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630353031303733342f6d6973632f6b6f6e675f6d6f6e69746f722e706e67"><img loading="lazy" title="kong_monitor" src="https://camo.githubusercontent.com/8b3082fb4db97225c1ff0fece019ad4edf6d1c1f3bdb54ad3a5d2af60120d2e9/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630353031303733342f6d6973632f6b6f6e675f6d6f6e69746f722e706e67" data-is-external-image="true"  alt="kong_monitor" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1605010734/misc/kong_monitor.png"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/28dedd2eae334443bd6e668838f06caedc99f3c5cbd95e5b8d12869015cad8e9/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630353732333433362f6d6973632f6b6f6e665f6d6f6e69746f722e706e67"><img loading="lazy" title="kong_monitor" src="https://camo.githubusercontent.com/28dedd2eae334443bd6e668838f06caedc99f3c5cbd95e5b8d12869015cad8e9/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630353732333433362f6d6973632f6b6f6e665f6d6f6e69746f722e706e67" data-is-external-image="true"  alt="kong_monitor" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1605723436/misc/konf_monitor.png"></a></p>
 <p>Live: <a href="https://services.k8s.it/grafana/d/mY9p7dQmz/kong?orgId=2&amp;refresh=1m" rel="nofollow">https://services.k8s.it/grafana/d/mY9p7dQmz/kong?orgId=2&amp;refresh=1m</a></p>
-<p><br><br></p>
+<p> </p>
 <p><strong>If your business exposes APIs, the API GATEWAY is a requirement to handle the third party.</strong></p>
             ]]>
         </content>
