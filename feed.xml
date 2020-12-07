@@ -3,12 +3,24 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-12-07T13:27:45+01:00</updated>
+    <updated>2020-12-07T15:22:46+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
     <id>https://www.k8s.it</id>
 
+    <entry>
+        <title>Kubernetes destroyed the virtualization... or NOT</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html"/>
+        <id>https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html</id>
+
+        <updated>2020-12-07T15:20:42+01:00</updated>
+            <summary></summary>
+        <content></content>
+    </entry>
     <entry>
         <title>Kubernetes api gateway</title>
         <author>
@@ -26,7 +38,7 @@
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-12-07T13:27:45+01:00</updated>
+        <updated>2020-12-07T15:22:46+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/16/Screenshot-2020-11-20-at-22.20.25-2.png" alt="" />
@@ -628,7 +640,7 @@ X-Kong-Admin-Latency: 10
 <p><br><br>slow_user has apikey: 332d05445a560ee65a76aeaa372d8904<br>fast_user has apikey: 695aa0b18c6dbd1b387ee7c32c72c513<br>admin has a apikey: admin</p>
 <p><br><br>i've also created a global rules on the service with max 9 reqquest per second for all other users with no specific rate limit rule applied (ex admin.)</p>
 <p><code>$ curl -k -X POST https://192.168.1.14:31793/plugins --data "name=rate-limiting" --data "config.second=9" --data "config.policy=local" --data "service.id=53d35e73-b285-4eb2-ad24-853d82563ca4"</code></p>
-<pre><code>{"created_at":1604786501,"id":"34182311-ecbf-49a3-bdcf-bdc1c9c58706","tags":null,"enabled":true,"protocols":["grpc","grpcs","http","https"],"name":"rate-limiting","consumer":null,"service":{"id":"53d35e73-b285-4eb2-ad24-853d82563ca4"},"route":null,"config":{"hide_client_headers":false,"minute":null,"policy":"local","month":null,"redis_timeout":2000,"limit_by":"consumer","redis_password":null,"second":9,"day":null,"redis_database":0,"year":null,"hour":null,"redis_host":null,"redis_port":6379,"header_name":null,"fault_tolerant":true}}
+<pre><code>{"created_at":1604786501,"id":"34182311-ecbf-49a3-bdcf-bdc1c9c58706",<br>"tags":null,"enabled":true,"protocols":["grpc","grpcs","http","https"],<br>"name":"rate-limiting","consumer":null,<br>"service":{"id":"53d35e73-b285-4eb2-ad24-853d82563ca4"},<br>"route":null,"config":{"hide_client_headers":false,"minute":null,"policy":"local",<br>"month":null,"redis_timeout":2000,"limit_by":"consumer",<br>"redis_password":null,"second":9,"day":null,"redis_database":0,"year":null,<br>"hour":null,"redis_host":null,"redis_port":6379,"header_name":null,<br>"fault_tolerant":true}}
 </code></pre>
 <p>Using siege i've benchmarked the users</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/ee42763f67ce2c6a3e6f97b945740f70bf12d80bc251a6fd1266b07cf10d68f9/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630343738373237302f6d6973632f73696567655f75736572732e706e67"><img loading="lazy" title="siege_users" src="https://camo.githubusercontent.com/ee42763f67ce2c6a3e6f97b945740f70bf12d80bc251a6fd1266b07cf10d68f9/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630343738373237302f6d6973632f73696567655f75736572732e706e67" data-is-external-image="true"  alt="siege_users" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1604787270/misc/siege_users.png"></a></p>
@@ -744,7 +756,7 @@ Server: kong/2.1.4
 <pre><code>HTTP/2 200
 date: Sun, 08 Nov 2020 10:14:21 GMT
 content-type: text/html; charset=utf-8
-set-cookie: __cfduid=dab5b88be5427314b7b17a1a65d3178a41604830461; expires=Tue, 08-Dec-20 10:14:21 GMT; path=/; domain=.k8s.it; HttpOnly; SameSite=Lax
+set-cookie: __cfduid=dab5b88be5427314b7b17a1a65d3178a41604830461; <br>expires=Tue, 08-Dec-20 10:14:21 GMT; path=/; domain=.k8s.it; HttpOnly; <br>SameSite=Lax
 vary: Accept-Encoding
 x-ratelimit-limit-second: 4
 x-ratelimit-remaining-second: 3
@@ -758,8 +770,8 @@ x-kong-proxy-latency: 4
 via: kong/2.1.4
 cf-cache-status: DYNAMIC
 cf-request-id: 0648f2980000000f72931c2000000001
-expect-ct: max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
-report-to: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report?s=z4j%2FU3og%2FT2jBByhUKZtShDNLfLMWncExIy3EowJ2hOPJ17oCB0oeyY1GVaXirT%2BgWpTEEuU%2F03gx%2F91uOy3mGD%2BFE4FhBGqFt7iC2bhaPc%3D"}],"group":"cf-nel","max_age":604800}
+expect-ct: max-age=604800, <br>report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+report-to: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report?s=z4j%2FU3og%2FT2jBByhUKZtShDNLfLMWncExIy3EowJ2hOPJ17oCB0oeyY1GVaXirT%2BgWpTEEu<br>U%2F03gx%2F91uOy3mGD%2BFE4FhBGqFt7iC2bhaPc%3D"}],"group":"cf-nel","max_age":604800}
 nel: {"report_to":"cf-nel","max_age":604800}
 server: cloudflare
 cf-ray: 5eee86d319770f72-MXP
@@ -2150,61 +2162,6 @@ Creating telegraf ... done
 <p>100% packet loss simulated disabling network card for few seconds.<br>The dashboard is using variables in order to create 1 row for each endpoint.</p>
 <h3><a id="user-content-conclusion" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/docker-latency#conclusion"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Conclusion</h3>
 <p>Now we have data, so we know what is going on in our internet connection and we can probably<br>have more details about the <em>infomagic</em> words like ... <em>is slow</em></p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Terraform your free Claudflare account</title>
-        <author>
-            <name>lgirardi</name>
-        </author>
-        <link href="https://www.k8s.it/terraform-your-free-claudflare-account.html"/>
-        <id>https://www.k8s.it/terraform-your-free-claudflare-account.html</id>
-            <category term="waf"/>
-            <category term="terraform"/>
-            <category term="gitlab"/>
-            <category term="cloudflare"/>
-            <category term="cdn"/>
-            <category term="automation"/>
-
-        <updated>2018-07-07T11:47:37+02:00</updated>
-            <summary>
-                <![CDATA[
-                    So... after some experience with akamai www.ethzero.it is an alias for aku-cs-akamaiflowers.com.edgesuite.net. aku-cs-akamaiflowers.com.edgesuite.net is an alias for a169.dscksd.akamai.net. a169.dscksd.akamai.net has address 193.45.15.98 a169.dscksd.akamai.net has address 193.45.15.122 a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f62 a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f7aand some others with Incapsula bunker.ethzero.it is an alias for&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>So...</p>
-<p>after some experience with akamai </p>
-<pre><code><em>www.ethzero.it is an alias for aku-cs-akamaiflowers.com.edgesuite.net.</em></code><br><code><em>aku-cs-akamaiflowers.com.edgesuite.net is an alias for a169.dscksd.akamai.net.</em></code><br><code><em>a169.dscksd.akamai.net has address 193.45.15.98</em></code><br><code><em>a169.dscksd.akamai.net has address 193.45.15.122</em></code><br><code><em>a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f62</em></code><br><code><em>a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f7a</em></code></pre>
-<p>and some others with Incapsula</p>
-<pre><code><em>bunker.ethzero.it is an alias for ve7cu.x.incapdns.net.</em></code><br><code><em>ve7cu.x.incapdns.net has address 107.154.167.38</em></code></pre>
-<p>It's now the moment to talk about Cloudflare</p>
-<p> <a href="https://www.cloudflare.com/">Claudflare</a> provide a good free account that allow you to hide your source ip or you want to discover how it's work the free waf protection or have a https certificate having your origin in http and so on ... but what is really cool and quickwin than the competitors is the API support and the native integration with <a href="https://www.terraform.io/docs/providers/cloudflare/index.html">Terraform</a></p>
-<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/git-terraform-cloudflare.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-md.png 768w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-lg.png 1024w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-xl.png 1360w ,https://www.k8s.it/media/posts/5/responsive/git-terraform-cloudflare-2xl.png 1600w"  alt="" width="2394" height="1254"></p>
-<p>Terraform is the most integrated tool for cloud (not only) automation and infrastructure as a code </p>
-<p>Here some steps that can show how it's esay deploy a configuration</p>
-<p>First of all , retrive the api key from Cloudflare portal</p>
-<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/cloudflare-api-key.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-md.png 768w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-lg.png 1024w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-xl.png 1360w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-api-key-2xl.png 1600w"  alt="" width="1922" height="556"></p>
-<p><img loading="lazy" src="https://www.k8s.it/media/posts/5/cloudflare-global-apikey.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-xs.png 300w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-sm.png 480w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-md.png 768w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-lg.png 1024w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-xl.png 1360w ,https://www.k8s.it/media/posts/5/responsive/cloudflare-global-apikey-2xl.png 1600w"  alt="" width="1910" height="396"> </p>
-<p>then start the main terraform file in a dedicated folder (better in a <a href="https://gitlab.com/">gitlab</a> repo)</p>
-<pre><code>$ cat cloudflare-auth.tf</code><code><br>provider "cloudflare" {<br> email = "cloudflare_registration_email"<br> token = "cloudflare_token_api_key"<br>}<br></code></pre>
-<p>make a $<code>terraform init</code> and now you can start to configure your account</p>
-<p>manage your domain(s)</p>
-<pre>$ <code>cat cloudflare_domains.tf</code><br><code>variable "domain" {</code><br><code> default = "k8s.it"</code><br><code>} </code></pre>
-<p> </p>
-<p>create dns configuration</p>
-<pre>$ <code>cat cloudflare_dns.tf</code><br><code>resource "cloudflare_record" "www" {</code><br><code> domain = "${var.domain}"</code><br><code> name = "www"</code><br><code> value = "something.github.io"</code><br><code> type = "CNAME"</code><br><code> proxied = true</code><br><code>}</code><br><br><code>resource "cloudflare_record" "smtp" {</code><br><code> domain = "${var.domain}"</code><br><code> name = "smtp"</code><br><code> value = "IP.OF.PRIVATE.VPS"</code><br><code> type = "A"</code><br><code> proxied = false</code><br><code>}</code><br><br><code>resource "cloudflare_record" "services" {</code><br><code> domain = "${var.domain}"</code><br><code> name = "services"</code><br><code> value = "something.related.to.my.home"</code><br><code> type = "CNAME"</code><br><code> proxied = true</code><br><code>}</code><br><br><code>resource "cloudflare_record" "mx" {</code><br><code> domain = "${var.domain}"</code><br><code> name = "${var.domain}"</code><br><code> value = "smtp.k8s.it"</code><br><code> type = "MX"</code><br><code> priority = "1"</code><br><code>}</code><br><br><code>resource "cloudflare_record" "google-verification" {</code><br><code> domain = "${var.domain}"</code><br><code> name = "${var.domain}"</code><br><code> value = "google-site-verification=fdsfdssgfdg4teurtxh"</code><br><code> type = "TXT"</code><br><code>}</code><br><br><code>resource "cloudflare_record" "spf" {</code><br><code> domain = "${var.domain}"</code><br><code> name = "${var.domain}"</code><br><code> value = "v=spf1 ip4:IP.OF.PRIVATE.VPS mx ~all"</code><br><code> type = "TXT"</code><br><code>}</code></pre>
-<p>Force the HTTPS with page rules</p>
-<pre>$ <code>cat cloudflare_rules.tf</code><br><code>resource "cloudflare_page_rule" "always_use_https_www" {</code><br><code> zone = "${var.domain}"</code><br><code> target = "http://www.${var.domain}/*"</code><br><code> priority = 1</code><br><br><code> actions = {</code><br><code> always_use_https = "true",</code><br><code> }</code><br><code>}</code><br><br><code>resource "cloudflare_page_rule" "always_use_https_services" {</code><br><code> zone = "${var.domain}"</code><br><code> target = "http://services.${var.domain}/*"</code><br><code> priority = 2</code><br><br><code> actions = {</code><br><code> always_use_https = "true",</code><br><code> }</code><br><code>}</code></pre>
-<p>And finally create the common zone settings </p>
-<pre>$ <code>cat cloudflare_zone.tf</code><br><code>resource "cloudflare_zone_settings_override" "k8s-settings" {</code><br><code> name = "${var.domain}"</code><br><br><code> settings {</code><br><code> tls_1_3 = "on"</code><br><code> ssl = "flexible"</code><br><code> opportunistic_encryption = "on"</code><br><code> brotli = "on"</code><br><code> automatic_https_rewrites = "on"</code><br><code> security_level = "medium"</code><br><code> minify {</code><br><code> css = "on"</code><br><code> js = "on"</code><br><code> html = "on"</code><br><code> }</code><br><code> browser_cache_ttl = "14400"</code><br><code> }</code><br><code>}</code></pre>
-<p>use the terraform plan to check if everything it's of and terrafom plan to apply the changes</p>
-<pre>$ <code>terraform apply</code><br><code>cloudflare_record.mx: Refreshing state... (ID: c3624cc8fd163199ec082649a55f337a)</code><br><code>cloudflare_record.services: Refreshing state... (ID: 09041dfd16cbbf3b6915e79b14dc5466)</code><br><code>cloudflare_page_rule.always_use_https_services: Refreshing state... (ID: 92e196e6c7c8cba1f0759a60d713b0b9)</code><br><code>cloudflare_record.spf: Refreshing state... (ID: 3743b9f0be0a2c7a69245e169cf06ea5)</code><br><code>cloudflare_zone_settings_override.k8s-settings: Refreshing state... (ID: d4acc5e5713a0dede4f238b829f98947)</code><br><code>cloudflare_record.smtp: Refreshing state... (ID: 2d4628fc07c491d97e34b07da9ec60db)</code><br><code>cloudflare_page_rule.always_use_https_www: Refreshing state... (ID: 59c25cdd1096177a1019f834178de62f)</code><br><code>cloudflare_record.google-verification: Refreshing state... (ID: 131f35a9f8d2304a786a780db38b37e0)</code><br><code>cloudflare_record.www: Refreshing state... (ID: 76e3906f5ea172b627bed4922ebc1da7)</code><br><br><code>Apply complete! Resources: 0 added, 0 changed, 0 destroyed.</code></pre>
-<p> </p>
-<pre>$ <code>host www.k8s.it</code><br><code>www.k8s.it has address 104.27.164.146</code><br><code>www.k8s.it has address 104.27.165.146</code><br><code>www.k8s.it has IPv6 address 2400:cb00:2048:1::681b:a492</code><br><code>www.k8s.it has IPv6 address 2400:cb00:2048:1::681b:a592</code></pre>
-<pre>$ <code>echo | openssl s_client -servername www.k8s.it -connect www.k8s.it:443</code><br><code>CONNECTED(00000003)</code><br><code>depth=2 C = GB, ST = Greater Manchester, L = Salford, O = COMODO CA Limited, CN = COMODO ECC Certification Authority</code><br><code>---</code><br><code>Certificate chain</code><br><code> 0 s:/OU=Domain Control Validated/OU=PositiveSSL Multi-Domain/CN=sni154797.cloudflaressl.com</code><br><code> i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO ECC Domain Validation Secure Server CA 2</code><br><code> 1 s:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO ECC Domain Validation Secure Server CA 2</code><br><code> i:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO ECC Certification Authority</code><br><code> 2 s:/C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO ECC Certification Authority</code><br><code> i:/C=SE/O=AddTrust AB/OU=AddTrust External TTP Network/CN=AddTrust External CA Root</code></pre>
             ]]>
         </content>
     </entry>
