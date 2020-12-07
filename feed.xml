@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-11-20T23:08:55+01:00</updated>
+    <updated>2020-12-07T13:27:45+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -26,7 +26,7 @@
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-11-20T23:04:08+01:00</updated>
+        <updated>2020-12-07T13:27:45+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/16/Screenshot-2020-11-20-at-22.20.25-2.png" alt="" />
@@ -86,8 +86,141 @@
 <li>Mashery (from Tibco)</li>
 <li>Google apigee</li>
 <li>Akana (hybrid)</li>
-<li>Azure api management<br><br><br></li>
+<li>Azure api management</li>
 </ul>
+<table style="border-collapse: collapse; width: 100%;" border="1">
+<tbody>
+<tr>
+<th style="width: 16.932%;"> </th>
+<th style="width: 15.3401%;">nginx</th>
+<th style="width: 16.2084%;">kong</th>
+<th style="width: 13.1693%;">tyk</th>
+<th style="width: 15.3401%;">ambassador</th>
+<th style="width: 36.4688%;">aws api gw</th>
+</tr>
+<tr>
+<td style="width: 16.932%;">basic</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">oauth</td>
+<td style="width: 15.3401%;">pay</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">pay</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">jwt</td>
+<td style="width: 15.3401%;">pay</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">pay</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">ip listing</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">no</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">analytics</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">rate limiting</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">transformation</td>
+<td style="width: 15.3401%;">pay</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">grpc</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 36.4688%;">no</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">websocket</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">service mesh</td>
+<td style="width: 15.3401%;">no</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">pay</td>
+<td style="width: 36.4688%;">no</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">k8s ingress</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 36.4688%;">no</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">caching</td>
+<td style="width: 15.3401%;">yes</td>
+<td style="width: 16.2084%;">pay</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">no</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">documentation</td>
+<td style="width: 15.3401%;">pay</td>
+<td style="width: 16.2084%;">yes</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">no</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">admin ui</td>
+<td style="width: 15.3401%;">pay</td>
+<td style="width: 16.2084%;">trd party</td>
+<td style="width: 13.1693%;">yes</td>
+<td style="width: 15.3401%;">no</td>
+<td style="width: 36.4688%;">pay</td>
+</tr>
+<tr>
+<td style="width: 16.932%;">ease to setup</td>
+<td style="width: 15.3401%;">3.5</td>
+<td style="width: 16.2084%;">4</td>
+<td style="width: 13.1693%;">2.5</td>
+<td style="width: 15.3401%;">3</td>
+<td style="width: 36.4688%;">5</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
 <p>Cloud</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/6f7e05d1971da2d537452717a8571e3fc13ac8a7471428550e0cf065ca2997e1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630343736363830322f6d6973632f61706967775f636c6f75642e706e67"><img loading="lazy" title="apigw_cloud" src="https://camo.githubusercontent.com/6f7e05d1971da2d537452717a8571e3fc13ac8a7471428550e0cf065ca2997e1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630343736363830322f6d6973632f61706967775f636c6f75642e706e67" data-is-external-image="true"  alt="apigw_cloud" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1604766802/misc/apigw_cloud.png"></a></p>
 <p>The advantage/disadvantage of cloud solution is the pay per use, you don't need to manage the infrastrcture but only the configuration and you have the support that can drive you on the right configuration.<br>Another valid point of view is the <em>DDOS</em> attack that will not land to your platform but to a cloud infrastructure that is supposed was designed to manage this scenario.</p>
@@ -640,7 +773,10 @@ cf-ray: 5eee86d319770f72-MXP
 <li>Database layer with choice of Cassandra or Postgres to store all the configuration so it can be retrieved easily in case of failures</li>
 <li>Dashboard which provides User-Interface for API administration and viewing analytics (embedded in th Enerprise, third party for the community <em>Konga</em>)</li>
 </ul>
-<p>The Powerful of Kong is also supported by plugins from authentication, security, traffic control, logging, and etc…</p>
+<p>The Powerful of Kong is also supported by plugins from authentication, security, traffic control, logging, and etc…<br><br></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/d2a4de6795889077f983473c7575a12036254ec671f5440c6e63b68889926d65/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3438302f76313630373333323133302f6d6973632f554d4c5f6170695f67772e706e67"><img loading="lazy" title="uml_api_gw" src="https://camo.githubusercontent.com/d2a4de6795889077f983473c7575a12036254ec671f5440c6e63b68889926d65/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3438302f76313630373333323133302f6d6973632f554d4c5f6170695f67772e706e67" data-is-external-image="true"  alt="uml_api_gw" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_480/v1607332130/misc/UML_api_gw.png"></a></p>
+<p> </p>
+<p> </p>
 <p>Monitoring is also covered well by default kong official prometheus available here <a href="https://github.com/Kong/kong-plugin-prometheus">https://github.com/Kong/kong-plugin-prometheus</a></p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/28dedd2eae334443bd6e668838f06caedc99f3c5cbd95e5b8d12869015cad8e9/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630353732333433362f6d6973632f6b6f6e665f6d6f6e69746f722e706e67"><img loading="lazy" title="kong_monitor" src="https://camo.githubusercontent.com/28dedd2eae334443bd6e668838f06caedc99f3c5cbd95e5b8d12869015cad8e9/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313630353732333433362f6d6973632f6b6f6e665f6d6f6e69746f722e706e67" data-is-external-image="true"  alt="kong_monitor" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1605723436/misc/konf_monitor.png"></a></p>
 <p>Live: <a href="https://services.k8s.it/grafana/d/mY9p7dQmz/kong?orgId=2&amp;refresh=1m" rel="nofollow">https://services.k8s.it/grafana/d/mY9p7dQmz/kong?orgId=2&amp;refresh=1m</a></p>
