@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-12-14T21:03:32+01:00</updated>
+    <updated>2020-12-14T21:10:37+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -17,7 +17,7 @@
         <link href="https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html"/>
         <id>https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html</id>
 
-        <updated>2020-12-14T21:03:32+01:00</updated>
+        <updated>2020-12-14T21:10:37+01:00</updated>
             <summary>
                 <![CDATA[
                     Well ... NO! Ok maybe are missing some context I started this topic looking around the data center world compared with the cloud providers, the advantage of manage services , the mindset infrastructure as a code and so on ... In the last 4y we saw&hellip;
@@ -98,7 +98,10 @@
 </ul>
 <figure class="post__image"><figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607961166/misc/team_scale.png" data-is-external-image="true"  alt="" width="718" height="353"></figure></figure>
 <h3> </h3>
-<p>Last but not least , we don't need to reinvent something , we can just copy from the major competitors<br>How is working GKE , AKS , EKS ? .... virtual machines :)</p>
+<h3>Conclusions</h3>
+<p>Virtualization and kubernetes are not antagonist, the first one has just change the scope to better cooperate with kubernetes</p>
+<p>Instead a layer for microservices , virtualization is now the layer that guarantee an homogeneous platform were a team can work on top to create the infrastructure having the advantage of a fully consolidated technology that is able to promote the right abstraction </p>
+<p>Last but not least , we don't need to reinvent something , we can just copy from the major competitors for the kubernetes topic<br>How is working GKE , AKS , EKS ? .... virtual machines :)</p>
             ]]>
         </content>
     </entry>
