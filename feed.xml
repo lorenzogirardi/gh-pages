@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-12-07T15:22:46+01:00</updated>
+    <updated>2020-12-14T17:31:18+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -17,9 +17,80 @@
         <link href="https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html"/>
         <id>https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html</id>
 
-        <updated>2020-12-07T15:20:42+01:00</updated>
-            <summary></summary>
-        <content></content>
+        <updated>2020-12-14T17:31:18+01:00</updated>
+            <summary>
+                <![CDATA[
+                    Well ... no Ok maybe are missing some context I started this topic looking around the data center world compared with the cloud providers. In the last 5y we saw a cloud rush , a lot of company are sharing the advantage of a cloud&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Well ... <strong>no</strong></p>
+<p>Ok maybe are missing some context</p>
+<p> </p>
+<p>I started this topic looking around the data center world compared with the cloud providers.</p>
+<p>In the last 5y we saw a cloud rush , a lot of company are sharing the advantage of a cloud migration and how they save money or scale faster ... but is always true what we see?<br>Most of the times we are looking only builded success case.</p>
+<p>Meanwhile in the same period Kubernetes entered in the challenge of most of the online companies.</p>
+<p>But why we are talking about cloud / datacenter and kubernetes ?</p>
+<p>Today we will take in consideration the main topics of </p>
+<ul>
+<li>Virtual machines</li>
+<li>Data center</li>
+<li>Kubernetes</li>
+<li>Cloud approach</li>
+</ul>
+<p>I know that the Data center topic should be covered more in deep, maybe talking about the entire ecosystem (db, vertical service, corporate usage , LEGACY!!!!) however today i'd like to explore only the kubernetes and virtualization rather than lose the discussion in thousand of concepts</p>
+<h3>Long story short</h3>
+<p>A long time ago Borg was born in Google .. now formally named kubernetes,<br>in the first period the main evaluation was:<br>"<em>why the virtualization overhead if we will use kubernetes</em>".<br><br>This concept was justified in some way for <em>overlapping</em> of duties,<br>if i migrate a vm as a kubernetes pod this means i can remove the vm so <br>kubernetes &gt; virtual machine.</p>
+<p>We can imagine a picture like this looking back of some years</p>
+<figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_1.png" data-is-external-image="true"  alt="" width="745" height="386"></figure>
+<p>The introduction was good al almost all declared this could be a new way.</p>
+<p>Moving faster, all companies changed a bit this picture with an expansion of kubernetes </p>
+<figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_2.png" data-is-external-image="true"  alt="" width="745" height="386"></figure>
+<p>Like an infection (good this time) kubernetes come as a main platform for moste of the online company...</p>
+<p>In a datacenter , you know, there no something eternal , hardware will go in EOL , the existing is different sometimes between generation and specs , not all nodes probably where reused with se same hw specs and options fiber channel vs 1gbit vs 10gbit)</p>
+<p>Is always true , based on the hw configuration that sometimes this encouraged a forced/incorrect usage of kubernetes node labeling in order to bend the infrastructure to better fit the products migrated</p>
+<figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607959262/misc/vm_3.png" data-is-external-image="true"  alt=""></figure>
+<h3>Houston we have a problem...</h3>
+<p>Now the environment is fragmented and even if the technology is the same there are some logical segmentations that create some problems in a day by day:</p>
+<ul>
+<li>better than label if you need to isolate some workload you should approach a multi-cluster with the same controlplane</li>
+<li>updates require to manage in a different way looking for the label/role</li>
+</ul>
+<p>Moreover an hw fault could create a problem .... and i know in a infrastructure as a code , puppet foreman chef salt ansible terraform , this will be recovered fast ... but is not always true ... you know... some machines/roles in a mid/ent company are still fragile</p>
+<p>Other problems are related with new hardware...</p>
+<ul>
+<li>is the provisioning working as expected ?</li>
+<li>and if we change the hw vendor ?</li>
+<li>is the monitoring able to find the new hw as in the previous </li>
+<li>etc etc when you have to handle new preseed/ks because the layout is changed ☠️</li>
+</ul>
+<p> </p>
+<p>Last but not least ... ok kubernetes but what about the bare metal density ?</p>
+<p><code>Allocated resources:</code><br><code> (<span class="il">Total</span> <span class="il">limits</span> <span class="il">may</span> be <span class="il">over</span> <span class="il">100</span> <span class="il">percent</span>, i.e., <span class="il">overcommitted</span>.</code><br><code> CPU Requests CPU <span class="il">Limits</span> Memory Requests Memory <span class="il">Limits</span></code><br><code> ------------ ---------- --------------- -------------</code><br><code> 55 (98%) 101300m (180%) 86376Mi (44%) 121672Mi (62%)</code></p>
+<p>This HW has 56 core with HT , we reached the 98% but this number is because some pods <br>needs a default cpu just to fit the nodes and start, while the running cost is really low.</p>
+<p> </p>
+<h3>Virtualization</h3>
+<ul>
+<li>starting from the lower level of the infrastructure, with a vmware installation we can onboard multiple different certified vendors, this help also de budget creating a saving plan with discounts </li>
+<li>having this abstraction layer is quite simple tune the provisioning based on this , rather than bare metal, it's just a metter of roles not to the entire provisioning</li>
+<li>hardware fault could be easily covered by live migration</li>
+<li>maintenance and update can be manage with kubespry having a snapshot for fast recover</li>
+<li>density could be increased with mode nodes in the same hw</li>
+<li>flexibility to scale up and to upset a new datacenter in case of migration</li>
+<li>team at the and is able to scale , less is more</li>
+</ul>
+<figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607961166/misc/team_scale.png" data-is-external-image="true"  alt=""></figure>
+<p> </p>
+<h3>Cloud</h3>
+<p>So well we started with the cloud ... and nothing related.... <br>How is working GKE , AKS , EKS ? .... virtual machines :)</p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+            ]]>
+        </content>
     </entry>
     <entry>
         <title>Kubernetes api gateway</title>
