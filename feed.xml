@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-12-14T21:20:08+01:00</updated>
+    <updated>2020-12-24T20:57:41+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -16,8 +16,15 @@
         </author>
         <link href="https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html"/>
         <id>https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html</id>
+            <category term="virtualization"/>
+            <category term="virtual machines"/>
+            <category term="scalability"/>
+            <category term="pod"/>
+            <category term="kubernetes"/>
+            <category term="datacenter"/>
+            <category term="cloud"/>
 
-        <updated>2020-12-14T21:20:08+01:00</updated>
+        <updated>2020-12-24T20:57:41+01:00</updated>
             <summary>
                 <![CDATA[
                     Well ... NO! Ok maybe are missing some context I started this topic looking around the data center world compared with the cloud providers, the advantage of manage services , the mindset infrastructure as a code and so on ... In the last 4y we saw&hellip;
