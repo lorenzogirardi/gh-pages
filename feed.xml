@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-12-26T16:46:12+01:00</updated>
+    <updated>2020-12-26T16:56:58+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -29,7 +29,7 @@
             <category term="cms"/>
             <category term="cloudflare"/>
 
-        <updated>2020-12-26T16:46:12+01:00</updated>
+        <updated>2020-12-26T16:56:58+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-16.43.11.png" alt="" />
@@ -95,7 +95,7 @@
 <h3> </h3>
 <h3>Security</h3>
 <p>Even if the security is demanded to github, why not extend a sort of protection on top of it</p>
-<p>Second pillar , <em>keep it safe</em></p>
+<p>Second pillar , <strong>keep it safe</strong></p>
 <p>In my case i really appreciate Cloudflare and the free plan that give me the possibility to test and explore the functionality offered</p>
 <p>I've already shared how to configure a website with Cloudflare with terraform <a href="https://www.k8s.it/terraform-your-free-claudflare-account.html" target="_blank" rel="noopener noreferrer">https://www.k8s.it/terraform-your-free-claudflare-account.html</a></p>
 <p>Even if we are covered by attacks since it's static webpage ... and we also added the Cloudflare protection we can have some <em>cosmetics</em> feature that will share a better compliance with the security in 2020</p>
