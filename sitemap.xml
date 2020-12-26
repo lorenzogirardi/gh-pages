@@ -58,7 +58,7 @@
 </url>
 <url>
 <loc>https://www.k8s.it/maximum-yield-with-minimum-expense.html</loc>
-<lastmod>2020-12-26T16:43:43+01:00</lastmod>
+<lastmod>2020-12-26T16:46:12+01:00</lastmod>
 <image:image>
 <image:loc>https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-16.43.11.png</image:loc>
 <image:title><![CDATA[]]></image:title>
@@ -121,6 +121,9 @@
 </url>
 <url>
 <loc>https://www.k8s.it/page/3/</loc>
+</url>
+<url>
+<loc>https://www.k8s.it/page/4/</loc>
 </url>
 <url>
 <loc>https://www.k8s.it/python-rest-api-test-application.html</loc>
