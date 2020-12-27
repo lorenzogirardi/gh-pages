@@ -42,7 +42,7 @@
 </url>
 <url>
 <loc>https://www.k8s.it/kubernetes-postfix.html</loc>
-<lastmod>2020-11-14T22:55:07+01:00</lastmod>
+<lastmod>2020-12-27T11:21:23+01:00</lastmod>
 </url>
 <url>
 <loc>https://www.k8s.it/kubernetes-servicemesh.html</loc>
@@ -148,6 +148,10 @@
 <image:loc>https://www.k8s.it/media/posts/5/cloudflare-global-apikey.png</image:loc>
 <image:title><![CDATA[]]></image:title>
 </image:image>
+</url>
+<url>
+<loc>https://www.k8s.it/vmware-home-lab.html</loc>
+<lastmod>2020-12-27T11:20:50+01:00</lastmod>
 </url>
 <url>
 <loc>https://www.k8s.it/whoami.html</loc>

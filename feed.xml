@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-12-26T16:56:58+01:00</updated>
+    <updated>2020-12-27T11:21:23+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -1403,11 +1403,13 @@ Forwarding from [::1]:2746 -&gt; 2746
             <category term="tls"/>
             <category term="spf"/>
             <category term="postfix"/>
+            <category term="mail"/>
             <category term="kubernetes"/>
+            <category term="email"/>
             <category term="dmarc"/>
             <category term="dkim"/>
 
-        <updated>2020-11-14T22:55:07+01:00</updated>
+        <updated>2020-12-27T11:21:23+01:00</updated>
             <summary>
                 <![CDATA[
                      Long story short my vps provider changed tha ammount for the small instance from 1$ to 3$ so i took the advantage to switch my postfix service from cloud to onprem. Why, since the world is moving to cloud ? Because my own domain is&hellip;
