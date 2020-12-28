@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-12-28T09:58:59+01:00</updated>
+    <updated>2020-12-28T10:02:36+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -166,7 +166,7 @@
             <category term="datacenter"/>
             <category term="cloud"/>
 
-        <updated>2020-12-24T20:57:41+01:00</updated>
+        <updated>2020-12-28T10:02:18+01:00</updated>
             <summary>
                 <![CDATA[
                     Well ... NO! Ok maybe are missing some context I started this topic looking around the data center world compared with the cloud providers, the advantage of manage services , the mindset infrastructure as a code and so on ... In the last 4y we saw&hellip;
@@ -188,13 +188,13 @@
 <p>I know that the Data center topic should be covered more in deep, maybe talking about the entire ecosystem (db, vertical services , corporate usage , LEGACY!!!!) however today i'd like to explore only the kubernetes and virtualization rather than lose the discussion in thousand of concepts.</p>
 <h3>Long story short</h3>
 <p>A long time ago Borg was born in Google .. now formally named kubernetes,<br>in the first period the main evaluation was:<br>"<em>why the virtualization overhead if we will use kubernetes</em>".<br><br>This concept was justified in some way for <em>overlapping</em> of duties,<br>if i migrate a vm as a kubernetes pod this means i can remove the vm <br><br></p>
-<figure class="post__image">                      <img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607974463/misc/vm_vs_pod.png" data-is-external-image="true"  alt="" width="337" height="181"></figure>
+<figure class="post__image post__image--center">                      <img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607974463/misc/vm_vs_pod.png" data-is-external-image="true"  alt="" width="337" height="181"></figure>
 <p> </p>
 <p> </p>
 <p>We can imagine a picture like this looking back of some years ago</p>
-<figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_1.png" data-is-external-image="true"  alt="" width="745" height="386"></figure>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_1.png" data-is-external-image="true"  alt="" width="745" height="386"></figure>
 <figure class="post__image">The introduction was good , almost all declared this could be a new way.<br>Moving faster, all companies changed a bit this picture with an expansion of kubernetes </figure>
-<figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_2.png" data-is-external-image="true"  alt="" width="745" height="386"></figure><figure class="is-loaded"><img loading="lazy"  src="Kubernetes destroyed the virtualization... or NOT - LAB_files/vm_2.png" data-is-external-image="true"  alt="" width="745" height="386" data-is-external-image="true"></figure>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_2.png" data-is-external-image="true"  alt="" width="745" height="386"></figure><figure class="is-loaded"><img loading="lazy"  src="Kubernetes destroyed the virtualization... or NOT - LAB_files/vm_2.png" data-is-external-image="true"  alt="" width="745" height="386" data-is-external-image="true"></figure>
 <p>Like an infection (good this time, not the 20covid ones) kubernetes come as a main platform for most of the online company...<br>In a datacenter , you know, there no something eternal:</p>
 <ul>
 <li>hardware in EOL</li>
@@ -203,7 +203,7 @@
 <li>good is ok but cheaper is better (usually from finance)</li>
 </ul>
 <p>Is also true , that sometimes this encouraged a forced/incorrect usage of kubernetes node labeling in order to bend the infrastructure to better fit the products migrated or the existing hardware availability</p>
-<figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607959262/misc/vm_3.png" data-is-external-image="true"  alt="" width="748" height="389"></figure>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607959262/misc/vm_3.png" data-is-external-image="true"  alt="" width="748" height="389"></figure>
 <figure class="post__image"><figure class="is-loaded"><img loading="lazy"  src="Kubernetes destroyed the virtualization... or NOT - LAB_files/vm_3.png" data-is-external-image="true"  alt="" data-is-external-image="true"></figure></figure>
 <h3>Houston we have a problem...</h3>
 <p>Working in this way, the environment could be fragmented ,<br>even if the technology is the same there are some logical segmentations that create some problems in the day by day activities.</p>
@@ -242,7 +242,7 @@
 <li>Flexibility to scale up and to upset a new datacenter in case of migration will be higher</li>
 <li>Team at the and is also able to scale , working from the vmware and not from bare metal</li>
 </ul>
-<figure class="post__image"><figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607961166/misc/team_scale.png" data-is-external-image="true"  alt="" width="718" height="353"></figure></figure>
+<figure class="post__image post__image--center"><figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607961166/misc/team_scale.png" data-is-external-image="true"  alt="" width="718" height="353"></figure></figure>
 <h3> </h3>
 <h3>Conclusions</h3>
 <p>Virtualization and kubernetes are not antagonist, must be in addition , the first one has just change the scope to better cooperate with kubernetes</p>
@@ -268,7 +268,7 @@
             <category term="api-gateway"/>
             <category term="api key"/>
 
-        <updated>2020-12-07T15:22:46+01:00</updated>
+        <updated>2020-12-28T10:02:36+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/16/Screenshot-2020-11-20-at-22.20.25-2.png" alt="" />
