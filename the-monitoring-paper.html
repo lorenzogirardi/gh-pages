@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The monitoring paper - LAB</title><meta name="description" content="Contrary to popular belief, monitoring and infrastructure is the opposite to just have some metrics about applications and network There are many many documents the lead this topic, one of the most interesting it's just few pages from google around the art of slos or&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.k8s.it/the-monitoring-paper.html"><link rel="amphtml" href="https://www.k8s.it/amp/the-monitoring-paper.html"><link rel="alternate" type="application/atom+xml" href="https://www.k8s.it/feed.xml"><link rel="alternate" type="application/json" href="https://www.k8s.it/feed.json"><meta property="og:title" content="The monitoring paper - LAB "><meta property="og:site_name" content="LAB"><meta property="og:description" content="Contrary to popular belief, monitoring and infrastructure is the opposite to just have some metrics about applications and network There are many many documents the lead this topic, one of the most interesting it's just few pages from google around the art of slos or&hellip;"><meta property="og:url" content="https://www.k8s.it/the-monitoring-paper.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.k8s.it/media/website/eth0.ico" type="image/x-icon"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700&amp;subset=latin-ext&amp;display=swap" rel="stylesheet"><style>:root{--body-font:'Ubuntu',sans-serif;--heading-font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";--logo-font:'Ubuntu',sans-serif;--menu-font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"}</style><link rel="stylesheet" href="https://www.k8s.it/assets/css/style.css?v=820a54c74580600c7009761ebe91f3e7"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.k8s.it/the-monitoring-paper.html"},"headline":"The monitoring paper","datePublished":"2021-01-03T15:56","dateModified":"2021-01-03T16:50","description":"Contrary to popular belief, monitoring and infrastructure is the opposite to just have some metrics about applications and network There are many many documents the lead this topic, one of the most interesting it's just few pages from google around the art of slos or&hellip;","author":{"@type":"Person","name":"lgirardi"},"publisher":{"@type":"Organization","name":"lgirardi"}}</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-179496482-1"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-179496482-1');</script></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.k8s.it/">LAB</a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.linkedin.com/in/lgirardi/">linkedin</a></li><li><a href="https://services.k8s.it/grafana/?orgId&#x3D;2">live monitoring</a></li><li><a href="https://www.k8s.it/whoami.html">whoami</a></li></ul></nav><div class="search"><div class="search__overlay js-search-overlay"><div class="search__overlay-inner"><form action="https://www.k8s.it/search.html" class="search__form"><input class="search__input js-search-input" type="search" name="q" placeholder="search..." aria-label="search..." autofocus="autofocus"></form><button class="search__close js-search-close" aria-label="Close">Close</button></div></div><button class="search__btn js-search-btn" aria-label="Search"><svg role="presentation" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#search"/></svg></button></div></header><main><article class="post"><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.k8s.it/media/website/hero_image.png" srcset="https://www.k8s.it/media/website/responsive/hero_image-xs.png 300w, https://www.k8s.it/media/website/responsive/hero_image-sm.png 480w, https://www.k8s.it/media/website/responsive/hero_image-md.png 768w, https://www.k8s.it/media/website/responsive/hero_image-lg.png 1024w, https://www.k8s.it/media/website/responsive/hero_image-xl.png 1360w, https://www.k8s.it/media/website/responsive/hero_image-2xl.png 1600w" sizes="(max-width: 1600px) 100vw, 1600px" loading="eager" alt=""></figure><header class="hero__content"><div class="wrapper"><div class="post__meta"><time datetime="2021-01-03T15:56">3 Jan 2021</time></div><h1>The monitoring paper</h1></div></header></div><div class="wrapper post__entry"><p>Contrary to popular belief, monitoring and infrastructure is the opposite to just have some metrics about applications and network</p><p>There are many many documents the lead this topic,<br>one of the most interesting it's just few pages from google around <a href="https://static.googleusercontent.com/media/sre.google/it//static/pdf/art-of-slos-slides.pdf" target="_blank" rel="noopener noreferrer">the art of slos</a><br>or the <a href="https://www.k8s.it/media/files/The Art of SLOs - Google.pdf" target="_blank" rel="noopener noreferrer">book</a> version i took from a google onsite deep dive. <a href="https://www.k8s.it/media/files/The Art of SLOs - Google.pdf" target="_blank" rel="noopener noreferrer"></a></p><p>To better details this topic i'd like to use simple statements:</p><ul><li>WHAT</li><li>WHO</li><li>HOW</li><li>WHEN</li></ul><p> </p><h3>WHAT</h3><p>This is probably the main argument we will discuss on this thread </p><p>There no magic formulas or tools to use, if you expect to buy a tool that work with metrics out of the box, you're wrong. <br>Tools are the infrastructure to store and visualize data... but first of all you need to collect the right data.</p><p>What is the DATA you need ?<br>Those are you will record moving yourself on the <span style="text-decoration: underline;">customer position</span></p><p><strong>Customer position</strong> : i'm using this term because i suppose you are not an onlus so you have a customer, but customer is a overall word with the meaning of all people are using your product:</p><ul><li>people that buy something e-commerce (Amazon, Bestbuy, Aliexpress)</li><li>people that use website to learn something (Cnn, Bloomberg, Wikipedia)</li><li>people that work on finance and use finance applications (Navision, SAP, JD Edwards)</li><li>people that use energy from nuclear site </li></ul><p>So moving yourself on the customer position you can better understand the definition of data that you need to know to better monitor your application with the righe <strong>customer metrics </strong></p><p>Stupid example ... imagine an automatic gate</p><figure class="post__image"><img loading="lazy" src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-03-at-16.31.43.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-xs.png 300w, https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-sm.png 480w, https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-md.png 768w, https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-lg.png 1024w, https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-xl.png 1360w, https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-2xl.png 1600w" alt="" width="1092" height="522"></figure><p>What is the definition of "it's working?"</p><ul><li>it opens</li></ul><p>Obviously YES , but not only</p><ul><li>what about if it's not closing ? </li><li>what about if it opens in 10 minutes , it's acceptable ?</li><li>what about if after X times the automation is broken ? </li><li>etc etc ...</li></ul><p>As you can imagine we can define not only the objective values (open/close), we can elaborate customer subjective frustration , if i have to buy an automatic gate, i will not choose the one will take 10 minutes to open... because... because 10 minutes are huge value</p><p>In the same way we cannot say that our application is working because it's answers.<br><br></p><p> </p><h3> </h3><h3>WHO</h3><p>Those actors could be different case by case , from a small company to an enterprise, even if you are a full stack magicops , a developer or part of monitoring team , in this scope you should not be alone. </p><p>Let's do an example , 2 applications , one that take care of search (whatever) and the other that is part of the payment.<br>Both written with the same framework , probably same people or not ... doesn't matter</p><p>The role is completely different , as well the usage resources could create confusions and false positive is you base the monitoring with a standard template.<br><br></p><p> </p><p> </p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on 3 Jan 2021</p><div class="post__share"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.k8s.it%2Fthe-monitoring-paper.html" class="js-share facebook" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#facebook"/></svg> <span>Facebook</span> </a><a href="https://twitter.com/share?url=https%3A%2F%2Fwww.k8s.it%2Fthe-monitoring-paper.html&amp;via=LAB&amp;text=The%20monitoring%20paper" class="js-share twitter" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#twitter"/></svg> <span>Twitter</span> </a><a href="http://www.linkedin.com/shareArticle?url=https%3A%2F%2Fwww.k8s.it%2Fthe-monitoring-paper.html&amp;title=The%20monitoring%20paper" class="js-share linkedin" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg> <span>LinkedIn</span> </a><a href="https://buffer.com/add?text=The%20monitoring%20paper&amp;url=https%3A%2F%2Fwww.k8s.it%2Fthe-monitoring-paper.html" class="js-share buffer" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#buffer"/></svg> <span>Buffer</span> </a><a href="https://api.whatsapp.com/send?text=The%20monitoring%20paper https%3A%2F%2Fwww.k8s.it%2Fthe-monitoring-paper.html" class="js-share whatsapp" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#whatsapp"/></svg> <span>WhatsApp</span></a></div><div class="post__bio bio"><div class="bio__info"><h3 class="bio__name"><a href="https://www.k8s.it/authors/lgirardi/" class="invert" rel="author">lgirardi</a></h3><p>If it isn&#x27;t there, it can&#x27;t break.</p></div></div></footer></article><div class="post__comments"><div class="wrapper"><h2 class="h5">Comments</h2><div id="disqus_thread"></div><script>var disqus_config = function () {
+                       this.page.url = 'https://www.k8s.it/the-monitoring-paper.html';
+               		this.page.identifier = '20';
+                   };
+               
+                   var disqus_loaded = false;
+               
+                   function publiiLoadDisqus() {
+                       if(disqus_loaded) {
+                           return false;
+                       }
+               
+                       var top = document.getElementById('disqus_thread').offsetTop;
+               
+                       if (!disqus_loaded && (window.scrollY || window.pageYOffset) + window.innerHeight > top) {
+                           disqus_loaded = true;
+               
+                           (function () {
+                               var d = document, s = d.createElement('script');
+                               s.src = 'https://.disqus.com/embed.js';
+                               s.setAttribute('data-timestamp', +new Date());
+                               (d.head || d.body).appendChild(s);
+                           })();
+                       }
+                   }
+               
+                   publiiLoadDisqus();
+               
+                   window.onscroll = function() {
+                       publiiLoadDisqus();
+                   };</script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noreferrer">comments powered by Disqus.</a></noscript></div></div></main><footer class="footer"><div class="footer__social"><a href="https://www.linkedin.com/in/lgirardi/" aria-label="LinkedIn"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg></a></div><div class="footer__copyright"><p>.</p></div><button class="footer__bttop js-footer__bttop" aria-label="Back to top"><svg><title>Back to top</title><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script>window.publiiThemeMenuConfig = {    
+        mobileMenuMode: 'sidebar',
+        animationSpeed: 300,
+        submenuWidth: 'auto',
+        doubleClickTime: 500,
+        mobileMenuExpandableSubmenus: true, 
+        relatedContainerForOverlayMenuSelector: '.top',
+   };</script><script defer="defer" src="https://www.k8s.it/assets/js/scripts.min.js?v=f4c4d35432d0e17d212f2fae4e0f8247"></script><script>var images = document.querySelectorAll('img[loading]');
+
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].complete) {
+                images[i].classList.add('is-loaded');
+            } else {
+                images[i].addEventListener('load', function () {
+                    this.classList.add('is-loaded');
+                }, false);
+            }
+        }</script><div class="cookie-popup js-cookie-popup cookie-popup--uses-badge"><h2>This website uses cookies</h2><p>Select which cookies to opt-in to via the checkboxes below; our website uses cookies to examine site traffic and user activity while on our site, for marketing, and to provide social media functionality. <a href="#not-specified"></a></p><form><input id="gdpr-necessary" name="gdpr-necessary" checked="checked" disabled="disabled" type="checkbox"> <label for="gdpr-necessary">Required</label> <input id="gdpr-functions" name="gdpr-functions" type="checkbox"> <label for="gdpr-functions">Functionality</label> <input id="gdpr-analytics" name="gdpr-analytics" type="checkbox"> <label for="gdpr-analytics">Analytical</label> <input id="gdpr-marketing" name="gdpr-marketing" type="checkbox"> <label for="gdpr-marketing">Marketing</label><p class="cookie-popup__save-wrapper"><button type="submit" class="cookie-popup__save">Save</button></p></form><span class="cookie-popup-label">Cookie Policy</span></div><script>(function() {
+                function addScript (src, inline) {
+                    var newScript = document.createElement('script');
+
+                    if (src) {
+                        newScript.setAttribute('src', src);
+                    }
+
+                    if (inline) {
+                        newScript.text = inline;
+                    }
+
+                    document.body.appendChild(newScript);
+                }
+
+                var popup = document.querySelector('.js-cookie-popup');
+                var checkboxes = popup.querySelectorAll('input[type="checkbox"]');
+                var save = popup.querySelector('button');
+                var currentConfig = localStorage.getItem('publii-gdpr-allowed-cookies');
+                var blockedScripts = document.querySelectorAll('script[type^="gdpr-blocker/"]');
+                
+
+                popup.addEventListener('click', function() {
+                    if (!popup.classList.contains('cookie-popup--is-sticky')) {
+                        popup.classList.add('cookie-popup--is-sticky');
+                    }
+                });
+
+                save.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    popup.classList.remove('cookie-popup--is-sticky');
+                    var allowedGroups = [];
+
+                    for (var i = 0; i < checkboxes.length; i++) {
+                        if (checkboxes[i].checked) {
+                            var groupName = checkboxes[i].getAttribute('name').replace('gdpr-', '');
+                            var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + groupName + '"]');
+
+                            for (var j = 0; j < scripts.length; j++) {
+                                addScript(scripts[j].src, scripts[j].text);
+                            }
+
+                            allowedGroups.push(groupName);
+                        }
+                    }
+
+                    localStorage.setItem('publii-gdpr-allowed-cookies', allowedGroups.join(','));
+                    popup.classList.remove('cookie-popup--is-sticky');
+
+                    setTimeout(function () {
+                        if (currentConfig !== null) {
+                            window.location.reload();
+                        }
+                    }, 250);
+                });
+
+                if (currentConfig === null) {
+                    popup.classList.add('cookie-popup--is-sticky');
+                } else {
+                    if (currentConfig !== '') {
+                        var allowedGroups = currentConfig.split(',');
+
+                        for (var i = 0; i < allowedGroups.length; i++) {
+                            var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + allowedGroups[i] + '"]');
+                            var checkbox = popup.querySelector('input[type="checkbox"][name="gdpr-' + allowedGroups[i] + '"]');
+
+                            if (checkbox) {
+                                checkbox.checked = true;
+                            }
+
+                            for (var j = 0; j < scripts.length; j++) {
+                                addScript(scripts[j].src, scripts[j].text);
+                            }
+                        }
+                    }
+                }
+            })();</script></body></html>
