@@ -3,12 +3,152 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2020-12-28T10:02:36+01:00</updated>
+    <updated>2021-01-05T18:32:34+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
     <id>https://www.k8s.it</id>
 
+    <entry>
+        <title>The monitoring paper</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/the-monitoring-paper.html"/>
+        <id>https://www.k8s.it/the-monitoring-paper.html</id>
+
+        <updated>2021-01-05T18:32:34+01:00</updated>
+            <summary>
+                <![CDATA[
+                    Contrary to popular belief, monitoring an infrastructure is the opposite to just have some metrics about applications and network There are many many documents the lead this topic, one of the most interesting it's just few pages from google around the art of slos or&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Contrary to popular belief, monitoring an infrastructure is the opposite to just have some metrics about applications and network</p>
+<p>There are many many documents the lead this topic,<br>one of the most interesting it's just few pages from google around <a href="https://static.googleusercontent.com/media/sre.google/it//static/pdf/art-of-slos-slides.pdf" target="_blank" rel="noopener noreferrer">the art of slos</a><br>or the <a href="https://www.k8s.it/media/files/The Art of SLOs - Google.pdf" target="_blank" rel="noopener noreferrer">book</a> version i took from a google onsite deep dive. <a href="https://www.k8s.it/media/files/The Art of SLOs - Google.pdf" target="_blank" rel="noopener noreferrer"></a></p>
+<p>To better details this topic i'd like to use simple statements:</p>
+<ul>
+<li>WHAT</li>
+<li>WHY</li>
+<li>WHO</li>
+<li>HOW</li>
+</ul>
+<p> </p>
+<h3>WHAT </h3>
+<p>This is probably the main argument we will discuss on this thread </p>
+<p>There no magic formulas or tools to use, if you expect to buy a tool that work with metrics out of the box, you're wrong. <br>Tools are the infrastructure to store and visualize data... but first of all you need to collect the right data.</p>
+<p>What is the DATA you need ?<br>Those are you will record moving yourself on the <span style="text-decoration: underline;">customer position</span></p>
+<p><strong>Customer position</strong> : i'm using this term because i suppose you are not an onlus so you have a customer, but customer is a overall word with the meaning of all people are using your product:</p>
+<ul>
+<li>people that buy something e-commerce (Amazon, Bestbuy, Aliexpress)</li>
+<li>people that use website to learn something (Cnn, Bloomberg, Wikipedia)</li>
+<li>people that work on finance and use finance applications (Navision, SAP, JD Edwards)</li>
+<li>people that use energy from nuclear site </li>
+</ul>
+<p>So moving yourself on the customer position you can better understand the definition of data that you need to know to better monitor your application with the righe <strong>customer metrics </strong></p>
+<p>Stupid example ... imagine an automatic gate</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-03-at-16.31.43.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-2xl.png 1600w"  alt="" width="1092" height="522"></figure>
+<p>What is the definition of "it's working?"</p>
+<ul>
+<li>it opens</li>
+</ul>
+<p>Obviously YES , but not only</p>
+<ul>
+<li>what about if it's not closing ? </li>
+<li>what about if it opens in 10 minutes , it's acceptable ?</li>
+<li>what about if after X times the automation is broken ? </li>
+<li>etc etc ...</li>
+</ul>
+<p>As you can imagine we can define not only the objective values (open/close), we can elaborate customer subjective frustration , if i have to buy an automatic gate, i will not choose the one that will take 10 minutes to open... because... because 10 minutes are too much , based on subjective value as a customer.</p>
+<p>In the same way we cannot say that our application is working because it's answers.</p>
+<p>So <span style="text-decoration: underline;">what</span> we have to consider when we start to monitor an application in production?</p>
+<p>Let's start with 3 macro clusters:</p>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>system</strong> resources, so all metrics related to the pod (cpu,network,...)</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>application</strong> standard metrics (thread, gc, errors per minute, requests per minute, ... )</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>business</strong> metrics that are inherent from the application scope, if the application provides a checkout for goods, we need to know for example how many transactions were fine and how many rejected</span></li>
+</ul>
+<p> </p>
+<h4><strong>System</strong></h4>
+<p>Those are the most easiest and used metrics since you started to monitor services.<br>On this group we have the basis metrics related to the system usage,<br>considering the evolution of the platform those values are day by day less influential than before.<br>This is because as soon we are increasing the technology level from bare metal, to vm , to docker to serverless ... the evaluation of those numbers could raise some mistake on the interpretation , however we still need to start with the basis in order to have data to define a trend based on specific situations</p>
+<p>Here an example about the bare metal used as vsphere 6.7</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-15.49.59.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-2xl.png 1600w"  alt="" width="1024" height="371"></figure>
+<p>always on the system metrics we can go more in deep checking a virtual machine inside this host, here the one i used to host my kubernetes lab</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-15.53.29.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-2xl.png 1600w"  alt="" width="1024" height="371"></figure>
+<p>In the 2 images for example we can assume that we have something that move the cpu close to 100% cyclically (it's a <a href="https://www.k8s.it/kubernetes-sitespeedio.html">crawler</a> to perform check on website pages every hours)</p>
+<p> </p>
+<h4><strong>Application</strong></h4>
+<p>It's time now to move inside the kubernetes cluster and check how is going on the a web application inside the cluster<br>Since this application it is springboot based, we have the opportunity to understand how is going on from a framework side (java) and behavioural interactions.<br>Response time server to server, server errors, client errors, sql interactions, garbage collector, sidecars (is a pod with multiple images) usage, logs creation , metrics creation etc etc</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/app_metrics.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/app_metrics-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-2xl.png 1600w"  alt="" width="1024" height="956"></figure>
+<p>Having those in place you can understand from an application point of view how is going on the performances release by release.. what happen in case of bugs and critical condition (unexpected huge traffic) , the area where you can put you effort on improvements.</p>
+<p> </p>
+<h4><span style="font-weight: 400;"><strong>Business</strong></span></h4>
+<p>OK system is covered , application is covered ... what about the customer perception ?</p>
+<p>This is the most critical topic , if your application is part of a microservices funnel or a monolithic application that manage the entire product, it's supposed that in some way you have benefits from its performances</p>
+<p>So move yourself on the customer position monitoring your website from a customer point of view with business metrics , in this simple case i just monitor the cms page on top <br>It's a website:</p>
+<ul>
+<li>so how long does it take have the page ?</li>
+<li>which are the most relevant data you need to know to improve?</li>
+<li>do you have the same trends every time ?</li>
+<li>etc etc</li>
+</ul>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-2xl.png 1600w"  alt="" width="1024" height="3021"></figure>
+<p> </p>
+<p> </p>
+<h3>WHY</h3>
+<p>With those cluster of metrics we can define and plan the architecture and the forecasting for the company ... remember that when something goes wrong with no metrics you will probably cascade to situation like this</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.41.07.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-2xl.png 1600w"  alt="" width="1024" height="441"></figure>
+<p> </p>
+<p><strong>System</strong> metrics can share the usages and the density of you infrastructure creating the basis <span style="text-decoration: underline;">alerts</span> in case of suffering but also plan the evolution of the platform itself  </p>
+<p><span style="font-weight: 400;"><strong>Application </strong>metrics share the framework behaviour and the evolution of your application day by day , <span style="text-decoration: underline;">alerts</span> are defined to monitor the scalability, bugs and application behaviour</span></p>
+<p><strong>Business <span style="font-weight: 400;">metrics share the thresholds to use as alerts but not only... </span><br></strong>In this example we are talking about a web application <br>If you are selling something through it ,conversion is always the most relevant buzzword</p>
+<p>From the 100 visitors , who will continue the navigation till the purchase, the remaining are really a small slice (e-commerce for example)</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/conversion-impact-score-funnel-NEW.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-2xl.png 1600w"  alt="" width="800" height="647"></figure>
+<p>This images comes from an 2015 <a href="https://blogs.akamai.com/2015/07/conversion-impact-score-what-is-it-and-why-do-you-need-to-know-yours.html" target="_blank" rel="noopener noreferrer">article</a> from Akamai that is really still actual ...<br>Conversion is always impacted by page response time , more close you are in the first navigation phases like searching rather than checkout where you probably have more clear will to purchase<br><br>Now we know the data around the usage of our website and we can create <strong>GOALs</strong> and <strong>KPI</strong> to improve those values in order to better fit with the customer expectation.</p>
+<p> </p>
+<p> </p>
+<h3>WHO</h3>
+<p>Those actors could be different case by case, from a small company to an enterprise, even if you are a full stack whateverops, a developer or part of monitoring team, in this scope you should not be alone. </p>
+<p><strong>System</strong> and <strong>Application</strong> are usually managed by <span style="text-decoration: underline;">sre/devops/sysadmin</span> with the help of architecture/developer to define the best framework metrics to monitor.</p>
+<p>On the opposite side <strong>Business </strong>are more close with the product side, who will be better than the <span style="text-decoration: underline;">product dept</span> (developers) itself defining the kpi and goals used as a metrics with the cooperation of the <span style="text-decoration: underline;">business dept</span> to define the <strong><span style="font-weight: 400;">thresholds.</span></strong></p>
+<p>This cooperation will be useful to define:</p>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Right alerts to right people</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Support granted by ownership</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">No speculations, real data</span></li>
+</ul>
+<figure class="post__image"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.39.10.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-2xl.png 1600w"  alt="" width="1024" height="346"></figure>
+<p> </p>
+<h3><strong>HOW</strong></h3>
+<p> </p>
+<h4>Infrastructure</h4>
+<p>First of all you have to define the monitoring/alerting platform, <br>the suggestion is to have this platform scalable with a good UI (grafana) to work with backend storage (prometheus + cortex/thanos, graphite + carbonzipper, influxdb, etc etc)</p>
+<p>Honestly if you are in a big environment and you make a mistake in metrics configuration with graphite (push model) you can saturate the space since every time you create a new metric you are creating whisper file with the dimension based on the retention schema.<br>I prefer prometheus (pull model) that could prevent those issues and better fit the kubernetes standars , will be also more easy create a /metrics page on your application rather than use sidecar pods to stream metrics with collectd/telegraf/statsd and so on.</p>
+<h4> </h4>
+<h4>Less is more</h4>
+<p><span style="font-weight: 400;">How many metrics are enough to create a valid alert?</span></p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.48.07.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-2xl.png 1600w"  alt="" width="1024" height="764"></figure>
+<p>The more metrics identify the service behaviour the more we can create a dedicated alert...<br>anyway  ....<br>The anti-pattern model currently applied in some cases: <br>have tons of metrics that generate only <strong>noise</strong> without identifying the healthiness of a service</p>
+<p><em>Keep it simple</em> and define the structure of your <span style="text-decoration: underline;">System,</span> <span style="text-decoration: underline;">Application</span> and <span style="text-decoration: underline;">Business</span> metrics .</p>
+<p> </p>
+<h4>Smart metrics</h4>
+<p><span style="font-weight: 400;">It’s not only ONE value that show off the healthiness, but the combination of multiple metrics that guarantee the status</span></p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.46.34.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-2xl.png 1600w"  alt="" width="1024" height="303"></figure>
+<p>This concept is really important, imagine a dynamic infrastructure based on kubernetes <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" target="_blank" rel="noopener noreferrer">HPA</a> </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-18.22.01.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-2xl.png 1600w"  alt="" width="1024" height="632"></figure>
+<p>where you can probable have some value linear (like thread), mitigated by the horizontal autoscaling, you should combine multiple values to define the application status.</p>
+<p>Create the metrics alert with <strong>trends</strong> not with the pure number <br>Ex. 70 threads value alone make no sense , different applications has different threads value , what is important is the <strong>delta , </strong>the percentage is useful to understand the behaviour, +50% threads make sense in all applications rather than the effective number.<br><br></p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.46.55.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-2xl.png 1600w"  alt="" width="1024" height="656"></figure>
+<p> </p>
+<p>Be smart also on the evaluation with standard deviation and <strong>percentile</strong> ... mean is usually dropping the relevant value to evaluate performances under stress</p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Maximum yield with minimum expense for a static website</title>
         <author>
@@ -2052,240 +2192,6 @@ spec:
 <p><code>kubectl apply -f guacd</code></p>
 <p><code>kubectl apply -f guacamole</code></p>
 <p>You can secure the connection with kube-lego and use cillium to add network rules </p>
-</article>
-</div>
-</div>
-</div>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Kubernetes vpn strongswan</title>
-        <author>
-            <name>lgirardi</name>
-        </author>
-        <link href="https://www.k8s.it/kubernetes-strongswan.html"/>
-        <id>https://www.k8s.it/kubernetes-strongswan.html</id>
-            <category term="vpn"/>
-            <category term="strongswan"/>
-            <category term="ldap"/>
-            <category term="kubernetes"/>
-            <category term="ipsec"/>
-            <category term="active directory"/>
-
-        <updated>2020-11-14T22:55:59+01:00</updated>
-            <summary>
-                <![CDATA[
-                    How we can manage vpn in kubernetes environmentHi there , this project is to cover the vpn ipsec-xauth topic in a kubernetes evironment, the goal of this is to have the less effort possible when we have to manage users. Architecture Requirements: WHYThe traditional ipsec-xauth&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
-<div id="readme" class="Box md js-code-block-container Box--responsive">
-<div class="Box-body px-5 pb-5">
-<article class="markdown-body entry-content container-lg">
-<h2>How we can manage vpn in kubernetes environment</h2>
-<p>Hi there , this project is to cover the vpn ipsec-xauth topic in a kubernetes evironment,<br>the goal of this is to have the less effort possible when we have to manage users.</p>
-<p>Architecture<br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/ee7bbe0fe8e2f17b0bda45b6b92d585105d9adcc/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313538343733313733352f6d6973632f76706e5f6469616772616d2e6a7067"><img loading="lazy" src="https://camo.githubusercontent.com/ee7bbe0fe8e2f17b0bda45b6b92d585105d9adcc/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313538343733313733352f6d6973632f76706e5f6469616772616d2e6a7067" data-is-external-image="true"  alt="architecture" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1584731735/misc/vpn_diagram.jpg"></a></p>
-<p>Requirements:</p>
-<ul>
-<li>Kubernetes</li>
-<li>Strongswan</li>
-<li>Microsoft Acrive Directory / openldap / freeipa etc etc LDAP (i'll use ldap instead the software name)</li>
-</ul>
-<h2><a id="user-content-why" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-strongswan#why"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>WHY</h2>
-<p>The traditional ipsec-xauth vpn with ikev1 is based on PSK<br>and a client username/password , this is a problem when the credential are stored in a file<br>in kubernetes update a file always mean rollout a new deploy or create a procedure to<br>make effective the changes.<br>So the idea is to deploy something that doesn't need any interaction<br>after the deploy and manage the clients, with the company standards,<br>like password expiration, password complexity, groups attributions and so on.</p>
-<h2><a id="user-content-how" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-strongswan#how"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>HOW</h2>
-<p>In order to have a fully managed services we can leverage the usage of ldap procedures (that all company has).<br>Strongswan (a fork of *swan ipsec software) could be integrated with ldap with pam.<br>pam is ... well --&gt; <a href="https://tldp.org/HOWTO/User-Authentication-HOWTO/x115.html" rel="nofollow">https://tldp.org/HOWTO/User-Authentication-HOWTO/x115.html</a></p>
-<p>So what we need in ldap ?<br>We need:</p>
-<ul>
-<li>a technical user that is a low level profile that will be used only to check the users inside the ldap tree and the groups associated</li>
-<li>a group to associate to people who need/granted the vpn access</li>
-</ul>
-<p>in this scenario tech users is --&gt; <em>ldapbind</em><br>group is --&gt; <em>vpn</em></p>
-<p>here some screen related</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/48427e34136d63b4b7348ba8c2148e178665cdf0/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538343733303832382f6d6973632f7374726f6e677377616e5f62696e645f757365722e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/48427e34136d63b4b7348ba8c2148e178665cdf0/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538343733303832382f6d6973632f7374726f6e677377616e5f62696e645f757365722e706e67" data-is-external-image="true"  alt="ldapbind" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_640/v1584730828/misc/strongswan_bind_user.png"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/141e29aaed92e477719b517dd704c815b18c23bc/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538343733303832382f6d6973632f7374726f6e677377616e5f757365725f76706e5f67726f75702e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/141e29aaed92e477719b517dd704c815b18c23bc/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538343733303832382f6d6973632f7374726f6e677377616e5f757365725f76706e5f67726f75702e706e67" data-is-external-image="true"  alt="vpn group" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_640/v1584730828/misc/strongswan_user_vpn_group.png"></a></p>
-<p>Then... now we have to configure configure the Docker image in order to support pam ldap.</p>
-<p>Dockerfile</p>
-<pre><code>FROM debian:stretch
-MAINTAINER lgirardi &lt;l@k8s.it&gt;
-
-
-RUN apt-get -y update &amp;&amp; apt-get -yq install \
-        strongswan \
-        libcharon-extra-plugins \
-        iptables \
-        kmod \
-        libpam-ldap \
-        vim
-
-EXPOSE 500/udp 4500/udp
-
-CMD /usr/sbin/ipsec start --nofork
-</code></pre>
-<p>libpam-ldap and libcharon-extra-plugins are what we need to perform this kind of integration.</p>
-<p>Since strongswan is not traditionally used in kubernetes , has some files that needs a configuration.<br>ENV variables are the most useful to configure it,<br>unfortunately the process is not able to share the env this the child process,<br>so we will work with 2 concepts,<br>use the configmap for all files we need to configure use the secrets for all sensitive data we need to add</p>
-<p>files configured:</p>
-<ul>
-<li>ipsec.conf (the strongswan main configuration)</li>
-<li>xauth-pam.conf (strongswan configuration to enable pam)</li>
-<li>attr.conf (strongswan configuration file for split-tunnel)<br><em>split-tunnel is when you want to move in vpn only the company subnet and use the home gateway for all the other usages</em></li>
-<li>ipsec (pam configuration in /etc/pam.d)</li>
-</ul>
-<p>secrets:</p>
-<ul>
-<li>ipsec.secrets (file with the ipsec PSK) rif. 003-configmap.yaml</li>
-<li>pam_ldap.conf (configuration used by pam module to connect to ldap) rif. 002-secrets.yaml</li>
-</ul>
-<p><em>remember that all secrets files are managed using base64 encoding</em></p>
-<p>When we have multiple files to spread in different locations we have to create some tricks,<br>one is to create symlink in the Dockerfile , however we have to keep the configuration<br>as much as possible agnostic from the Dockerfile.</p>
-<p><em>volume</em> and <em>volumeMounts</em> can help on this topic</p>
-<pre><code>volumeMounts:
-- name: psk
-  mountPath: /etc/ipsec.secrets
-  subPath: psk
-  readOnly: true
-- name: pamldap
-  mountPath: /etc/pam_ldap.conf
-  subPath: pamldap
-- name: strongswan-attr
-  mountPath: /etc/strongswan.d/charon/attr.conf
-  subPath: attr.conf
-- name: strongswan-xauth-pam
-  mountPath: /etc/strongswan.d/charon/xauth-pam.conf
-  subPath: xauth-pam.conf
-- name: strongswan-ipsec
-  mountPath: /etc/pam.d/ipsec
-  subPath: ipsec
-- name: strongswan-ipseconf
-  mountPath: /etc/ipsec.conf
-  subPath: ipsec.conf
-volumes:
-- name: strongswan-attr
-  configMap:
-    name: strongswanconfigmap
-    items:
-    - key: attr.conf
-      path: attr.conf
-- name: strongswan-xauth-pam
-  configMap:
-    name: strongswanconfigmap
-    items:
-    - key: xauth-pam.conf
-      path: xauth-pam.conf
-- name: strongswan-ipsec
-  configMap:
-    name: strongswanconfigmap
-    items:
-    - key: ipsec
-      path: ipsec
-- name: strongswan-ipseconf
-  configMap:
-    name: strongswanconfigmap
-    items:
-    - key: ipsec.conf
-      path: ipsec.conf
-- name: psk
-  secret:
-    secretName: strongswan-secret
-- name: pamldap
-  secret:
-    secretName: strongswan-secret
-</code></pre>
-<p>Now we have all configured, we can just run<br><code>kubectl apply -f deploy</code></p>
-<p>We will have soon a pod into strongswan namespace</p>
-<pre><code># kubectl get pods -n strongswan
-NAME                          READY   STATUS    RESTARTS   AGE
-strongswan-77bfbb9f9f-57hmz   1/1     Running   0          22h
-</code></pre>
-<p>Since the service is configured with nodport we need to enable the default 500 and 4500<br>in our firewall , matching the kubernetes ports 30000-32767, in this this service are</p>
-<pre><code>ports:
-- name: isakmp-udp
-  protocol: UDP
-  nodePort: 30500
-  port: 500
-  targetPort: 500
-- name: ipsec-nat-t
-  protocol: UDP
-  nodePort: 30450
-  port: 4500
-  targetPort: 4500
-type: NodePort
-</code></pre>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/9a42ba23f208fb8562105b7b19d240bc5e495426/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538343733303832372f6d6973632f7374726f6e677377616e5f6669726577616c6c5f6e61742e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/9a42ba23f208fb8562105b7b19d240bc5e495426/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538343733303832372f6d6973632f7374726f6e677377616e5f6669726577616c6c5f6e61742e706e67" data-is-external-image="true"  alt="firewall configuration" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_640/v1584730827/misc/strongswan_firewall_nat.png"></a></p>
-<p>We can configure our standard client (cisco ipsec client is enough)</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/ace3ff6a96cf31968f11209b7b05fce4ea5487a8/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3332302f76313538343733353439332f6d6973632f7374726f6e677377616e5f616e64726f69645f636c69656e742e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/ace3ff6a96cf31968f11209b7b05fce4ea5487a8/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3332302f76313538343733353439332f6d6973632f7374726f6e677377616e5f616e64726f69645f636c69656e742e706e67" data-is-external-image="true"  alt="android configuration" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_320/v1584735493/misc/strongswan_android_client.png"></a></p>
-<pre><code># kubectl logs strongswan-77bfbb9f9f-57hmz -n strongswan
-Starting strongSwan 5.5.1 IPsec [starter]...
-no netkey IPsec stack detected
-no KLIPS IPsec stack detected
-no known IPsec stack detected, ignoring!
-charon (13) started after 80 ms
-00[DMN] Starting IKE charon daemon (strongSwan 5.5.1, Linux 4.15.0-70-generic, x86_64)
-00[CFG] mapping attribute type split-exclpude failed
-00[CFG] loading ca certificates from '/etc/ipsec.d/cacerts'
-00[CFG] loading aa certificates from '/etc/ipsec.d/aacerts'
-00[CFG] loading ocsp signer certificates from '/etc/ipsec.d/ocspcerts'
-00[CFG] loading attribute certificates from '/etc/ipsec.d/acerts'
-00[CFG] loading crls from '/etc/ipsec.d/crls'
-00[CFG] loading secrets from '/etc/ipsec.secrets'
-00[CFG]   loaded IKE secret for %any
-00[CFG] loaded 0 RADIUS server configurations
-00[CFG] HA config misses local/remote address
-00[LIB] loaded plugins: charon aes rc2 sha2 sha1 md5 random nonce x509 revocation constraints pubkey pkcs1 pkcs7 pkcs8 pkcs12 pgp dnskey sshkey pem openssl fips-prf gmp agent xcbc hmac gcm attr kernel-netlink resolve socket-default connmark farp stroke updown eap-identity eap-aka eap-md5 eap-gtc eap-mschapv2 eap-radius eap-tls eap-ttls eap-tnc xauth-generic xauth-eap xauth-pam tnc-tnccs dhcp lookip error-notify certexpire led addrblock unity
-00[LIB] dropped capabilities, running as uid 0, gid 0
-00[JOB] spawning 16 worker threads
-05[CFG] received stroke: add connection 'roadw'
-05[CFG] adding virtual IP address pool 172.16.17.0/29
-05[CFG] added configuration 'roadw'
-08[NET] received packet: from 10.1.1.1[36312] to 10.1.1.84[500] (756 bytes)
-08[ENC] parsed ID_PROT request 0 [ SA V V V V V V V V ]
-08[IKE] received NAT-T (RFC 3947) vendor ID
-08[IKE] received draft-ietf-ipsec-nat-t-ike-02 vendor ID
-08[IKE] received draft-ietf-ipsec-nat-t-ike-02\n vendor ID
-08[IKE] received draft-ietf-ipsec-nat-t-ike-00 vendor ID
-08[IKE] received XAuth vendor ID
-08[IKE] received Cisco Unity vendor ID
-08[IKE] received FRAGMENTATION vendor ID
-08[IKE] received DPD vendor ID
-08[IKE] 10.1.1.1 is initiating a Main Mode IKE_SA
-08[ENC] generating ID_PROT response 0 [ SA V V V V ]
-08[NET] sending packet: from 10.1.1.84[500] to 10.1.1.1[36312] (160 bytes)
-05[NET] received packet: from 10.1.1.1[36312] to 10.1.1.84[500] (228 bytes)
-05[ENC] parsed ID_PROT request 0 [ KE No NAT-D NAT-D ]
-05[IKE] local host is behind NAT, sending keep alives
-05[IKE] remote host is behind NAT
-05[ENC] generating ID_PROT response 0 [ KE No NAT-D NAT-D ]
-05[NET] sending packet: from 10.1.1.84[500] to 10.1.1.1[36312] (244 bytes)
-09[NET] received packet: from 10.1.1.1[40011] to 10.1.1.84[4500] (92 bytes)
-09[ENC] parsed ID_PROT request 0 [ ID HASH ]
-09[CFG] looking for XAuthInitPSK peer configs matching 10.1.1.84...10.1.1.1[100.106.113.62]
-09[CFG] selected peer config "roadw"
-09[ENC] generating ID_PROT response 0 [ ID HASH ]
-09[NET] sending packet: from 10.1.1.84[4500] to 10.1.1.1[40011] (92 bytes)
-09[ENC] generating TRANSACTION request 3276308191 [ HASH CPRQ(X_USER X_PWD) ]
-09[NET] sending packet: from 10.1.1.84[4500] to 10.1.1.1[40011] (76 bytes)
-11[NET] received packet: from 10.1.1.1[40011] to 10.1.1.84[4500] (108 bytes)
-11[ENC] parsed TRANSACTION response 3276308191 [ HASH CPRP(X_USER X_PWD) ]
-11[IKE] PAM authentication of 'lgirardi' successful
-11[IKE] XAuth authentication of 'lgirardi' successful
-11[ENC] generating TRANSACTION request 1380277626 [ HASH CPS(X_STATUS) ]
-11[NET] sending packet: from 10.1.1.84[4500] to 10.1.1.1[40011] (76 bytes)
-10[NET] received packet: from 10.1.1.1[40011] to 10.1.1.84[4500] (108 bytes)
-10[ENC] parsed INFORMATIONAL_V1 request 4006980307 [ HASH N(INITIAL_CONTACT) ]
-12[NET] received packet: from 10.1.1.1[40011] to 10.1.1.84[4500] (92 bytes)
-12[ENC] parsed TRANSACTION response 1380277626 [ HASH CPA(X_STATUS) ]
-12[IKE] IKE_SA roadw[1] established between 10.1.1.84[ETHZERO_HOME_VPN]...10.1.1.1[100.106.113.62]
-12[IKE] scheduling rekeying in 86047s
-12[IKE] maximum IKE_SA lifetime 86227s
-</code></pre>
-<p>ok now i'm connected and i can see my network in tun0</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/0ec58f59178a15278c87059d926b2a8b7b2938a8/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3332302f76313538343733303936302f6d6973632f7374726f6e677377616e5f636c69656e745f616e64726f69642e6a7067"><img loading="lazy" src="https://camo.githubusercontent.com/0ec58f59178a15278c87059d926b2a8b7b2938a8/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3332302f76313538343733303936302f6d6973632f7374726f6e677377616e5f636c69656e745f616e64726f69642e6a7067" data-is-external-image="true"  alt="android ip" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_320/v1584730960/misc/strongswan_client_android.jpg"></a></p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/89492159c8fb5380197b4ecd266dce5c4068a9a0/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3332302f76313538343733363033342f6d6973632f7374726f6e677377616e5f616e64726f69645f70696e672e6a7067"><img loading="lazy" src="https://camo.githubusercontent.com/89492159c8fb5380197b4ecd266dce5c4068a9a0/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3332302f76313538343733363033342f6d6973632f7374726f6e677377616e5f616e64726f69645f70696e672e6a7067" data-is-external-image="true"  alt="android ping" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_320/v1584736034/misc/strongswan_android_ping.jpg"></a></p>
-<p>Thats all ... here my connection</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/b702d2df92e56ffae8f754aed08e84ebd4d0595f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538343733363332382f6d6973632f7374726f6e677377616e5f7374726f6b655f737461747573616c6c2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/b702d2df92e56ffae8f754aed08e84ebd4d0595f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3634302f76313538343733363332382f6d6973632f7374726f6e677377616e5f7374726f6b655f737461747573616c6c2e706e67" data-is-external-image="true"  alt="strongswan connection" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_640/v1584736328/misc/strongswan_stroke_statusall.png"></a></p>
 </article>
 </div>
 </div>
