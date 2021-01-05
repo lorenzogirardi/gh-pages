@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2021-01-05T18:32:34+01:00</updated>
+    <updated>2021-01-05T18:39:30+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -17,7 +17,7 @@
         <link href="https://www.k8s.it/the-monitoring-paper.html"/>
         <id>https://www.k8s.it/the-monitoring-paper.html</id>
 
-        <updated>2021-01-05T18:32:34+01:00</updated>
+        <updated>2021-01-05T18:39:30+01:00</updated>
             <summary>
                 <![CDATA[
                     Contrary to popular belief, monitoring an infrastructure is the opposite to just have some metrics about applications and network There are many many documents the lead this topic, one of the most interesting it's just few pages from google around the art of slos or&hellip;
@@ -118,7 +118,7 @@
 <li style="font-weight: 400;"><span style="font-weight: 400;">Support granted by ownership</span></li>
 <li style="font-weight: 400;"><span style="font-weight: 400;">No speculations, real data</span></li>
 </ul>
-<figure class="post__image"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.39.10.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-2xl.png 1600w"  alt="" width="1024" height="346"></figure>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.39.10.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-xs.png 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-sm.png 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-md.png 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-lg.png 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-xl.png 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-2xl.png 1600w"  alt="" width="1024" height="346"></figure>
 <p> </p>
 <h3><strong>HOW</strong></h3>
 <p> </p>
