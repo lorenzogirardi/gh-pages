@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2021-01-05T18:39:30+01:00</updated>
+    <updated>2021-01-05T18:43:46+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -16,15 +16,28 @@
         </author>
         <link href="https://www.k8s.it/the-monitoring-paper.html"/>
         <id>https://www.k8s.it/the-monitoring-paper.html</id>
+            <category term="system metrics"/>
+            <category term="slo"/>
+            <category term="sli"/>
+            <category term="sla"/>
+            <category term="observability"/>
+            <category term="metrics"/>
+            <category term="customer experience"/>
+            <category term="conversion "/>
+            <category term="business metrics"/>
+            <category term="application metrics"/>
+            <category term="alerting"/>
 
-        <updated>2021-01-05T18:39:30+01:00</updated>
+        <updated>2021-01-05T18:43:46+01:00</updated>
             <summary>
                 <![CDATA[
+                        <img src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.47.24.png" alt="" />
                     Contrary to popular belief, monitoring an infrastructure is the opposite to just have some metrics about applications and network There are many many documents the lead this topic, one of the most interesting it's just few pages from google around the art of slos or&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
+                    <img src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.47.24.png" alt="" />
                 <p>Contrary to popular belief, monitoring an infrastructure is the opposite to just have some metrics about applications and network</p>
 <p>There are many many documents the lead this topic,<br>one of the most interesting it's just few pages from google around <a href="https://static.googleusercontent.com/media/sre.google/it//static/pdf/art-of-slos-slides.pdf" target="_blank" rel="noopener noreferrer">the art of slos</a><br>or the <a href="https://www.k8s.it/media/files/The Art of SLOs - Google.pdf" target="_blank" rel="noopener noreferrer">book</a> version i took from a google onsite deep dive. <a href="https://www.k8s.it/media/files/The Art of SLOs - Google.pdf" target="_blank" rel="noopener noreferrer"></a></p>
 <p>To better details this topic i'd like to use simple statements:</p>
