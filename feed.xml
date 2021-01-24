@@ -3,12 +3,184 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2021-01-05T19:11:11+01:00</updated>
+    <updated>2021-01-24T22:11:47+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
     <id>https://www.k8s.it</id>
 
+    <entry>
+        <title>Ambient sensor for mere mortal</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/ambient-sensor-for-mere-mortal.html"/>
+        <id>https://www.k8s.it/ambient-sensor-for-mere-mortal.html</id>
+
+        <updated>2021-01-24T22:11:47+01:00</updated>
+            <summary>
+                <![CDATA[
+                    In the home automation era, I was quite curious to understand how is working a simple thermal sensor I tried this simple experiment following the suggestion of one of my colleagues, i was thinking to start with Arduino , however he suggested to try nodemcu&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>In the home automation era, I was quite curious to understand how is working a simple thermal sensor</p>
+<h3>WHAT WE NEED ?</h3>
+<ul>
+<li>ESP8266</li>
+<li>DHT22</li>
+<li>usb power</li>
+<li>Influxdb</li>
+<li>Grafana</li>
+</ul>
+<p>I tried this simple experiment following the suggestion of one of my colleagues, i was thinking to start with Arduino , however he suggested to try nodemcu</p>
+<p>So what is <em>nodemcu?<br></em>It's an open source platform developed for IoT , you can <em>compile</em> the firmware with the most used sensors available , but the main feature is the Lua support<br>When i starts with Arduino i created some C software really horrible 😇<br>with Lua instead it was quite simple create this kind of functionality.</p>
+<p>The hardware platform is really nice and simple </p>
+<h4>ESP8266</h4>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-21.39.16.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-xs.png 300w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-sm.png 480w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-md.png 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-lg.png 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-xl.png 1360w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-2xl.png 1600w"  alt="" width="640" height="565"></figure>
+<p> </p>
+<p>It's natively support wifi and with the sensor dht22 you are able to have the temperature, humidity ... and well also a dew point since is it a maths of previous values</p>
+<h4>DHT22</h4>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-21.42.27.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-xs.png 300w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-sm.png 480w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-md.png 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-lg.png 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-xl.png 1360w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-2xl.png 1600w"  alt="" width="640" height="602"></figure>
+<p> </p>
+<p>Price for both is really cheaper (aliexpress)</p>
+<p>esp8266    --&gt; 3$<br>dht22          --&gt; 1$</p>
+<p>Once you receive the hardware you can start to work on it </p>
+<p>With <a href="https://nodemcu-build.com/">https://nodemcu-build.com/</a> you can build the firmware that fit your needs (in the next screen what is needed to interact with the thermal sensor)</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-21.46.37.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-xs.png 300w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-sm.png 480w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-md.png 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-lg.png 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-xl.png 1360w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-2xl.png 1600w"  alt="" width="640" height="484"></figure>
+<p> </p>
+<p>To load the firmware you should need <a href="https://github.com/espressif/esptool">https://github.com/espressif/esptool</a></p>
+<p>with a command like this<br><code>python esptool.py -b 115200 --port=/dev/cu.<wbr>wchusbserial1410 write_flash  -fm=dio -fs=32m 0x0000 <span class="il">nodemcu</span>-master-12-modules-<wbr>2016-01-09-18-51-26-float.bin</code></p>
+<p>Now.... it's time to create the Lua script</p>
+<h3>Configuration</h3>
+<p>This is working since 2016 so i think we can consider stable 😁</p>
+<pre><code>local SSID = "name wifi"
+local SSID_PASSWORD = "password wifi"
+local DEVICE = "name device"
+local temperature = 20.0
+
+wifi.setmode(wifi.STATION)
+wifi.sta.config(SSID,SSID_PASSWORD)
+wifi.sta.autoconnect(1)
+
+local HOST = "server database"
+local URI = "/write?db=collectd"
+
+function build_post_request(host, uri, data_table)
+
+     local data = data_table.Data_type .. ",device=" .. data_table.Device .. " " .. "value=" .. data_table.Value
+
+     --for param,value in pairs(data_table) do
+    --      data = data .. param.."="..value.."&amp;"
+    -- end
+    print(data)
+
+     request = "POST "..uri.." HTTP/1.1\r\n"..
+     "Host: "..host.."\r\n"..
+     "Connection: close\r\n"..
+     "Content-Type: application/x-www-form-urlencoded\r\n"..
+     "Content-Length: "..string.len(data).."\r\n"..
+     "\r\n"..
+     data
+
+     print(request)
+
+     return request
+end
+
+local function display(sck,response)
+     print(response)
+end
+
+-- When using send_sms: the "from" number HAS to be your twilio number.
+-- If you have a free twilio account the "to" number HAS to be your twilio verified number.
+-- The numbers MUST include the country code.
+-- DO NOT add the "+" sign.
+local function send_data(data_type,device,value)
+
+     local data = {
+      Data_type = data_type,
+      Device = device,
+      Value = value
+     }
+
+     socket = net.createConnection(net.TCP,0)
+     socket:on("receive",display)
+     socket:connect(8086,HOST)
+
+     socket:on("connection",function(sck)
+
+          local post_request = build_post_request(HOST,URI,data)
+          sck:send(post_request)
+     end)
+end
+
+function check_wifi()
+ local ip = wifi.sta.getip()
+
+ if(ip==nil) then
+   print("Connecting...")
+ else
+  tmr.stop(0)
+  print("Connected to AP!")
+  print(ip)
+  --send_data("15551234567","12223456789","Hello from your ESP8266")
+
+  local t, h, d = getTempHumi()
+
+  print("Temp:"..t .." C\n")
+  print("Humi:"..h .." RH\n")
+  print("Dew:"..d .." DP\n")
+
+  send_data("temperature", DEVICE, t)
+  send_data("humidity", DEVICE, h)
+  send_data("dew_point", DEVICE, d)
+
+  tmr.alarm(0,30000,1,check_wifi)
+
+ end
+
+end
+
+tmr.alarm(0,5000,1,check_wifi)
+
+function getTempHumi()
+    pin = 4
+    local status,temp,humi,temp_decimial,humi_decimial = dht.read(pin)
+    if( status == dht.OK ) then
+    -- Float firmware using this example
+      print("DHT Temperature:"..temp..";".."Humidity:"..humi)
+    elseif( status == dht.ERROR_CHECKSUM ) then
+      print( "DHT Checksum error." );
+    elseif( status == dht.ERROR_TIMEOUT ) then
+      print( "DHT Time out." );
+    end
+    local dewpoint= (humi/100)^(1/8) * (112 + (0.9 * temp)) - 112 + (0.1 * temp)
+
+    return temp, humi, (string.format("%.1f", dewpoint))
+end</code></pre>
+<h4>Customizations</h4>
+<p>local SSID = "wifi name"  <br>local SSID_PASSWORD = "wifi password" <br>local DEVICE = "name device"        --&gt; name of you board/room </p>
+<p>local HOST = "server database"     --&gt; your influxdb installation<br>local URI = "/write?db=collectd"     --&gt; your database name </p>
+<p> </p>
+<p>So we have the hardware , we loaded the firmware, we created the code, but how to interact with the platform... well there are many way however <a href="https://esp8266.ru/esplorer/" target="_blank" rel="noopener noreferrer">ESPlorer</a> has a nice gui even if it's java based ☠️</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/ESPlorer-panels.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-xs.png 300w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-sm.png 480w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-md.png 768w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-lg.png 1024w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-xl.png 1360w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-2xl.png 1600w"  alt="" width="640" height="373"></figure>
+<p> </p>
+<h3>Results</h3>
+<p><a href="https://services.k8s.it/grafana/d/000000079/temperature?viewPanel=5&amp;orgId=2&amp;refresh=1m">https://services.k8s.it/grafana/d/000000079/temperature?viewPanel=5&amp;orgId=2&amp;refresh=1m</a></p>
+<p>above you can see the live results .... and on grafana we can create a graph like this</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-22.11.01.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-xs.png 300w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-sm.png 480w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-md.png 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-lg.png 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-xl.png 1360w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-2xl.png 1600w"  alt="" width="1024" height="408"></figure>
+<p>The delta delta in the <em>Humidity is generated by an </em>humidifier</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-22.06.50.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-xs.png 300w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-sm.png 480w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-md.png 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-lg.png 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-xl.png 1360w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-2xl.png 1600w"  alt="" width="640" height="738"></figure>
+<p> </p>
+<p>I have one sensor for all rooms ... and also external </p>
+<p>The external one should be replaced more or less every year because is not properly water proof and ... day by day the electrical contacts become oxidized </p>
+<p> </p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>The monitoring paper</title>
         <author>
@@ -2153,62 +2325,6 @@ spec:
 <p>In this scenario it's higly raccomended to deploy the release with a standard pipeline with compiled<br>container on the source.</p>
 <h2><a id="user-content-deploy" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-apacherr#deploy"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>deploy</h2>
 <p><code>kubectl apply -f apacherr/deployment/</code></p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Kubernetes guacamole</title>
-        <author>
-            <name>lgirardi</name>
-        </author>
-        <link href="https://www.k8s.it/kubernetes-guacamole.html"/>
-        <id>https://www.k8s.it/kubernetes-guacamole.html</id>
-            <category term="ssh"/>
-            <category term="rdp"/>
-            <category term="kubernetes"/>
-            <category term="guacd"/>
-            <category term="guacamole"/>
-            <category term="bastion host"/>
-            <category term="bastion"/>
-
-        <updated>2020-11-14T22:55:40+01:00</updated>
-            <summary>
-                <![CDATA[
-                    Here we are , another apache guacamole implementation in kubernetesThis service is designed to avoid the usage of mysql and create a standalone project The main idea is to use the user-mapping.xml as a config map For production environment i suggest to add the ldap auth (ad.openldap,freeipa),&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <div class="flex-shrink-0 col-12 col-md-9 mb-4 mb-md-0">
-<div id="readme" class="Box md js-code-block-container Box--responsive">
-<div class="Box-body px-5 pb-5">
-<article class="markdown-body entry-content container-lg">
-<h2>Here we are , another apache guacamole implementation in kubernetes</h2>
-<p>This service is designed to avoid the usage of mysql and create a standalone project</p>
-<p>The main idea is to use the <strong>user-mapping.xml</strong> as a config map</p>
-<p>For production environment i suggest to add the ldap auth (ad.openldap,freeipa),<br>mysql database should be managed with a dedicated instances and mantained in case of "exit"</p>
-<h2><a id="user-content-what-is-a-bastion-host" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-guacamole#what-is-a-bastion-host"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>what is a bastion host</h2>
-<p>On the Internet, a bastion host is the only host computer that a company allows to be addressed<br>directly from the public network and that is designed to screen the rest of its network from security exposure.</p>
-<h2><a id="user-content-how-this-tool-can-be-used" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-guacamole#how-this-tool-can-be-used"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>how this tool can be used</h2>
-<p>The tool is designed to be used when you have some dedicated service in production and you have to keep<br>the control of access and account used , guacamole has the ability to manage the most used platforms (windows and linux)<br>as host in backend to be reached from developers ... contractors ...</p>
-<h2><a id="user-content-why-in-kubernetes" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-guacamole#why-in-kubernetes"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>why in kubernetes</h2>
-<p>Since the auth method could scale by configmap or ldap or mysql , is designed to scale<br>we have also the benefits to have a low footprint compared to a traditional vm.</p>
-<h2><a id="user-content-config-to-change" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-guacamole#config-to-change"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>config to change</h2>
-<p>Before deploy you need to specify the following parameters in guacamole folder</p>
-<ul>
-<li>YOUR_DOMAIN to reflect your domain url in 03-guacamole-ing.yaml</li>
-<li>user YOUR_USERNAME / YOUR_MD5_PWD and hosts xml configuration in 04-guacamole-cfm.yaml following <a href="https://guacamole.apache.org/doc/gug/configuring-guacamole.html#user-mapping" rel="nofollow">https://guacamole.apache.org/doc/gug/configuring-guacamole.html#user-mapping</a></li>
-</ul>
-<p>screenshots</p>
-<p><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/905e74d0ce81c8b239f67d405567100a3f181292/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313538303835303535322f6d6973632f67756163616d6f6c652d77696e2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/905e74d0ce81c8b239f67d405567100a3f181292/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313538303835303535322f6d6973632f67756163616d6f6c652d77696e2e706e67" data-is-external-image="true"  alt="windows" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1580850552/misc/guacamole-win.png"></a><br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/fd53b1991cd9693679aae9aadf72bc75d025c2ad/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313538303835303535322f6d6973632f67756163616d6f6c652d6c696e75782e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/fd53b1991cd9693679aae9aadf72bc75d025c2ad/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313538303835303535322f6d6973632f67756163616d6f6c652d6c696e75782e706e67" data-is-external-image="true"  alt="linux" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1580850552/misc/guacamole-linux.png"></a></p>
-<h2><a id="user-content-deploy" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/kubernetes-guacamole#deploy"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>deploy</h2>
-<p><code>kubectl apply -f guacd</code></p>
-<p><code>kubectl apply -f guacamole</code></p>
-<p>You can secure the connection with kube-lego and use cillium to add network rules </p>
-</article>
-</div>
-</div>
-</div>
             ]]>
         </content>
     </entry>
