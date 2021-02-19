@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2021-02-19T18:02:36+01:00</updated>
+    <updated>2021-02-19T18:07:00+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -26,16 +26,16 @@
             <category term="cluster"/>
             <category term="backup"/>
 
-        <updated>2021-02-19T18:02:36+01:00</updated>
+        <updated>2021-02-19T18:07:00+01:00</updated>
             <summary>
                 <![CDATA[
-                        <img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-16.12.41.png" alt="" />
+                        <img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-18.06.38.png" alt="" />
                     When I started getting interested on the IT world , i've usually kept all my devices on 24 h to 24. The first labs was an impressive tower in '99 with a huge amount of disk and memory banks, a good cpu cooled by a&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-16.12.41.png" alt="" />
+                    <img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-18.06.38.png" alt="" />
                 <p>When I started getting interested on the IT world , i've usually kept all my devices on 24 h to 24.</p>
 <p>The first labs was an impressive tower in '99 with a huge amount of disk and memory banks, a good cpu cooled by a giant copper heatsink combined with a 12cm fan.<br>All those components were quite similar to a helicopter noise during the night.</p>
 <p>The evolution of the lab than , changed a lot year by year , not only reaching a good level of noise but mostly to be cost effective hardware that guarantee new a semplificate production environment.</p>
