@@ -1,0 +1,582 @@
+<!doctype html><html amp lang="en-us"><head><meta charset="utf-8"><title>Homelab , when small is big - LAB</title><meta name="description" content="When I started getting interested on the IT world , i've usually kept all my devices on 24 h to 24. The first labs was an impressive tower in '99 with a huge amount of disk and memory banks, a good cpu cooled by a&hellip;"><link rel="canonical" href="https://www.k8s.it/homelab-when-small-is-big.html"><meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1"><link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet" type="text/css"><script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script><script async custom-element="amp-social-share" src="https://cdn.ampproject.org/v0/amp-social-share-0.1.js"></script><script async custom-element="amp-iframe" src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"></script><script async custom-element="amp-video" src="https://cdn.ampproject.org/v0/amp-video-0.1.js"></script><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.k8s.it/amp/homelab-when-small-is-big.html"},"headline":"Homelab , when small is big","datePublished":"2021-02-19T16:33","dateModified":"2021-02-19T18:02","image":{"@type":"ImageObject","url":"https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-16.12.41.png","height":1040,"width":2042},"description":"When I started getting interested on the IT world , i've usually kept all my devices on 24 h to 24. The first labs was an impressive tower in '99 with a huge amount of disk and memory banks, a good cpu cooled by a&hellip;","author":{"@type":"Person","name":"lgirardi"},"publisher":{"@type":"Organization","name":"lgirardi"}}</script><style amp-custom>article,
+aside,
+footer,
+header,
+hgroup,
+main,
+nav,
+section {
+  display: block; }
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0;
+  padding: 0; }
+
+li {
+  list-style: none; }
+
+amp-img {
+  max-width: 100%; }
+
+button,
+input,
+select,
+textarea {
+  font: inherit; }
+
+html {
+  font-size: 1rem; }
+
+body {
+  background: #f1f1f1;
+  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  line-height: 1.6; }
+
+a {
+  color:  #039be5;
+  text-decoration: none;
+  -webkit-transition: all 0.12s linear 0s;
+  -o-transition: all 0.12s linear 0s;
+  transition: all 0.12s linear 0s; }
+
+a:hover {
+  color: #262626;
+  text-decoration: underline;
+  -webkit-text-decoration-skip: ink;
+  text-decoration-skip: ink; }
+
+a:active {
+  color: #262626; }
+
+a:focus {
+  outline: 2px dotted #039be5; }
+
+figure,
+blockquote,
+p,
+ul,
+ol,
+dl,
+table,
+hr,
+fieldset {
+  margin-top: 1.6rem; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #262626;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: 2.13333rem; }
+
+h1 {
+  font-size: 1.67583rem;
+  font-weight: normal; }
+
+h2 {
+  font-size: 1.4729rem; }
+
+h3 {
+  font-size: 1.29454rem; }
+
+h4 {
+  font-size: 1.13778rem; }
+
+h5 {
+  font-size: 1rem; }
+
+h6 {
+  font-size: 0.87891rem; }
+
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p {
+  margin-top: 0.8rem; }
+
+b,
+strong {
+  font-weight: 600; }
+
+blockquote {
+  color: #6c7175;
+  font-family: "Droid Serif", "Times", "Source Serif Pro", serif;
+  font-style: italic;
+  padding: 1.33333rem 0.53333rem 1.33333rem 3.2rem;
+  position: relative; }
+  blockquote:before {
+    display: block;
+    content: "\201C";
+    font-size: 4.41226rem;
+    position: absolute;
+    left: 0;
+    top: -12px;
+    color: rgba(108, 113, 117, 0.5); }
+  blockquote > :nth-child(1) {
+    margin-top: 0; }
+
+ul,
+ol {
+  margin-left: 2rem; }
+  ul > li,
+  ol > li {
+    list-style: inherit;
+    padding: 0 0 0.26667rem 0.26667rem; }
+
+dl dt {
+  color: #262626;
+  font-weight: 600; }
+
+code,
+pre {
+  background-color: #f1f1f1;
+  font-family: monospace; }
+
+pre {
+  margin: 1.6rem 0 0;
+  padding: 1.6rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto; }
+  pre > code {
+    color: #262626;
+    padding: 0; }
+
+code {
+  border-radius: 3px;
+  color: #262626;
+  padding: 0.26667rem 0.53333rem; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #d4d4d4;
+  width: 100%;
+  overflow-x: auto;
+  vertical-align: top;
+  text-align: left;
+  white-space: nowrap; }
+  table th {
+    font-weight: 500;
+    padding: 0.53333rem 1.06667rem; }
+  table tr {
+    border-bottom: 1px solid #d4d4d4; }
+    table tr:nth-child(2n) {
+      background: #f1f1f1; }
+  table td {
+    padding: 0.53333rem 1.06667rem; }
+
+figcaption {
+  clear: both;
+  color: rgba(108, 113, 117, 0.6);
+  font-size: 0.82397rem;
+  margin: 0.8rem 0 0;
+  text-align: center; }
+
+sub,
+sup {
+  font-size: 65%; }
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3); }
+
+.btn, [type=button],
+[type=submit],
+button {
+  background: #039be5;
+  border: none;
+  border-radius: 2px;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.87891rem;
+  font-weight: 500;
+  line-height: 1.9;
+  padding: 0.53333rem 1.33333rem;
+  text-align: center;
+  text-decoration: none;
+  -webkit-transition: all .15s ease;
+  -o-transition: all .15s ease;
+  transition: all .15s ease;
+  width: auto; }
+  .btn:hover, [type=button]:hover,
+  [type=submit]:hover,
+  button:hover {
+    background: #262626;
+    color: #ffffff; }
+  .btn:focus, [type=button]:focus,
+  [type=submit]:focus,
+  button:focus {
+    outline: none; }
+  .btn-outline {
+    border: 1px solid #ddd;
+    background: #ffffff;
+    border-radius: 3px;
+    color: #262626; }
+
+[type=button],
+[type=submit],
+button {
+  text-transform: uppercase;
+  -webkit-appearance: none;
+  -moz-appearance: none; }
+
+.navbar {
+  background: #039be5;
+  -webkit-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  line-height: 3;
+  max-height: 4rem; }
+  .navbar > div {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: left;
+    max-width: 700px;
+    margin: 0 auto; }
+  .navbar a {
+    color: #ffffff;
+    text-decoration: none; }
+  .navbar-sidebar-toggle {
+    left: 0;
+    position: relative;
+    text-indent: -99999rem; }
+    .navbar-sidebar-toggle:before {
+      content: "";
+      display: block;
+      border-top: 0.375rem double #ffffff;
+      border-bottom: 0.125rem solid #ffffff;
+      height: 0.125rem;
+      position: absolute;
+      text-indent: 0;
+      top: 50%;
+      width: 1.3rem;
+      -webkit-transform: translate(0px, -50%);
+      -ms-transform: translate(0px, -50%);
+      transform: translate(0px, -50%); }
+
+
+.logo {
+            display: inline-block;
+  font-weight: 600;
+  line-height: 1;
+            margin: 0 auto;
+            height: 2rem;
+            text-indent: -9999px;
+            width: 240px;vertical-align: middle;
+        }
+        .logo.logo-text {
+            line-height: 2;
+            text-align: center;
+            text-indent: 0;
+        }
+
+amp-sidebar {
+  background: #ffffff;
+  width: 240px; }
+  amp-sidebar > ul {
+    margin: 0.8rem 0 0;
+    padding: 0; }
+    amp-sidebar > ul ul {
+      border-left: 1px solid #d4d4d4;
+      margin: 0.53333rem 0 0; }
+    amp-sidebar > ul li {
+      color: #262626;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      list-style: none;
+      line-height: 1.4;
+      padding: 0.42667rem 1.06667rem; }
+      amp-sidebar > ul li li {
+        font-weight: normal;
+        padding: 0.26667rem 0 0.26667rem 1.06667rem; }
+    amp-sidebar > ul a,
+    amp-sidebar > ul a:visited {
+      color: #262626; }
+
+.bg-white {
+  background: #ffffff; }
+
+.wrap-page {
+  max-width: 700px;
+  margin: 0 auto; }
+
+@media all and (max-width: 43.6875em) {
+  .wrap-inner {
+    padding: 0 6%; } }
+
+.page-title {
+  background: #ffffff;
+  -webkit-box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  margin-bottom: 0.8rem;
+  padding: 1.6rem 6%; }
+  .page-title > h1 {
+    margin: 0;
+    font-size: 1.29454rem; }
+  .page-title > p {
+    font-size: 0.87891rem;
+    color: #6c7175;
+    line-height: 1.3;
+    margin: 0.26667rem 0 0; }
+  .page-title-author {
+    border-radius: 50%;
+    float: left;
+    height: 2.5rem;
+    width: 2.5rem; }
+    .page-title-author + h1 {
+      margin-left: 3.5rem; }
+      .page-title-author + h1 + p {
+        margin-left: 3.5rem; }
+
+.card {
+  background: #ffffff;
+  -webkit-box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  box-shadow: 0 2px 3px rgba(38, 38, 38, 0.1);
+  margin-bottom: 0.8rem;
+  padding-bottom: 1.06667rem; }
+
+  .card-meta {
+    border-top: 1px solid #d4d4d4;
+    color: rgba(108, 113, 117, 0.6);
+    font-size: 0.7242rem;
+    font-weight: 500;
+    margin-top: 1.06667rem;
+    padding-top: 1.06667rem;
+    text-transform: uppercase; }
+    .card-meta a + time:before {
+      content: "";
+      background: #d4d4d4;
+      display: inline-block;
+      height: 3px;
+      margin: 0 8px;
+      width: 3px;
+      vertical-align: middle;
+      border-radius: 50%; }
+  .card-text {
+    font-size: 0.9375rem;
+    overflow: hidden;
+    padding: 0 6%; }
+    .card-text h2 {
+      font-size: 1.13778rem; }
+
+.post {
+  margin-bottom: 2.13333rem; }
+  .post-featured-image {
+    margin-top: 0;
+    position: relative; }
+    .post-featured-image > figcaption {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 3px;
+      color: #ffffff;
+      position: absolute;
+      bottom: 0.8rem;
+      padding: 0 0.26667rem;
+      right: 6%; }
+  .post-header {
+    margin-bottom: 2.13333rem; }
+  .post-meta {
+    border-bottom: 1px solid #d4d4d4;
+    color: rgba(108, 113, 117, 0.6);
+    font-size: 0.7242rem;
+    font-weight: 500;
+    margin-top: 1.06667rem;
+    padding-bottom: 1.06667rem;
+    text-transform: uppercase; }
+    .post-meta a + time:before {
+      content: "";
+      background: #d4d4d4;
+      display: inline-block;
+      height: 3px;
+      margin: 0 8px;
+      width: 3px;
+      vertical-align: middle;
+      border-radius: 50%; }
+  .post-tag {
+    margin: 0; }
+    .post-tag > li {
+      display: inline-block;
+      padding: 0; }
+      .post-tag > li a {
+        background: #f1f1f1;
+        border-radius: 2px;
+        color: #6c7175;
+        font-size: 0.77248rem;
+        display: inline-block;
+        margin: 0 0.26667rem 0.26667rem 0;
+        padding: 0.26667rem 0.53333rem; }
+        .post-tag > li a:hover {
+          background: #039be5;
+          color: #ffffff;
+          text-decoration: none; }
+  .post-share {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-top: 1.6rem;
+    width: 100%; }
+    .post-share amp-social-share {
+      -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
+      background-size: 24px; }
+  .post-scroll {
+    color: #ffffff;
+    background: #039be5;
+    bottom: 10px;
+    border-radius: 50%;
+    border: none;
+    -webkit-box-shadow: 0 1px 1.5px 0 rgba(38, 38, 38, 0.12), 0 1px 1px 0 rgba(38, 38, 38, 0.24);
+    box-shadow: 0 1px 1.5px 0 rgba(38, 38, 38, 0.12), 0 1px 1px 0 rgba(38, 38, 38, 0.24);
+    font-size: 1.13778rem;
+    height: 46px;
+    opacity: 0;
+    outline: none;
+    position: fixed;
+    padding: 0;
+    right: 4%;
+    visibility: hidden;
+    width: 46px;
+    z-index: 9999; }
+    .post-scroll-marker {
+      height: 0px;
+      position: absolute;
+      top: 100px;
+      width: 0px; }
+        .post-pagination {
+    background: #f1f1f1;
+    -webkit-box-shadow: inset 0 2px 3px rgba(38, 38, 38, 0.1);
+    box-shadow: inset 0 2px 3px rgba(38, 38, 38, 0.1);
+    border-top: 1px solid #d4d4d4;
+    padding: 1.06667rem 0; }
+    .post-pagination > div {
+      line-height: 1.2;
+      padding: 0.53333rem 1.06667rem;
+      text-align: center; }
+      .post-pagination > div span {
+        display: block;
+        color: #6c7175;
+        font-size: 0.7242rem;
+        font-weight: 500;
+        margin-bottom: 0.26667rem;
+        text-transform: uppercase; }
+    .post-pagination-prev a:before {
+      content: "\2190";
+      margin-right: 0.26667rem; }
+    .post-pagination-next a:after {
+      content: "\2192";
+      margin-left: 0.26667rem; }
+
+aside {
+  margin: 1.6rem 0 0; }
+
+.align-left {
+  text-align: left; }
+
+.align-right {
+  text-align: right; }
+
+.align-center {
+  text-align: center; }
+
+.align-justify {
+  text-align: justify; }
+
+.msg {
+  border-left: 2px solid transparent;
+  padding: 1.06667rem 1.06667rem; }
+  .msg--highlight {
+    background-color: #fff8e6;
+    border-color: #e2ac4f; }
+  .msg--info {
+    background: rgba(45, 97, 201, 0.03);
+    border-color: #039be5; }
+  .msg--success {
+    background: #f7fbf6;
+    border-color: #5ab44b; }
+  .msg--warning {
+    background: #fff3f3;
+    border-color: #c06367;
+    color: #a94442; }
+
+.dropcap:first-letter {
+  float: left;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  font-size: 2.16943rem;
+  line-height: 0.7;
+  margin-right: 0.53333rem;
+  padding: 0.53333rem 0.53333rem 0.53333rem 0; }
+
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 0.8rem 0; }
+  .pagination > a {
+    padding-left: 0;
+    padding-right: 0;
+    width: 49%; }
+  .pagination-right {
+    margin-left: auto; }
+
+.bottom {
+  background: #039be5;
+  color: #ffffff;
+  padding: 1.06667rem 4%;
+  text-align: center; }</style><style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript><script async src="https://cdn.ampproject.org/v0.js"></script><script custom-element="amp-animation" src="https://cdn.ampproject.org/v0/amp-animation-0.1.js" async></script><script custom-element="amp-position-observer" src="https://cdn.ampproject.org/v0/amp-position-observer-0.1.js" async></script></head><body class="bg-white"><nav class="navbar wrap-inner" id="top"><div><a on="tap:navbar-sidebar.toggle" class="navbar-sidebar-toggle" title="Menu">Menu</a> <a class="logo logo-text" href="https://www.k8s.it/amp/">LAB</a></div></nav><main class="wrap-page"><article class="post"><figure class="post-featured-image"><amp-img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-16.12.41.png" alt="" srcset="https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.12.41-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.12.41-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.12.41-md.png 768w" sizes="(max-width: 768px) 100vw, 768px" height="1040" layout="responsive" width="2042"></amp-img></figure><div class="wrap-inner"><header class="post-header"><h1>Homelab , when small is big</h1><p class="post-meta"><time datetime="2021-02-19T16:33">19 Feb 2021</time></p></header><p>When I started getting interested on the IT world , i've usually kept all my devices on 24 h to 24.</p><p>The first labs was an impressive tower in '99 with a huge amount of disk and memory banks, a good cpu cooled by a giant copper heatsink combined with a 12cm fan.<br>All those components were quite similar to a helicopter noise during the night.</p><p>The evolution of the lab than , changed a lot year by year , not only reaching a good level of noise but mostly to be cost effective hardware that guarantee new a semplificate production environment.</p><p>Now some goals has changed compared with the '99 approach so let's summarize the lab expectations:</p><ul><li>Cheap hardware </li><li>Noiseless </li><li>TDP under 20w</li><li>24/24 uptime</li><li>Virtualization support </li><li>Enough to have a Kubernetes installation</li><li>Backup solution</li><li>Automation ready </li></ul><p> </p><p>Let's now explain the needs behind,<br>i'd like to have a solution that is able to cover all my needs in terms of hobby and experiments, i don't need power , since i take care to the goodness of the solution instead the absolute performance.</p><h3>Hardware</h3><p>Base: <a href="https://ark.intel.com/content/www/us/en/ark/products/126137/intel-nuc-kit-nuc7pjyh.html" target="_blank" rel="noopener noreferrer">Intel® NUC NUC7PJYH</a></p><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-16.39.21-2.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.21-2-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.21-2-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.21-2-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.21-2-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.21-2-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.21-2-2xl.png 1600w" alt="" width="820" height="594" layout="responsive"></amp-img></figure><p>RAM: even if the website is reporting 8gb max... this is not true<br>on my installation i have 16GB with G.Skill Ripjaws SO-DIMM 16GB DDR4-2400Mhz 2x8GB</p><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-16.39.50-2.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.50-2-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.50-2-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.50-2-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.50-2-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.50-2-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.39.50-2-2xl.png 1600w" alt="" width="820" height="743" layout="responsive"></amp-img></figure><p>CPU: j5005 i thinks is the best tdp/performance (here compared to the old q6600 the first intel quadcore ever)</p><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/j5005vsq6600.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/j5005vsq6600-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/j5005vsq6600-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/j5005vsq6600-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/j5005vsq6600-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/j5005vsq6600-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/j5005vsq6600-2xl.png 1600w" alt="" width="820" height="1321" layout="responsive"></amp-img></figure><p>DISK: 250gb with ocz vertex4 are a good starting point </p><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-16.40.09.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.40.09-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.40.09-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.40.09-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.40.09-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.40.09-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-16.40.09-2xl.png 1600w" alt="" width="820" height="748" layout="responsive"></amp-img></figure><p> </p><h3>Software</h3><p>Base os vmware esxi 6.7 (free/essential)</p><p>Now:</p><p><strong>Why</strong> vmware?<br>Because the virtualization stack is really important to have an abstraction layer ,<br>see this <a href="https://www.k8s.it/amp/kubernetes-destroyed-the-virtualization-or-not.html">post</a> </p><p><strong>Why</strong> 6.7?<br>Because the vmkernel in 7.0 is changed and is not possible import external network driver (needed for this nuc model), even if there is a trick with usb network adapter and <a href="https://flings.vmware.com/usb-network-native-driver-for-esxi">https://flings.vmware.com/usb-network-native-driver-for-esxi</a> vmware labs usb drivers.</p><p><strong>How</strong> build the image with Realtek network card ?<br>First of all you need a windows :( , than you should need to identify your hardware driver , in my case <a href="https://vibsdepot.v-front.de/wiki/index.php/Net55-r8168">https://vibsdepot.v-front.de/wiki/index.php/Net55-r8168</a> and at the end you need to rebuild the image with <a href="https://www.v-front.de/p/esxi-customizer-ps.html" target="_blank" rel="noopener noreferrer">ESXi-Customizer-PS</a></p><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-17.16.41.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.16.41-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.16.41-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.16.41-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.16.41-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.16.41-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.16.41-2xl.png 1600w" alt="" width="1024" height="497" layout="responsive"></amp-img></figure><p><strong>What</strong> we can do with this "toy"?<br>Well more or less everything you are doing in your datacenter, using packer and ansible for the installation and vm configuration , you can boostrap a k3s cluster or a microk8s standalone kubernetes, few virtualmachines and so on.<br><br><strong>But</strong> is small compared to a server !1!1! <br>different needs , different size ( but same mindset in terms of reliability , flexibility , usability)... however this is my current usage</p><p>4 VMS:</p><ul><li>microk8s installation </li><li>monitoring infrastructure</li><li>windows active directory</li><li>console vm (usually used as ephemeral environment)</li></ul><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-17.26.10.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.26.10-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.26.10-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.26.10-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.26.10-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.26.10-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.26.10-2xl.png 1600w" alt="" width="1024" height="89" layout="responsive"></amp-img></figure><p> </p><p>If you have some doubts about the possibility to run kubernetes in a <em>toy </em>, is the base that i used for all my posts</p><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-17.30.13.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.30.13-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.30.13-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.30.13-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.30.13-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.30.13-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.30.13-2xl.png 1600w" alt="" width="820" height="529" layout="responsive"></amp-img></figure><p> </p><h3>Monitoring</h3><p>Well again grafana and influxdb are supporting me</p><p>HOST</p><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/Screenshot-2021-02-19-at-17.34.04.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.34.04-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.34.04-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.34.04-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.34.04-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.34.04-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/Screenshot-2021-02-19-at-17.34.04-2xl.png 1600w" alt="" width="1024" height="485" layout="responsive"></amp-img></figure><p>VMS</p><figure class="post__image post__image--center"><amp-img src="https://www.k8s.it/media/posts/24/vmsgrafana.png" sizes="(max-width: 48em) 100vw, 768px" srcset="https://www.k8s.it/media/posts/24/responsive/vmsgrafana-xs.png 300w ,https://www.k8s.it/media/posts/24/responsive/vmsgrafana-sm.png 480w ,https://www.k8s.it/media/posts/24/responsive/vmsgrafana-md.png 768w ,https://www.k8s.it/media/posts/24/responsive/vmsgrafana-lg.png 1024w ,https://www.k8s.it/media/posts/24/responsive/vmsgrafana-xl.png 1360w ,https://www.k8s.it/media/posts/24/responsive/vmsgrafana-2xl.png 1600w" alt="" width="1024" height="1601" layout="responsive"></amp-img></figure><p> </p><h3>Backup</h3><p><strong>Why</strong> backup?<br>Because even if the env is automated, some data are inside the vms and i'd like to play with the env and if needed restore the previous snapshot.</p><p>Again another free tool is helping me <a href="https://github.com/lamw/ghettoVCB">https://github.com/lamw/ghettoVCB</a></p><p>It's a quite simple script that i used for non production environment since the beginning.</p><p>In the main path i've created a <em>script</em> folder with ghetto inside and other stuff like packer firewall rules</p><p><code>[root@amaterasu:/vmfs/volumes/5eafe677-1260d7e8-2521-94c691a54f7d/script] ls -la<br>total 2240<br>drwxr-xr-x    1 root     root         73728 May  6  2020 .<br>drwxr-xr-t    1 root     root         77824 Dec 28 10:51 ..<br>-rw-r--r--    1 root     root           577 May  4  2020 email.xml<br>-rwxr-xr-x    1 root     root         17207 May  4  2020 ghettoVCB-restore.sh<br>-rw-r--r--    1 root     root           309 May  4  2020 ghettoVCB-restore_vm_restore_configuration_template<br>-rw-r--r--    1 root     root           356 May  4  2020 ghettoVCB-vm_backup_configuration_template<br>-rw-r--r--    1 root     root           832 May 10  2020 ghettoVCB.conf<br>-rwxr-xr-x    1 root     root         72122 May  4  2020 ghettoVCB.sh<br>-rwxr-xr-x    1 root     root           404 May 12  2020 init.sh<br>-rw-r--r--    1 root     root           372 May  4  2020 packer.xml</code></p><p>The init.sh files should be added on local.sh to have it running on all machine startup <br><code>[root@amaterasu:/vmfs/volumes/5eafe677-1260d7e8-2521-94c691a54f7d/script] cat /etc/rc.local.d/local.sh<br>#!/bin/sh<br><br># local configuration options<br><br># Note: modify at your own risk!  If you do/use anything in this<br># script that is not part of a stable API (relying on files to be in<br># specific places, specific tools, specific output, etc) there is a<br># possibility you will end up with a broken system after patching or<br># upgrading.  Changes are not supported unless under direction of<br># VMware support.<br><br># Note: This script will not be run when UEFI secure boot is enabled.<br><br>sh -x /vmfs/volumes/amaterasu-datastore/script/init.sh<br><br>exit 0</code></p><p>... on the init file you need to apply all changes to have the ghetto running in crontab</p><p><code>[root@amaterasu:/vmfs/volumes/5eafe677-1260d7e8-2521-94c691a54f7d/script] cat init.sh<br>#!/bin/bash<br>cp /vmfs/volumes/amaterasu-datastore/script/email.xml /etc/vmware/firewall/<br>cp /vmfs/volumes/amaterasu-datastore/script/packer.xml /etc/vmware/firewall/<br>esxcli network firewall refresh<br>echo "0 22 * * 6 /vmfs/volumes/amaterasu-datastore/script/ghettoVCB.sh -a -g /vmfs/volumes/amaterasu-datastore/script/ghettoVCB.conf<br>" &gt;&gt;  /var/spool/cron/crontabs/root<br>kill $(cat /var/run/crond.pid)<br>crond</code></p><p>it is missing only the ghettoVCB.conf configuration that depends on your needs</p><p><code>[root@amaterasu:/vmfs/volumes/5eafe677-1260d7e8-2521-94c691a54f7d/script] cat ghettoVCB.conf<br>DISK_BACKUP_FORMAT=thin<br>VM_BACKUP_ROTATION_COUNT=3<br>POWER_VM_DOWN_BEFORE_BACKUP=0<br>ENABLE_HARD_POWER_OFF=0<br>ITER_TO_WAIT_SHUTDOWN=3<br>POWER_DOWN_TIMEOUT=5<br>ENABLE_COMPRESSION=0<br>VM_SNAPSHOT_MEMORY=0<br>VM_SNAPSHOT_QUIESCE=0<br>ALLOW_VMS_WITH_SNAPSHOTS_TO_BE_BACKEDUP=0<br>ENABLE_NON_PERSISTENT_NFS=1<br>UNMOUNT_NFS=1<br>NFS_SERVER=192.168.1.13<br>NFS_VERSION=nfs<br>NFS_MOUNT=/export/backup<br>NFS_LOCAL_NAME=nfs_storage_backup<br>NFS_VM_BACKUP_DIR=amaterasu<br>ENABLE_NFS_IO_HACK=1<br>NFS_IO_HACK_LOOP_MAX=10<br>NFS_IO_HACK_SLEEP_TIMER=60<br>SNAPSHOT_TIMEOUT=15<br>EMAIL_ALERT=0<br>EMAIL_LOG=1<br>EMAIL_SERVER=smtp.k8s.it<br>EMAIL_SERVER_PORT=25<br>EMAIL_DELAY_INTERVAL=1<br>EMAIL_USER_NAME=<br>EMAIL_USER_PASSWORD=<br>EMAIL_TO=backup@xxs.it<br>EMAIL_ERRORS_TO=backup@xxs.it<br>EMAIL_FROM=ghettoVCB-amaterasu@xxs.it<br>WORKDIR_DEBUG=0<br>VM_SHUTDOWN_ORDER=<br>VM_STARTUP_ORDER=</code></p><p>And ... well thats all ... you have your weekly snapshot <br><code>2021-02-13 22:00:00 -- info: ============================== ghettoVCB LOG START ==============================<br><br>2021-02-13 22:00:01 -- info: CONFIG - USING GLOBAL GHETTOVCB CONFIGURATION FILE = /vmfs/volumes/amaterasu-datast<wbr>ore/script/ghettoVCB.conf<br>2021-02-13 22:00:01 -- info: CONFIG - VERSION = 2019_01_06_4<br>2021-02-13 22:00:01 -- info: CONFIG - GHETTOVCB_PID = 2250208<br>2021-02-13 22:00:01 -- info: CONFIG - VM_BACKUP_VOLUME = /vmfs/volumes/nfs_storage_back<wbr>up/amaterasu<br>2021-02-13 22:00:01 -- info: CONFIG - ENABLE_NON_PERSISTENT_NFS = 1<br>2021-02-13 22:00:01 -- info: CONFIG - UNMOUNT_NFS = 1<br>2021-02-13 22:00:01 -- info: CONFIG - NFS_SERVER = 192.168.1.13<br>2021-02-13 22:00:01 -- info: CONFIG - NFS_VERSION = nfs<br>2021-02-13 22:00:01 -- info: CONFIG - NFS_MOUNT = /export/backup<br>2021-02-13 22:00:01 -- info: CONFIG - VM_BACKUP_ROTATION_COUNT = 3<br>2021-02-13 22:00:01 -- info: CONFIG - VM_BACKUP_DIR_NAMING_CONVENTIO<wbr>N = 2021-02-13_22-00-00<br>2021-02-13 22:00:01 -- info: CONFIG - DISK_BACKUP_FORMAT = thin<br>2021-02-13 22:00:01 -- info: CONFIG - POWER_VM_DOWN_BEFORE_BACKUP = 0<br>2021-02-13 22:00:01 -- info: CONFIG - ENABLE_HARD_POWER_OFF = 0<br>2021-02-13 22:00:01 -- info: CONFIG - ITER_TO_WAIT_SHUTDOWN = 3<br>2021-02-13 22:00:01 -- info: CONFIG - POWER_DOWN_TIMEOUT = 5<br>2021-02-13 22:00:01 -- info: CONFIG - SNAPSHOT_TIMEOUT = 15<br>2021-02-13 22:00:01 -- info: CONFIG - LOG_LEVEL = info<br>2021-02-13 22:00:01 -- info: CONFIG - BACKUP_LOG_OUTPUT = /tmp/ghettoVCB-2021-02-13_22-0<wbr>0-00-2250208.log<br>2021-02-13 22:00:01 -- info: CONFIG - ENABLE_COMPRESSION = 0<br>2021-02-13 22:00:01 -- info: CONFIG - VM_SNAPSHOT_MEMORY = 0<br>2021-02-13 22:00:01 -- info: CONFIG - VM_SNAPSHOT_QUIESCE = 0<br>2021-02-13 22:00:01 -- info: CONFIG - ALLOW_VMS_WITH_SNAPSHOTS_TO_BE<wbr>_BACKEDUP = 0<br>2021-02-13 22:00:01 -- info: CONFIG - VMDK_FILES_TO_BACKUP = all<br>2021-02-13 22:00:01 -- info: CONFIG - VM_SHUTDOWN_ORDER =<br>2021-02-13 22:00:01 -- info: CONFIG - VM_STARTUP_ORDER =<br>2021-02-13 22:00:01 -- info: CONFIG - RSYNC_LINK = 0<br>2021-02-13 22:00:01 -- info: CONFIG - BACKUP_FILES_CHMOD =<br>2021-02-13 22:00:01 -- info: CONFIG - EMAIL_LOG = 1<br>2021-02-13 22:00:01 -- info: CONFIG - EMAIL_SERVER = <a href="http://smtp.k8s.it/" rel="noopener noreferrer" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://smtp.k8s.it&amp;source=gmail&amp;ust=1613839933510000&amp;usg=AFQjCNFj5McYEepf6qWyQHkVKmgpikm1JQ">smtp.xxs.it</a><br>2021-02-13 22:00:01 -- info: CONFIG - EMAIL_SERVER_PORT = 25<br>2021-02-13 22:00:01 -- info: CONFIG - EMAIL_DELAY_INTERVAL = 1<br>2021-02-13 22:00:01 -- info: CONFIG - EMAIL_FROM = <a href="mailto:ghettoVCB-amaterasu@k8s.it" target="_blank" rel="noopener">ghettoVCB-amaterasu@xxs.it</a><br>2021-02-13 22:00:01 -- info: CONFIG - EMAIL_TO = <a href="mailto:backup@k8s.it" target="_blank" rel="noopener">backup@xxs.it</a><br>2021-02-13 22:00:01 -- info: CONFIG - WORKDIR_DEBUG = 0<br>2021-02-13 22:00:01 -- info: CONFIG - ENABLE NFS IO HACK = 1<br>2021-02-13 22:00:01 -- info: CONFIG - NFS IO HACK LOOP MAX = 10<br>2021-02-13 22:00:01 -- info: CONFIG - NFS IO HACK SLEEP TIMER = 60<br>2021-02-13 22:00:01 -- info: CONFIG - NFS BACKUP DELAY = 0<br><br>2021-02-13 22:00:06 -- info: Initiate backup for izanami<br>2021-02-13 22:00:06 -- info: Creating Snapshot "ghettoVCB-snapshot-2021-02-13<wbr>" for izanami<br>2021-02-13 22:09:55 -- info: Removing snapshot from izanami ...<br>2021-02-13 22:10:56 -- info: Slept 60 seconds to work around NFS I/O error<br>2021-02-13 22:10:56 -- info: Backup Duration: 10.83 Minutes<br>2021-02-13 22:10:56 -- info: Successfully completed backup for izanami!<br><br>2021-02-13 22:11:02 -- info: Initiate backup for izanagi<br>2021-02-13 22:11:02 -- info: Creating Snapshot "ghettoVCB-snapshot-2021-02-13<wbr>" for izanagi<br>2021-02-13 22:16:37 -- info: Removing snapshot from izanagi ...<br>2021-02-13 22:17:37 -- info: Slept 60 seconds to work around NFS I/O error<br>2021-02-13 22:17:37 -- info: Backup Duration: 6.58 Minutes<br>2021-02-13 22:17:37 -- info: Successfully completed backup for izanagi!<br><br>2021-02-13 22:17:43 -- info: Initiate backup for hiroito<br>2021-02-13 22:17:43 -- info: Creating Snapshot "ghettoVCB-snapshot-2021-02-13<wbr>" for hiroito<br>2021-02-13 22:23:55 -- info: Removing snapshot from hiroito ...<br>2021-02-13 22:24:56 -- info: Slept 60 seconds to work around NFS I/O error<br>2021-02-13 22:24:56 -- info: Backup Duration: 7.22 Minutes<br>2021-02-13 22:24:56 -- info: Successfully completed backup for hiroito!<br><br>2021-02-13 22:25:01 -- info: Initiate backup for raijin<br>2021-02-13 22:25:01 -- info: Creating Snapshot "ghettoVCB-snapshot-2021-02-13<wbr>" for raijin<br>2021-02-13 22:26:21 -- info: Removing snapshot from raijin ...<br>2021-02-13 22:27:21 -- info: Slept 60 seconds to work around NFS I/O error<br>2021-02-13 22:27:21 -- info: Backup Duration: 2.33 Minutes<br>2021-02-13 22:27:21 -- info: Successfully completed backup for raijin!<br><br>2021-02-13 22:27:54 -- info: ###### Final status: All VMs backed up OK! ######<br><br>2021-02-13 22:27:54 -- info: ============================== ghettoVCB LOG END ==============================<wbr>==</code><br><br></p><h3>Price </h3><p>nuc7PJYH ~ 160€<br>G.Skill Ripjaws SO-DIMM 16GB DDR4-2400Mhz 2x8GB ~ 60€<br>hard disk ssd 250db ~ 40€<br><br>Is not cheap as a raspberry 4 but it's 10 time more performant and guarantee a full server experience with the possibility to play and grow your skills and challenge </p><p> </p><p> </p><p> </p><aside><ul class="post-tag"><li><a href="https://www.k8s.it/amp/backup/">backup</a></li><li><a href="https://www.k8s.it/amp/cluster/">cluster</a></li><li><a href="https://www.k8s.it/amp/ghettovcb/">ghettovcb</a></li><li><a href="https://www.k8s.it/amp/homelab/">homelab</a></li><li><a href="https://www.k8s.it/amp/k3s/">k3s</a></li><li><a href="https://www.k8s.it/amp/kubernetes/">kubernetes</a></li><li><a href="https://www.k8s.it/amp/microk8s/">microk8s</a></li><li><a href="https://www.k8s.it/amp/vmware/">vmware</a></li><li><a href="https://www.k8s.it/amp/vspehere/">vspehere</a></li></ul><div class="post-share"><amp-social-share type="system" width="40" height="40" data-param-text="Homelab , when small is big"></amp-social-share><amp-social-share type="facebook" width="40" height="40" data-param-app_id="" data-param-text="Homelab , when small is big" data-param-href="https://www.k8s.it/amp/homelab-when-small-is-big.html"></amp-social-share><amp-social-share type="twitter" width="40" height="40" data-param-text="Homelab , when small is big" data-param-url="https://www.k8s.it/amp/homelab-when-small-is-big.html"></amp-social-share><amp-social-share type="pinterest" width="40" height="40" data-param-url="https://www.k8s.it/amp/homelab-when-small-is-big.html"></amp-social-share><amp-social-share type="tumblr" width="40" height="40" data-param-text="Homelab , when small is big" data-param-url="https://www.k8s.it/amp/homelab-when-small-is-big.html"></amp-social-share><amp-social-share type="whatsapp" width="40" height="40" data-param-text="Homelab , when small is big" data-param-url="https://www.k8s.it/amp/homelab-when-small-is-big.html"></amp-social-share></div></aside></div></article><nav class="post-pagination wrap-inner"><div class="post-pagination-prev"><span>Previous</span> <a href="https://www.k8s.it/amp/ambient-sensor-for-mere-mortal.html">Ambient sensor for mere mortal</a></div></nav></main><amp-animation id="showAnim" layout="nodisplay"><script type="application/json">{
+                    "duration": "200ms",
+                    "fill": "both",
+                    "iterations": "1",
+                    "direction": "alternate",
+                    "animations": [{
+                        "selector": ".post-scroll",
+                        "keyframes": [{
+                            "opacity": "1",
+                            "visibility": "visible",
+                            "transform": "scale(1)"
+                        }]
+                    }]
+                }</script></amp-animation><amp-animation id="hideAnim" layout="nodisplay"><script type="application/json">{
+                    "duration": "200ms",
+                    "fill": "both",
+                    "iterations": "1",
+                    "direction": "alternate",
+                    "animations": [{
+                        "selector": ".post-scroll",
+                        "keyframes": [{
+                            "opacity": "0",
+                            "visibility": "hidden",
+                            "transform": "scale(0.1)"
+                        }]
+                    }]
+                }</script></amp-animation><div class="post-scroll-marker"><amp-position-observer on="enter:hideAnim.start; exit:showAnim.start" layout="nodisplay"></amp-position-observer></div><button class="post-scroll" on="tap:top.scrollTo(duration=200)">&#8593;</button><footer class="bottom">Powered by Publii</footer><amp-sidebar id="navbar-sidebar" layout="nodisplay"><ul><li><a href="https://www.linkedin.com/in/lgirardi/">linkedin</a></li><li><a href="https://services.k8s.it/grafana/?orgId&#x3D;2">live monitoring</a></li><li><a href="https://www.k8s.it/amp/whoami.html">whoami</a></li></ul></amp-sidebar></body></html>
