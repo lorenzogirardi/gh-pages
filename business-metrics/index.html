@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tag: business metrics - LAB</title><meta name="robots" content="noindex, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="alternate" type="application/atom+xml" href="https://www.k8s.it/feed.xml"><link rel="alternate" type="application/json" href="https://www.k8s.it/feed.json"><meta property="og:title" content="Tag: business metrics - LAB"><meta property="og:site_name" content="LAB"><meta property="og:description" content=""><meta property="og:url" content="https://www.k8s.it/business-metrics/"><meta property="og:type" content="website"><link rel="shortcut icon" href="https://www.k8s.it/media/website/eth0.ico" type="image/x-icon"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700&amp;subset=latin-ext&amp;display=swap" rel="stylesheet"><style>:root{--body-font:'Ubuntu',sans-serif;--heading-font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";--logo-font:'Ubuntu',sans-serif;--menu-font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"}</style><link rel="stylesheet" href="https://www.k8s.it/assets/css/style.css?v=820a54c74580600c7009761ebe91f3e7"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"LAB","url":"https://www.k8s.it/","sameAs":["https://www.linkedin.com/in/lgirardi/"]}</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-179496482-1"></script><script>window.dataLayer = window.dataLayer || [];
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tag: business metrics - LAB</title><meta name="robots" content="noindex, follow"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="alternate" type="application/atom+xml" href="https://www.k8s.it/feed.xml"><link rel="alternate" type="application/json" href="https://www.k8s.it/feed.json"><meta property="og:title" content="Tag: business metrics - LAB"><meta property="og:site_name" content="LAB"><meta property="og:description" content=""><meta property="og:url" content="https://www.k8s.it/business-metrics/"><meta property="og:type" content="website"><link rel="shortcut icon" href="https://www.k8s.it/media/website/eth0.ico" type="image/x-icon"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link href="https://fonts.googleapis.com/css?family=Ubuntu:400,700&amp;subset=latin-ext&amp;display=swap" rel="stylesheet"><style>:root{--body-font:'Ubuntu',sans-serif;--heading-font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";--logo-font:'Ubuntu',sans-serif;--menu-font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"}</style><link rel="stylesheet" href="https://www.k8s.it/assets/css/style.css?v=78357565eb7ce1ad9aef567206ef7280"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"LAB","url":"https://www.k8s.it/","sameAs":["https://www.linkedin.com/in/lgirardi/"]}</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-179496482-1"></script><script>window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
@@ -78,9 +78,31 @@
 
                 if (currentConfig === null) {
                     popup.classList.add('cookie-popup--is-sticky');
+                    var checkedGroups = popup.querySelectorAll('input[type="checkbox"]:checked');
+
+                    for (var i = 0; i < checkedGroups.length; i++) {
+                        var allowedGroup = checkedGroups[i].name.replace('gdpr-', '');
+
+                        if (allowedGroup !== '-' && allowedGroup !== '') {
+                            var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + allowedGroup + '"]');
+
+                            for (var j = 0; j < scripts.length; j++) {
+                                addScript(scripts[j].src, scripts[j].text);
+                            }
+                        }
+                    }
                 } else {
                     if (currentConfig !== '') {
                         var allowedGroups = currentConfig.split(',');
+                        var checkedCheckboxes = popup.querySelectorAll('input[type="checkbox"]:checked');
+
+                        for (var j = 0; j < checkedCheckboxes.length; j++) {
+                            var name = checkedCheckboxes[j].name.replace('gdpr-', '');
+
+                            if (allowedGroups.indexOf(name) === -1) {
+                                checkedCheckboxes[j].checked = false;
+                            }
+                        }
 
                         for (var i = 0; i < allowedGroups.length; i++) {
                             var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + allowedGroups[i] + '"]');

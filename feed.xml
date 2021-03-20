@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2021-02-22T18:20:23+01:00</updated>
+    <updated>2021-02-22T18:25:57+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -26,7 +26,7 @@
             <category term="grafana"/>
             <category term="docker"/>
 
-        <updated>2021-02-22T18:20:23+01:00</updated>
+        <updated>2021-02-22T18:25:57+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/25/Screenshot-2021-02-22-at-18.16.33.png" alt="" />
@@ -1692,7 +1692,7 @@ cf-ray: 5eee86d319770f72-MXP
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/15/Screenshot-2020-11-20-at-23.08.36.png" alt="" />
-                    Working most of the times (always) in Platform i'm usually play with the infrastructure, however sometimes to create prototype i need backends that are done for the specific purpose. GOALS:The application must be a REST apiRun in kubernetes Docker and kubernetesThe application is working with&hellip;
+                    Working most of the times (always) in Platform i'm usually play with the infrastructure, however sometimes to create prototype i need backends that are done for the specific purpose. GOALS: The application must be a REST api Run in kubernetes Docker and kubernetes The application&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -2053,7 +2053,7 @@ Forwarding from [::1]:2746 -&gt; 2746
         <updated>2020-12-27T11:21:23+01:00</updated>
             <summary>
                 <![CDATA[
-                     Long story short my vps provider changed tha ammount for the small instance from 1$ to 3$ so i took the advantage to switch my postfix service from cloud to onprem. Why, since the world is moving to cloud ? Because my own domain is&hellip;
+                     Long story short my vps provider changed tha ammount for the small instance from 1$ to 3$ so i took the advantage to switch my postfix service from cloud to onprem. Why, since the world is moving to cloud ? Because my own domain&hellip;
                 ]]>
             </summary>
         <content type="html">
