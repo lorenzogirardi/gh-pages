@@ -50,7 +50,27 @@
 </url>
 <url>
 <loc>https://www.k8s.it/hobbies.html</loc>
-<lastmod>2021-09-24T21:30:03+02:00</lastmod>
+<lastmod>2021-09-24T22:01:32+02:00</lastmod>
+<image:image>
+<image:loc>https://www.k8s.it/media/posts/31/IMG_20200923_171115.jpg</image:loc>
+<image:title><![CDATA[ktm 890r]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://www.k8s.it/media/posts/31/IMG_20210528_121742.jpg</image:loc>
+<image:title><![CDATA[kawasaki zxr 400]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://www.k8s.it/media/posts/31/IMG_20210216_122543_01.jpg</image:loc>
+<image:title><![CDATA[suzuki rgv gamma 250]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://www.k8s.it/media/posts/31/206650_1018079969795_715_n_1018079969795.jpg</image:loc>
+<image:title><![CDATA[ducati 999s]]></image:title>
+</image:image>
+<image:image>
+<image:loc>https://www.k8s.it/media/posts/31/Screenshot-2021-09-24-at-21.54.12.png</image:loc>
+<image:title><![CDATA[ohvale gp2]]></image:title>
+</image:image>
 </url>
 <url>
 <loc>https://www.k8s.it/homelab-when-small-is-big.html</loc>
