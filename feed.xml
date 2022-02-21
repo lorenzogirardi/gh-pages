@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2022-02-21T18:12:34+01:00</updated>
+    <updated>2022-02-21T18:15:11+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -19,12 +19,13 @@
             <category term="performances"/>
             <category term="metrics"/>
             <category term="kubernetes"/>
+            <category term="kpi"/>
             <category term="hpa"/>
             <category term="dynamic infrastructure"/>
             <category term="autoscaling"/>
             <category term="application metrics"/>
 
-        <updated>2022-02-21T18:12:34+01:00</updated>
+        <updated>2022-02-21T18:15:11+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/35/Screenshot-2022-02-21-at-16.32.46.png" alt="" />
