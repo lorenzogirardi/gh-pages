@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2022-02-21T18:15:55+01:00</updated>
+    <updated>2022-02-21T21:17:04+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -25,11 +25,11 @@
             <category term="autoscaling"/>
             <category term="application metrics"/>
 
-        <updated>2022-02-21T18:15:55+01:00</updated>
+        <updated>2022-02-21T21:17:04+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/35/Screenshot-2022-02-21-at-16.32.46.png" alt="" />
-                     We are usually habit sometimes to react to some events with with predefined actions If we increase the traffic then we increase the resources That is true and in some scenario is still the procedure , however i think we need to better understand what&hellip;
+                     We are usually habit, sometimes, to react to some events with predefined actions If we increase the traffic then we increase the resources That is true and in some scenario is still the procedure , however i think we need to better understand what we&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -37,7 +37,7 @@
                     <img src="https://www.k8s.it/media/posts/35/Screenshot-2022-02-21-at-16.32.46.png" alt="" />
                 <figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/35/lazy.gif" alt="" width="480" height="270"></figure>
 <p> </p>
-<p>We are usually habit sometimes to react to some events with with predefined actions </p>
+<p>We are usually habit, sometimes, to react to some events with predefined actions </p>
 <p><strong>If</strong> we increase the traffic <strong>then </strong>we increase the resources <br>That is true and in some scenario is still the procedure , however i think we need to better understand what we have behind and the goal that we want to reach.<br><br>Since <span style="text-decoration: underline;">I'm lazy</span> i prefer to work one time , rather than be event driven </p>
 <p>First of all the <strong>KPI </strong><br>This is not only related if the service is up and down , or if it's degraded or not ... is mostly focused on the service expectation <br><br>Answer in 3ms ?<br>Answer in 30ms ?<br>Answer in 300ms ?<br>Answer in 3000ms ?</p>
 <p>In all the above question the service is running but the impact can be really different</p>
