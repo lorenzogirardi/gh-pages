@@ -1,8 +1,124 @@
-<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LAB</title><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.k8s.it/page/5/"><link rel="amphtml" href="https://www.k8s.it/amp/page/5/"><link rel="alternate" type="application/atom+xml" href="https://www.k8s.it/feed.xml"><link rel="alternate" type="application/json" href="https://www.k8s.it/feed.json"><meta property="og:title" content="LAB"><meta property="og:site_name" content="LAB"><meta property="og:description" content=""><meta property="og:url" content="https://www.k8s.it/page/5/"><meta property="og:type" content="website"><link rel="shortcut icon" href="https://www.k8s.it/media/website/eth0.ico" type="image/x-icon"><link rel="prev" href="https://www.k8s.it/page/4/"><link rel="stylesheet" href="https://www.k8s.it/assets/css/style.css?v=58d95834b17035d27bf753fe27fd3f4e"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"LAB","url":"https://www.k8s.it/","sameAs":["https://www.linkedin.com/in/lgirardi/"]}</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-179496482-1"></script><script>window.dataLayer = window.dataLayer || [];
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>YA vpn service in kubernetes - LAB</title><meta name="description" content="Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.k8s.it/ya-vpn-service-in-kubernetes.html"><link rel="amphtml" href="https://www.k8s.it/amp/ya-vpn-service-in-kubernetes.html"><link rel="alternate" type="application/atom+xml" href="https://www.k8s.it/feed.xml"><link rel="alternate" type="application/json" href="https://www.k8s.it/feed.json"><meta property="og:title" content="YA vpn service in kubernetes - LAB "><meta property="og:site_name" content="LAB"><meta property="og:description" content="Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;"><meta property="og:url" content="https://www.k8s.it/ya-vpn-service-in-kubernetes.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.k8s.it/media/website/eth0.ico" type="image/x-icon"><link rel="stylesheet" href="https://www.k8s.it/assets/css/style.css?v=58d95834b17035d27bf753fe27fd3f4e"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.k8s.it/ya-vpn-service-in-kubernetes.html"},"headline":"YA vpn service in kubernetes","datePublished":"2022-07-18T23:08","dateModified":"2022-07-18T23:09","description":"Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;","author":{"@type":"Person","name":"lgirardi","url":"https://www.k8s.it/authors/lgirardi/"},"publisher":{"@type":"Organization","name":"lgirardi"}}</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-179496482-1"></script><script>window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-179496482-1');</script></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.k8s.it/">LAB</a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.linkedin.com/in/lgirardi/">linkedin</a></li><li><a href="https://services.k8s.it/grafana/?orgId&#x3D;2">live monitoring</a></li><li><a href="https://www.k8s.it/whoami.html">whoami</a></li><li><a href="https://www.k8s.it/hobbies.html" target="_self">hobbies</a></li></ul></nav></header><main><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.k8s.it/media/website/hero_image.png" srcset="https://www.k8s.it/media/website/responsive/hero_image-xs.png 300w, https://www.k8s.it/media/website/responsive/hero_image-sm.png 480w, https://www.k8s.it/media/website/responsive/hero_image-md.png 768w, https://www.k8s.it/media/website/responsive/hero_image-lg.png 1024w, https://www.k8s.it/media/website/responsive/hero_image-xl.png 1360w, https://www.k8s.it/media/website/responsive/hero_image-2xl.png 1600w" sizes="100vw" loading="eager" width="1588" height="643" alt=""></figure><header class="hero__content"><div class="wrapper"><p>Any sufficiently advanced technology is indistinguishable from magic.</p></div></header></div><div class="feed"><article class="feed__item"><header class="wrapper"><div class="feed__meta"><a href="https://www.k8s.it/authors/lgirardi/" class="feed__author">lgirardi</a> <time datetime="2020-08-11T20:42" class="feed__date">11 Aug 2020</time></div><h2><a href="https://www.k8s.it/docker-latency.html">Docker-latency</a></h2></header><div class="wrapper"><p>aka the network blaming tool So again another grafana stack with docker Well yes but with a precise scope In this period we are almost all working from home, the blaming topic is usually the connection with our offices or the datacenters. Is not so&hellip;</p><a href="https://www.k8s.it/docker-latency.html" class="readmore feed__readmore">Continue reading...</a></div></article><article class="feed__item"><header class="wrapper"><div class="feed__meta"><a href="https://www.k8s.it/authors/lgirardi/" class="feed__author">lgirardi</a> <time datetime="2018-07-06T22:10" class="feed__date">6 Jul 2018</time></div><h2><a href="https://www.k8s.it/terraform-your-free-claudflare-account.html">Terraform your free Claudflare account</a></h2></header><div class="wrapper"><p>So... after some experience with akamai www.ethzero.it is an alias for aku-cs-akamaiflowers.com.edgesuite.net. aku-cs-akamaiflowers.com.edgesuite.net is an alias for a169.dscksd.akamai.net. a169.dscksd.akamai.net has address 193.45.15.98 a169.dscksd.akamai.net has address 193.45.15.122 a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f62 a169.dscksd.akamai.net has IPv6 address 2001:2030:0:27::c12d:f7a and some others with Incapsula bunker.ethzero.it is an alias&hellip;</p><a href="https://www.k8s.it/terraform-your-free-claudflare-account.html" class="readmore feed__readmore">Continue reading...</a></div></article><article class="feed__item"><header class="wrapper"><div class="feed__meta"><a href="https://www.k8s.it/authors/lgirardi/" class="feed__author">lgirardi</a> <time datetime="2018-04-10T23:29" class="feed__date">10 Apr 2018</time></div><h2><a href="https://www.k8s.it/kubernetes-for-mere-mortals.html">Kubernetes for mere mortals</a></h2></header><div class="wrapper"><p>Well, what do you need to build your homemade cluster? armbian 4.10.1 kubeadm and kubelet 1.6.4 traefik as a ingress controller heapster, collectd, influxdb and grafana as a monitoring stack NAMESPACE NAME READY STATUS RESTARTS AGE home-prd k8s-helloworld-3468567185-2fwhb 1/1 Running 0 10d home-prd k8s-helloworld-3468567185-lbgpk 1/1&hellip;</p><a href="https://www.k8s.it/kubernetes-for-mere-mortals.html" class="readmore feed__readmore">Continue reading...</a></div></article><nav class="wrapper pagination desc"><div class="pagination__item"><a href="https://www.k8s.it/page/4/" class="readmore">Next </a><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#arrow-next"/></svg></div></nav></div></main><footer class="footer"><div class="footer__social"><a href="https://www.linkedin.com/in/lgirardi/" aria-label="LinkedIn"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg></a></div><div class="footer__copyright"><p>.</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script defer="defer" src="https://www.k8s.it/assets/js/scripts.min.js?v=f47c11534595205f20935f0db2a62a85"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.top'};</script><script>var images = document.querySelectorAll('img[loading]');
+  gtag('config', 'UA-179496482-1');</script></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.k8s.it/">LAB</a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.linkedin.com/in/lgirardi/">linkedin</a></li><li><a href="https://services.k8s.it/grafana/?orgId&#x3D;2">live monitoring</a></li><li><a href="https://www.k8s.it/whoami.html">whoami</a></li><li><a href="https://www.k8s.it/hobbies.html" target="_self">hobbies</a></li></ul></nav></header><main><article class="post"><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.k8s.it/media/website/hero_image.png" srcset="https://www.k8s.it/media/website/responsive/hero_image-xs.png 300w, https://www.k8s.it/media/website/responsive/hero_image-sm.png 480w, https://www.k8s.it/media/website/responsive/hero_image-md.png 768w, https://www.k8s.it/media/website/responsive/hero_image-lg.png 1024w, https://www.k8s.it/media/website/responsive/hero_image-xl.png 1360w, https://www.k8s.it/media/website/responsive/hero_image-2xl.png 1600w" sizes="100vw" loading="eager" alt=""></figure><header class="hero__content"><div class="wrapper"><div class="post__meta"><time datetime="2022-07-18T23:08">18 Jul 2022</time></div><h1>YA vpn service in kubernetes</h1></div></header></div><div class="wrapper post__entry"><h2 dir="auto">Table of contents</h2><ol dir="auto"><li>Why</li><li>Key generation</li><li>Kubernetes deployment</li><li>Test and results</li></ol><h2 dir="auto">Why</h2><p dir="auto">Honestly i was scared to dismiss my beloved ipsec based on <a href="https://github.com/lorenzogirardi/kubernetes-strongswan">strongswan</a>,<br>however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself.</p><p dir="auto"><br><br></p><h2 dir="auto">Key generation</h2><p dir="auto">First you have to install wg somewhere , however if u are using a mac , it's enough<br><code>brew install wireguard-tools</code></p><p dir="auto">Second step is generate the keys</p><p dir="auto">Server:</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>wg genkey &gt; server_privatekey  
+wg pubkey &lt; server_privatekey &gt; server_publickey_me
+</code></pre></div><p dir="auto">Client:</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>wg genkey | tee me_privatekey | wg pubkey &gt; me_publickey   
+</code></pre></div><p dir="auto"><br><span style="color: var(--headings-color); font-family: var(--font-base); font-size: 1.60181em; font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing);">Kubernetes deployment</span></p><p dir="auto">Let's create a dedicated namespace , i'm not a fan of default</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>apiVersion: v1
+kind: Namespace
+metadata:
+  name: wireguard
+  labels:
+    name: wireguard
+</code></pre></div><p dir="auto">Since i'm under a vps i will use the nodePort</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>apiVersion: v1
+kind: Service
+metadata:
+  name: wireguard
+  namespace: wireguard
+spec:
+  type: NodePort
+  ports:
+    - port: 51820
+      nodePort: 31820
+      protocol: UDP
+      targetPort: 51820
+  selector:
+    name: wireguard
+</code></pre></div><p dir="auto">in this example the udp will be shown on public_ip:31820</p><p dir="auto">Now ... we have multiple options , mount a persisten volume , use secrets , use configmaps etc etc<br>here just for a test purpose i've used the secrets</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>apiVersion: v1
+kind: Secret
+metadata:
+  name: wireguard
+  namespace: wireguard
+type: Opaque
+stringData:
+  wg0.conf.template: |
+    [Interface]
+    Address = 172.16.18.0/20
+    ListenPort = 51820
+    PrivateKey = &lt;server_privatekey&gt;
+    PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o ENI -j MASQUERADE
+    PostUp = sysctl -w -q net.ipv4.ip_forward=1
+    PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o ENI -j MASQUERADE
+    PostDown = sysctl -w -q net.ipv4.ip_forward=0
+
+    [Peer]
+    #me
+    PublicKey = &lt;me_publickey&gt;
+    AllowedIPs = 172.16.18.10
+</code></pre></div><p dir="auto">where <code>72.16.18.0/20</code> is the road warrior tunnel and<br><code>172.16.18.10</code> is the client ip assigned to me.</p><p dir="auto">Last the deployment</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wireguard
+  namespace: wireguard
+spec:
+  selector:
+    matchLabels:
+      name: wireguard
+  template:
+    metadata:
+      labels:
+        name: wireguard
+    spec:
+      initContainers:
+        - name: "wireguard-template-replacement"
+          image: "busybox"
+          command: ["sh", "-c", "ENI=$(ip route get 8.8.8.8 | grep 8.8.8.8 | awk '{print $5}'); sed \"s/ENI/$ENI/g\" /etc/wireguard-secret/wg0.conf.template &gt; /etc/wireguard/wg0.conf; chmod 400 /etc/wireguard/wg0.conf"]
+          volumeMounts:
+            - name: wireguard-config
+              mountPath: /etc/wireguard/
+            - name: wireguard-secret
+              mountPath: /etc/wireguard-secret/
+      containers:
+        - name: "wireguard"
+          image: "linuxserver/wireguard:latest"
+          ports:
+            - containerPort: 51820
+          env:
+            - name: "TZ"
+              value: "Europe/Rome"
+            - name: "PEERS"
+              value: "example"
+          volumeMounts:
+            - name: wireguard-config
+              mountPath: /etc/wireguard/
+              readOnly: true
+          securityContext:
+            privileged: true
+            capabilities:
+              add:
+                - NET_ADMIN
+      volumes:
+        - name: wireguard-config
+          emptyDir: {}
+        - name: wireguard-secret
+          secret:
+            secretName: wireguard
+      imagePullSecrets:
+        - name: docker-registry
+</code></pre></div><p dir="auto">if everithing is done correctly you will se the following<br><code>kubectl get pods -n wireguard</code></p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>NAME                         READY   STATUS    RESTARTS   AGE
+wireguard-74ff66988d-ltwkq   1/1     Running   0          108m
+</code></pre></div><p dir="auto">and</p><p dir="auto"><code># kubectl exec -n wireguard -it deployment/wireguard -- bash</code></p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>root@wireguard-74ff66988d-ltwkq:/# wg show
+interface: wg0
+  public key: Er7V4vxMEVBNZbqbDzHgXlYnZjSwrJYtwds86oOLLEg=
+  private key: (hidden)
+  listening port: 51820
+
+peer: dfJjw5rdVNhmcIlDyFAXZI0rBQydsw9uqlh4kFJxBa0I=
+  endpoint: 10.0.254.135:33851
+  allowed ips: 172.16.18.10/32
+  latest handshake: 5 minutes, 16 seconds ago
+  transfer: 30.63 MiB received, 6.55 MiB sent
+</code></pre></div><p dir="auto">For the client i strongly ... STRONGLY suggest to import a configuration</p><p dir="auto"><code>$ cat wireconf.conf</code></p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>[Interface]
+Address = 172.16.18.10/32
+PrivateKey = &lt;me_privatekey&gt;
+DNS = 1.1.1.1
+
+[Peer]
+PublicKey = &lt;server_publickey_me&gt;
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = &lt;your-public-ip&gt;:31820
+</code></pre></div><h2 dir="auto"> </h2><h2 dir="auto">Test and results</h2><p dir="auto">From mobile<br><a href="https://res.cloudinary.com/ethzero/video/upload/v1658175554/misc/wireguard-mobile.mp4" title="wirecardmobile" rel="nofollow"><img loading="lazy" src="https://camo.githubusercontent.com/6ce79561a4eab7bc80d169a5c3f3f184d6f14642fe06fa6de0d72b0be062285f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3234302f76313635383137353835372f6d6973632f77697265636172646d6f62696c652e706e67" data-is-external-image="true" alt="wirecardmobile" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_240/v1658175857/misc/wirecardmobile.png"></a></p><p dir="auto">And what about the resources usage with 1g file download...<br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/8b842d08f4e0858968e44bb161c194c426e7eb624e1f22dcab7a61cf28eb58b1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383137363737332f6d6973632f77697265677561726465736b746f702e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/8b842d08f4e0858968e44bb161c194c426e7eb624e1f22dcab7a61cf28eb58b1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383137363737332f6d6973632f77697265677561726465736b746f702e706e67" data-is-external-image="true" alt="" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1658176773/misc/wireguardesktop.png"></a></p><p dir="auto"><br><br></p><p dir="auto">So i'm really impressed by the efficiency of this tool ... i was reading a lot of good mention about it,<br>however today i discovered another tool for my swiss army knife</p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on 18 Jul 2022</p><ul class="post__tag"><li><a href="https://www.k8s.it/kubernetes/">kubernetes</a></li><li><a href="https://www.k8s.it/performances/">performances</a></li><li><a href="https://www.k8s.it/system-metrics/">system metrics</a></li><li><a href="https://www.k8s.it/vpn/">vpn</a></li><li><a href="https://www.k8s.it/wireguard/">wireguard</a></li></ul><div class="post__share"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share facebook" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#facebook"/></svg> <span>Facebook</span> </a><a href="https://twitter.com/share?url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html&amp;via=LAB&amp;text=YA%20vpn%20service%20in%20kubernetes" class="js-share twitter" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#twitter"/></svg> <span>Twitter</span> </a><a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share linkedin" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg> <span>LinkedIn</span> </a><a href="https://buffer.com/add?text=YA%20vpn%20service%20in%20kubernetes&amp;url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share buffer" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#buffer"/></svg> <span>Buffer</span> </a><a href="https://api.whatsapp.com/send?text=YA%20vpn%20service%20in%20kubernetes https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share whatsapp" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#whatsapp"/></svg> <span>WhatsApp</span></a></div><div class="post__bio bio"><div class="bio__info"><h3 class="bio__name"><a href="https://www.k8s.it/authors/lgirardi/" rel="author">lgirardi</a></h3><p>If it isn&#x27;t there, it can&#x27;t break.</p></div></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.k8s.it/etcshadow.html" class="post__nav-link" rel="prev"><span>Previous</span> /etc/shadow</a></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2020-08-25T18:53" class="feed__date">25 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-postfix.html"> Kubernetes postfix</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2020-08-11T20:50" class="feed__date">11 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-servicemesh.html">Kubernetes servicemesh</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2020-08-11T20:48" class="feed__date">11 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-apacherr.html">Kubernetes apache httpd</a></h3></article></div></div><div class="post__comments"><div class="wrapper"></div></div></main><footer class="footer"><div class="footer__social"><a href="https://www.linkedin.com/in/lgirardi/" aria-label="LinkedIn"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg></a></div><div class="footer__copyright"><p>.</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script defer="defer" src="https://www.k8s.it/assets/js/scripts.min.js?v=f47c11534595205f20935f0db2a62a85"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.top'};</script><script>var images = document.querySelectorAll('img[loading]');
 
         for (var i = 0; i < images.length; i++) {
             if (images[i].complete) {
