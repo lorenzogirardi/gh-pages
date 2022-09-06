@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2022-07-27T07:58:34+02:00</updated>
+    <updated>2022-08-13T06:46:59+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -245,7 +245,7 @@ Endpoint = &lt;your-public-ip&gt;:31820
         <link href="https://www.k8s.it/etcshadow.html"/>
         <id>https://www.k8s.it/etcshadow.html</id>
 
-        <updated>2022-03-19T12:58:09+01:00</updated>
+        <updated>2022-08-13T06:46:59+02:00</updated>
             <summary></summary>
         <content type="html">
             <![CDATA[
