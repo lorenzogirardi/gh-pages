@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2023-02-11T13:13:02+01:00</updated>
+    <updated>2023-02-11T13:15:42+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -29,7 +29,7 @@
             <category term="envoy"/>
             <category term="api-gateway"/>
 
-        <updated>2023-02-11T13:13:02+01:00</updated>
+        <updated>2023-02-11T13:15:42+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.08.13.png" alt="" />
@@ -39,1545 +39,6 @@
         <content type="html">
             <![CDATA[
                     <p><img src="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.08.13.png" class="type:primaryImage" alt="" /></p>
-                <p dir="auto">For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application.<br><br></p>
-<p dir="auto">For this scenario we have 2 greddy options:</p>
-<ul dir="auto">
-<li>have the logic inside the app , in a <em>code</em> way</li>
-<li>have a sidecar container that has this role</li>
-</ul>
-<p><br><br></p>
-<h2 dir="auto"><a id="user-content-the-code-way" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#the-code-way"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>the code way</h2>
-<p dir="auto">This is the simplest one but has some side effects,<br>first of all can be reaused just for the same language apps.<br>Same as before , having this rate inside the app , we are creating a role inside this app<br>that can be good or bad depending of the strategy applied,<br>imagine the request interceptor for example will consume cpu and may <em>false</em> metrics if we are not aware of it.<br><br>But anyway , it can be a solution , so in a simple python code you have to add the following for example<br>(i will use the usual <a href="https://github.com/lorenzogirardi/py-test-backend/tree/ratelimit/docker">app</a> i'm using for labs stuff)<br>I'ts Flask so you just have to add the following:<br>in requirements.txt --&gt; <code>Flask-Limiter</code></p>
-<p dir="auto">Inside your code , import the libraries</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
-</code></pre>
-</div>
-<p dir="auto">Enable the <em>limiter</em></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>limiter = Limiter(
-	get_remote_address,
-	app=app,
-	storage_uri="memory://",
-)
-</code></pre>
-</div>
-<p dir="auto">And add the limiting option in the route u'd like to rate</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>@limiter.limit("28 per second")
-</code></pre>
-</div>
-<p> </p>
-<h3 dir="auto"><a id="user-content-handson" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#handson"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Handson</h3>
-<p dir="auto">Just moved from <code>@limiter.limit("28 per second")</code> to <code>@limiter.limit("2 per second")</code></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ docker build -t lgirardi/pytbakrated .
-[+] Building 11.1s (9/9) FINISHED
- =&gt; [internal] load build definition from Dockerfile                                                                                                                                                                                     0.0s
- =&gt; =&gt; transferring dockerfile: 34B                                                                                                                                                                                                      0.0s
- =&gt; [internal] load .dockerignore                                                                                                                                                                                                        0.0s
- =&gt; =&gt; transferring context: 2B                                                                                                                                                                                                          0.0s
- =&gt; [internal] load metadata for docker.io/library/python:3.9-alpine                                                                                                                                                                     0.6s
- =&gt; [internal] load build context                                                                                                                                                                                                        0.0s
- =&gt; =&gt; transferring context: 4.47kB                                                                                                                                                                                                      0.0s
- =&gt; CACHED [1/4] FROM docker.io/library/python:3.9-alpine@sha256:8bda1e9a98fa4e87ff6e3a7682f496532b06fcbae10326a59c8656126051d4df                                                                                                        0.0s
- =&gt; [2/4] COPY . /app                                                                                                                                                                                                                    0.0s
- =&gt; [3/4] WORKDIR /app                                                                                                                                                                                                                   0.0s
- =&gt; [4/4] RUN pip install -r requirements.txt                                                                                                                                                                                            9.9s
- =&gt; exporting to image                                                                                                                                                                                                                   0.4s
- =&gt; =&gt; exporting layers                                                                                                                                                                                                                  0.4s
- =&gt; =&gt; writing image sha256:583ec19905662414ad6bdb3b0da1042ec799ec46f8a676fac6553364cd02bf1e                                                                                                                                             0.0s
- =&gt; =&gt; naming to docker.io/lgirardi/pytbakrated
-</code></pre>
-</div>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ docker run -p 5000:5000 lgirardi/pytbakrated
- * Serving Flask app 'app'
- * Debug mode: off
-2023-02-11 10:36:06,264 INFO werkzeug MainThread : WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.17.0.2:5000
-2023-02-11 10:36:06,264 INFO werkzeug MainThread : Press CTRL+C to quit
-</code></pre>
-</div>
-<p dir="auto">With a simple curl you can check if it's working , so the rate will be triggered if u go over 2 req/sec</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ while true; do curl -I localhost:5000/api/fib/1 &amp;&amp; sleep 0.4;done
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:54 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:54 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 429 TOO MANY REQUESTS
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:55 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 117
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:55 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:56 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 429 TOO MANY REQUESTS
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:56 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 117
-</code></pre>
-</div>
-<p dir="auto">in the same way the contrainer logs are showing the same</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>2023-02-11 10:37:54,359 INFO werkzeug Thread-34 : 172.17.0.1 - - [11/Feb/2023 10:37:54] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:54,778 INFO werkzeug Thread-36 : 172.17.0.1 - - [11/Feb/2023 10:37:54] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:55,196 INFO flask-limiter Thread-38 : ratelimit 2 per 1 second (172.17.0.1) exceeded at endpoint: fib
-2023-02-11 10:37:55,197 INFO werkzeug Thread-38 : 172.17.0.1 - - [11/Feb/2023 10:37:55] "HEAD /api/fib/1 HTTP/1.1" 429 -
-2023-02-11 10:37:55,616 INFO werkzeug Thread-40 : 172.17.0.1 - - [11/Feb/2023 10:37:55] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:56,035 INFO werkzeug Thread-42 : 172.17.0.1 - - [11/Feb/2023 10:37:56] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:56,455 INFO flask-limiter Thread-44 : ratelimit 2 per 1 second (172.17.0.1) exceeded at endpoint: fib
-2023-02-11 10:37:56,456 INFO werkzeug Thread-44 : 172.17.0.1 - - [11/Feb/2023 10:37:56] "HEAD /api/fib/1 HTTP/1.1" 429 -
-</code></pre>
-</div>
-<p dir="auto">Honestly there are few pro and cons ... but i'd like to enter in those details with a more practical exmaple ...<br>just few concepts anyway are:</p>
-<ul dir="auto">
-<li>is using the same pool of connections</li>
-<li>it's impacting the same metric that i'm using for autoscaling</li>
-<li>is stealing resources from app</li>
-<li>is really simple rate limit that can fight with others stuff</li>
-</ul>
-<p><br><br></p>
-<h2 dir="auto"><a id="user-content-the-sidecar-way" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#the-sidecar-way"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>the sidecar way</h2>
-<p dir="auto">Yes i know , this is a <em>stretch</em>, since we have service mesh , gateway etc etc that embrace this concept.<br>However, for a specific reason, i created just a sidecar container that can be reused without the needs to implement the infrastructure mentioned before</p>
-<p dir="auto">First of all the choice, tons of possibility, from nginx reverse proxy , to haproxy to <em>whatever</em> proxy ...<br>in this scenario i took the opportunity to use <strong>envoy</strong> , i've already used it with istio , and is really really flexible<br>(sometimes too much, in a way to be confused :-)</p>
-<p dir="auto">Anyway ... it's just a sidecar<br>In an existing app you have to add the following to add envoy</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      - name: sidecar
-        image: envoyproxy/envoy:v1.22-latest
-        resources:
-          limits:
-            cpu: 100m
-            memory: 150Mi
-          requests:
-            cpu: 30m
-            memory: 55Mi
-        ports:
-          - name: http
-            containerPort: 5002
-            protocol: TCP
-        volumeMounts:
-          - name: sidecar-config
-            mountPath: "/etc/envoy"
-            readOnly: true
-      volumes:
-        - name: sidecar-config
-          configMap:
-            name: pytbakt-configmap
-</code></pre>
-</div>
-<p dir="auto">(great fantasy for the name :-)</p>
-<p dir="auto">and ... well the most important configuration is the <code>pytbakt-configmap</code> that is the envoy configuration</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pytbakt-configmap
-  labels:
-    app: pytbak
-  namespace: pytbak
-data:
-  envoy.yaml: |
-    static_resources:
-      listeners:
-      - name: listener_0
-        address:
-          socket_address:
-            address: 0.0.0.0
-            port_value: 5002
-        filter_chains:
-        - filters:
-          - name: envoy.filters.network.http_connection_manager
-            typed_config:
-              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-              stat_prefix: ingress_http
-              route_config:
-                name: local_route
-                virtual_hosts:
-                - name: local_service
-                  domains: ["*"]
-                  routes:
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: pytbak
-              http_filters:
-              - name: envoy.filters.http.local_ratelimit
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                  stat_prefix: http_local_rate_limiter
-                  token_bucket:
-                    max_tokens: 29
-                    tokens_per_fill: 29
-                    fill_interval: 1s
-                  filter_enabled:
-                    runtime_key: local_rate_limit_enabled
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  filter_enforced:
-                    runtime_key: local_rate_limit_enforced
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  response_headers_to_add:
-                  - append_action: OVERWRITE_IF_EXISTS_OR_ADD
-                    header:
-                      key: x-local-rate-limit
-                      value: 'true'
-                  local_rate_limit_per_downstream_connection: false
-
-              - name: envoy.filters.http.router
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
-
-      clusters:
-      - name: pytbak
-        connect_timeout: 0.25s
-        type: LOGICAL_DNS
-        dns_lookup_family: V4_ONLY
-        lb_policy: ROUND_ROBIN
-        load_assignment:
-          cluster_name: service_a
-          endpoints:
-          - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: localhost
-                    port_value: 5000
-</code></pre>
-</div>
-<p dir="auto">in a Human readable way ...</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      - name: listener_0
-        address:
-          socket_address:
-            address: 0.0.0.0
-            port_value: 5002
-</code></pre>
-</div>
-<p dir="auto">envoy proxy is listening on port 5002</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>                - name: local_service
-                  domains: ["*"]
-                  routes:
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: pytbak
-</code></pre>
-</div>
-<p dir="auto">no path or domain configuration , just handle all after <code>/</code></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      clusters:
-      - name: pytbak
-        connect_timeout: 0.25s
-        type: LOGICAL_DNS
-        dns_lookup_family: V4_ONLY
-        lb_policy: ROUND_ROBIN
-        load_assignment:
-          cluster_name: service_a
-          endpoints:
-          - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: localhost
-                    port_value: 5000
-</code></pre>
-</div>
-<p dir="auto">something like <em>reverse proxy</em> configuration since the app is listening on port 5000</p>
-<p dir="auto">And now the Rate limiting section</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>              http_filters:
-              - name: envoy.filters.http.local_ratelimit
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                  stat_prefix: http_local_rate_limiter
-                  token_bucket:
-                    max_tokens: 29
-                    tokens_per_fill: 29
-                    fill_interval: 1s
-                  filter_enabled:
-                    runtime_key: local_rate_limit_enabled
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  filter_enforced:
-                    runtime_key: local_rate_limit_enforced
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  response_headers_to_add:
-                  - append_action: OVERWRITE_IF_EXISTS_OR_ADD
-                    header:
-                      key: x-local-rate-limit
-                      value: 'true'
-                  local_rate_limit_per_downstream_connection: false
-</code></pre>
-</div>
-<p dir="auto">we have a bucket of 29 token , and every second it re-enable the 29 token in the bucket ... i mean ... 29req/second <em>almost</em> :-)</p>
-<h3 dir="auto"><a id="user-content-handson-1" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#handson-1"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Handson</h3>
-<p dir="auto">Again i changed the rate limit to 2req/second</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>                  token_bucket:
-                    max_tokens: 2
-                    tokens_per_fill: 2
-                    fill_interval: 1s
-</code></pre>
-</div>
-<p dir="auto">in kubernetes <code>pytbak              pytbak-stable-bd648fd46-nj95m              2/2     Running       0                 13s</code></p>
-<p dir="auto">kubectl describe pod pytbak-stable-bd648fd46-nj95m -n pytbak</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>Name:         pytbak-stable-bd648fd46-nj95m
-Namespace:    pytbak
-Priority:     0
-Node:         instance-20220215-1853/10.0.254.135
-Start Time:   Sat, 11 Feb 2023 11:19:45 +0000
-Labels:       app=pytbak
-              pod-template-hash=bd648fd46
-              track=pytbak-stable
-Annotations:  cni.projectcalico.org/podIP: 10.1.156.173/32
-              cni.projectcalico.org/podIPs: 10.1.156.173/32
-              prometheus.io/path: /metrics
-              prometheus.io/port: 5000
-              prometheus.io/scrape: true
-Status:       Running
-IP:           10.1.156.173
-IPs:
-  IP:           10.1.156.173
-Controlled By:  ReplicaSet/pytbak-stable-bd648fd46
-Containers:
-  pytbak:
-    Container ID:   containerd://9a54504e73a14746299366e2941b51f7069b6649208329a3f87708b053ef1eaf
-    Image:          lgirardi/rest-test-multip:0.6
-    Image ID:       docker.io/lgirardi/rest-test-multip@sha256:c94695a04fb3b862bfb576ead460aba3528bd098327f88122d087f48380506dd
-    Port:           5000/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Sat, 11 Feb 2023 11:19:46 +0000
-    Ready:          True
-    Restart Count:  0
-    Limits:
-      cpu:     300m
-      memory:  250Mi
-    Requests:
-      cpu:        30m
-      memory:     125Mi
-    Liveness:     http-get http://:5000/api/ delay=40s timeout=10s period=10s #success=1 #failure=3
-    Readiness:    http-get http://:5000/api/ delay=5s timeout=15s period=10s #success=1 #failure=3
-    Environment:  &lt;none&gt;
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xrr7c (ro)
-  sidecar:
-    Container ID:   containerd://a0d45982aa56704983a89bacd664e5cbb8b38b1df943df92ad879e7c66986c22
-    Image:          envoyproxy/envoy:v1.22-latest
-    Image ID:       docker.io/envoyproxy/envoy@sha256:3b1e0114dbead3fbd9f561994f3894f5d113a815e023065cabdf0c48d55396ce
-    Port:           5002/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Sat, 11 Feb 2023 11:19:47 +0000
-    Ready:          True
-    Restart Count:  0
-    Limits:
-      cpu:     100m
-      memory:  150Mi
-    Requests:
-      cpu:        30m
-      memory:     55Mi
-    Environment:  &lt;none&gt;
-    Mounts:
-      /etc/envoy from sidecar-config (ro)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xrr7c (ro)
-Conditions:
-  Type              Status
-  Initialized       True
-  Ready             True
-  ContainersReady   True
-  PodScheduled      True
-Volumes:
-  sidecar-config:
-    Type:      ConfigMap (a volume populated by a ConfigMap)
-    Name:      pytbakt-configmap
-    Optional:  false
-  kube-api-access-xrr7c:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       &lt;nil&gt;
-    DownwardAPI:             true
-QoS Class:                   Burstable
-Node-Selectors:              &lt;none&gt;
-Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type    Reason     Age    From               Message
-  ----    ------     ----   ----               -------
-  Normal  Scheduled  3m53s  default-scheduler  Successfully assigned pytbak/pytbak-stable-bd648fd46-nj95m to instance-20220215-1853
-  Normal  Pulled     3m53s  kubelet            Container image "lgirardi/rest-test-multip:0.6" already present on machine
-  Normal  Created    3m53s  kubelet            Created container pytbak
-  Normal  Started    3m53s  kubelet            Started container pytbak
-  Normal  Pulled     3m53s  kubelet            Container image "envoyproxy/envoy:v1.22-latest" already present on machine
-  Normal  Created    3m53s  kubelet            Created container sidecar
-  Normal  Started    3m52s  kubelet            Started container sidecar
-</code></pre>
-</div>
-<p dir="auto">With curl</p>
-<p dir="auto">$ while true;do curl -I <a href="http://oracolo.k8s.it/api/fib/1" rel="nofollow">http://oracolo.k8s.it/api/fib/1</a> &amp;&amp; sleep 0.4;done</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:48 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:49 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:49 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true</code></pre>
-</div>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>application rate limit </title>
-        <author>
-            <name>lgirardi</name>
-        </author>
-        <link href="https://www.k8s.it/application-rate-limit-3.html"/>
-        <id>https://www.k8s.it/application-rate-limit-3.html</id>
-            <category term="rate limit"/>
-            <category term="python"/>
-            <category term="kubernetes"/>
-            <category term="flask"/>
-
-        <updated>2023-02-11T13:10:50+01:00</updated>
-            <summary>
-                <![CDATA[
-                    For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application. For this scenario we have 2 greddy options: the code way This is the simplest one but has some side&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p dir="auto">For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application.<br><br></p>
-<p dir="auto">For this scenario we have 2 greddy options:</p>
-<ul dir="auto">
-<li>have the logic inside the app , in a <em>code</em> way</li>
-<li>have a sidecar container that has this role</li>
-</ul>
-<p><br><br></p>
-<h2 dir="auto"><a id="user-content-the-code-way" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#the-code-way"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>the code way</h2>
-<p dir="auto">This is the simplest one but has some side effects,<br>first of all can be reaused just for the same language apps.<br>Same as before , having this rate inside the app , we are creating a role inside this app<br>that can be good or bad depending of the strategy applied,<br>imagine the request interceptor for example will consume cpu and may <em>false</em> metrics if we are not aware of it.<br><br>But anyway , it can be a solution , so in a simple python code you have to add the following for example<br>(i will use the usual <a href="https://github.com/lorenzogirardi/py-test-backend/tree/ratelimit/docker">app</a> i'm using for labs stuff)<br>I'ts Flask so you just have to add the following:<br>in requirements.txt --&gt; <code>Flask-Limiter</code></p>
-<p dir="auto">Inside your code , import the libraries</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
-</code></pre>
-</div>
-<p dir="auto">Enable the <em>limiter</em></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>limiter = Limiter(
-	get_remote_address,
-	app=app,
-	storage_uri="memory://",
-)
-</code></pre>
-</div>
-<p dir="auto">And add the limiting option in the route u'd like to rate</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>@limiter.limit("28 per second")
-</code></pre>
-</div>
-<p> </p>
-<h3 dir="auto"><a id="user-content-handson" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#handson"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Handson</h3>
-<p dir="auto">Just moved from <code>@limiter.limit("28 per second")</code> to <code>@limiter.limit("2 per second")</code></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ docker build -t lgirardi/pytbakrated .
-[+] Building 11.1s (9/9) FINISHED
- =&gt; [internal] load build definition from Dockerfile                                                                                                                                                                                     0.0s
- =&gt; =&gt; transferring dockerfile: 34B                                                                                                                                                                                                      0.0s
- =&gt; [internal] load .dockerignore                                                                                                                                                                                                        0.0s
- =&gt; =&gt; transferring context: 2B                                                                                                                                                                                                          0.0s
- =&gt; [internal] load metadata for docker.io/library/python:3.9-alpine                                                                                                                                                                     0.6s
- =&gt; [internal] load build context                                                                                                                                                                                                        0.0s
- =&gt; =&gt; transferring context: 4.47kB                                                                                                                                                                                                      0.0s
- =&gt; CACHED [1/4] FROM docker.io/library/python:3.9-alpine@sha256:8bda1e9a98fa4e87ff6e3a7682f496532b06fcbae10326a59c8656126051d4df                                                                                                        0.0s
- =&gt; [2/4] COPY . /app                                                                                                                                                                                                                    0.0s
- =&gt; [3/4] WORKDIR /app                                                                                                                                                                                                                   0.0s
- =&gt; [4/4] RUN pip install -r requirements.txt                                                                                                                                                                                            9.9s
- =&gt; exporting to image                                                                                                                                                                                                                   0.4s
- =&gt; =&gt; exporting layers                                                                                                                                                                                                                  0.4s
- =&gt; =&gt; writing image sha256:583ec19905662414ad6bdb3b0da1042ec799ec46f8a676fac6553364cd02bf1e                                                                                                                                             0.0s
- =&gt; =&gt; naming to docker.io/lgirardi/pytbakrated
-</code></pre>
-</div>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ docker run -p 5000:5000 lgirardi/pytbakrated
- * Serving Flask app 'app'
- * Debug mode: off
-2023-02-11 10:36:06,264 INFO werkzeug MainThread : WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.17.0.2:5000
-2023-02-11 10:36:06,264 INFO werkzeug MainThread : Press CTRL+C to quit
-</code></pre>
-</div>
-<p dir="auto">With a simple curl you can check if it's working , so the rate will be triggered if u go over 2 req/sec</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ while true; do curl -I localhost:5000/api/fib/1 &amp;&amp; sleep 0.4;done
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:54 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:54 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 429 TOO MANY REQUESTS
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:55 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 117
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:55 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:56 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 429 TOO MANY REQUESTS
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:56 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 117
-</code></pre>
-</div>
-<p dir="auto">in the same way the contrainer logs are showing the same</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>2023-02-11 10:37:54,359 INFO werkzeug Thread-34 : 172.17.0.1 - - [11/Feb/2023 10:37:54] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:54,778 INFO werkzeug Thread-36 : 172.17.0.1 - - [11/Feb/2023 10:37:54] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:55,196 INFO flask-limiter Thread-38 : ratelimit 2 per 1 second (172.17.0.1) exceeded at endpoint: fib
-2023-02-11 10:37:55,197 INFO werkzeug Thread-38 : 172.17.0.1 - - [11/Feb/2023 10:37:55] "HEAD /api/fib/1 HTTP/1.1" 429 -
-2023-02-11 10:37:55,616 INFO werkzeug Thread-40 : 172.17.0.1 - - [11/Feb/2023 10:37:55] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:56,035 INFO werkzeug Thread-42 : 172.17.0.1 - - [11/Feb/2023 10:37:56] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:56,455 INFO flask-limiter Thread-44 : ratelimit 2 per 1 second (172.17.0.1) exceeded at endpoint: fib
-2023-02-11 10:37:56,456 INFO werkzeug Thread-44 : 172.17.0.1 - - [11/Feb/2023 10:37:56] "HEAD /api/fib/1 HTTP/1.1" 429 -
-</code></pre>
-</div>
-<p dir="auto">Honestly there are few pro and cons ... but i'd like to enter in those details with a more practical exmaple ...<br>just few concepts anyway are:</p>
-<ul dir="auto">
-<li>is using the same pool of connections</li>
-<li>it's impacting the same metric that i'm using for autoscaling</li>
-<li>is stealing resources from app</li>
-<li>is really simple rate limit that can fight with others stuff</li>
-</ul>
-<p><br><br></p>
-<h2 dir="auto"><a id="user-content-the-sidecar-way" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#the-sidecar-way"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>the sidecar way</h2>
-<p dir="auto">Yes i know , this is a <em>stretch</em>, since we have service mesh , gateway etc etc that embrace this concept.<br>However, for a specific reason, i created just a sidecar container that can be reused without the needs to implement the infrastructure mentioned before</p>
-<p dir="auto">First of all the choice, tons of possibility, from nginx reverse proxy , to haproxy to <em>whatever</em> proxy ...<br>in this scenario i took the opportunity to use <strong>envoy</strong> , i've already used it with istio , and is really really flexible<br>(sometimes too much, in a way to be confused :-)</p>
-<p dir="auto">Anyway ... it's just a sidecar<br>In an existing app you have to add the following to add envoy</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      - name: sidecar
-        image: envoyproxy/envoy:v1.22-latest
-        resources:
-          limits:
-            cpu: 100m
-            memory: 150Mi
-          requests:
-            cpu: 30m
-            memory: 55Mi
-        ports:
-          - name: http
-            containerPort: 5002
-            protocol: TCP
-        volumeMounts:
-          - name: sidecar-config
-            mountPath: "/etc/envoy"
-            readOnly: true
-      volumes:
-        - name: sidecar-config
-          configMap:
-            name: pytbakt-configmap
-</code></pre>
-</div>
-<p dir="auto">(great fantasy for the name :-)</p>
-<p dir="auto">and ... well the most important configuration is the <code>pytbakt-configmap</code> that is the envoy configuration</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pytbakt-configmap
-  labels:
-    app: pytbak
-  namespace: pytbak
-data:
-  envoy.yaml: |
-    static_resources:
-      listeners:
-      - name: listener_0
-        address:
-          socket_address:
-            address: 0.0.0.0
-            port_value: 5002
-        filter_chains:
-        - filters:
-          - name: envoy.filters.network.http_connection_manager
-            typed_config:
-              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-              stat_prefix: ingress_http
-              route_config:
-                name: local_route
-                virtual_hosts:
-                - name: local_service
-                  domains: ["*"]
-                  routes:
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: pytbak
-              http_filters:
-              - name: envoy.filters.http.local_ratelimit
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                  stat_prefix: http_local_rate_limiter
-                  token_bucket:
-                    max_tokens: 29
-                    tokens_per_fill: 29
-                    fill_interval: 1s
-                  filter_enabled:
-                    runtime_key: local_rate_limit_enabled
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  filter_enforced:
-                    runtime_key: local_rate_limit_enforced
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  response_headers_to_add:
-                  - append_action: OVERWRITE_IF_EXISTS_OR_ADD
-                    header:
-                      key: x-local-rate-limit
-                      value: 'true'
-                  local_rate_limit_per_downstream_connection: false
-
-              - name: envoy.filters.http.router
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
-
-      clusters:
-      - name: pytbak
-        connect_timeout: 0.25s
-        type: LOGICAL_DNS
-        dns_lookup_family: V4_ONLY
-        lb_policy: ROUND_ROBIN
-        load_assignment:
-          cluster_name: service_a
-          endpoints:
-          - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: localhost
-                    port_value: 5000
-</code></pre>
-</div>
-<p dir="auto">in a Human readable way ...</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      - name: listener_0
-        address:
-          socket_address:
-            address: 0.0.0.0
-            port_value: 5002
-</code></pre>
-</div>
-<p dir="auto">envoy proxy is listening on port 5002</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>                - name: local_service
-                  domains: ["*"]
-                  routes:
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: pytbak
-</code></pre>
-</div>
-<p dir="auto">no path or domain configuration , just handle all after <code>/</code></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      clusters:
-      - name: pytbak
-        connect_timeout: 0.25s
-        type: LOGICAL_DNS
-        dns_lookup_family: V4_ONLY
-        lb_policy: ROUND_ROBIN
-        load_assignment:
-          cluster_name: service_a
-          endpoints:
-          - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: localhost
-                    port_value: 5000
-</code></pre>
-</div>
-<p dir="auto">something like <em>reverse proxy</em> configuration since the app is listening on port 5000</p>
-<p dir="auto">And now the Rate limiting section</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>              http_filters:
-              - name: envoy.filters.http.local_ratelimit
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                  stat_prefix: http_local_rate_limiter
-                  token_bucket:
-                    max_tokens: 29
-                    tokens_per_fill: 29
-                    fill_interval: 1s
-                  filter_enabled:
-                    runtime_key: local_rate_limit_enabled
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  filter_enforced:
-                    runtime_key: local_rate_limit_enforced
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  response_headers_to_add:
-                  - append_action: OVERWRITE_IF_EXISTS_OR_ADD
-                    header:
-                      key: x-local-rate-limit
-                      value: 'true'
-                  local_rate_limit_per_downstream_connection: false
-</code></pre>
-</div>
-<p dir="auto">we have a bucket of 29 token , and every second it re-enable the 29 token in the bucket ... i mean ... 29req/second <em>almost</em> :-)</p>
-<h3 dir="auto"><a id="user-content-handson-1" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#handson-1"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Handson</h3>
-<p dir="auto">Again i changed the rate limit to 2req/second</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>                  token_bucket:
-                    max_tokens: 2
-                    tokens_per_fill: 2
-                    fill_interval: 1s
-</code></pre>
-</div>
-<p dir="auto">in kubernetes <code>pytbak              pytbak-stable-bd648fd46-nj95m              2/2     Running       0                 13s</code></p>
-<p dir="auto">kubectl describe pod pytbak-stable-bd648fd46-nj95m -n pytbak</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>Name:         pytbak-stable-bd648fd46-nj95m
-Namespace:    pytbak
-Priority:     0
-Node:         instance-20220215-1853/10.0.254.135
-Start Time:   Sat, 11 Feb 2023 11:19:45 +0000
-Labels:       app=pytbak
-              pod-template-hash=bd648fd46
-              track=pytbak-stable
-Annotations:  cni.projectcalico.org/podIP: 10.1.156.173/32
-              cni.projectcalico.org/podIPs: 10.1.156.173/32
-              prometheus.io/path: /metrics
-              prometheus.io/port: 5000
-              prometheus.io/scrape: true
-Status:       Running
-IP:           10.1.156.173
-IPs:
-  IP:           10.1.156.173
-Controlled By:  ReplicaSet/pytbak-stable-bd648fd46
-Containers:
-  pytbak:
-    Container ID:   containerd://9a54504e73a14746299366e2941b51f7069b6649208329a3f87708b053ef1eaf
-    Image:          lgirardi/rest-test-multip:0.6
-    Image ID:       docker.io/lgirardi/rest-test-multip@sha256:c94695a04fb3b862bfb576ead460aba3528bd098327f88122d087f48380506dd
-    Port:           5000/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Sat, 11 Feb 2023 11:19:46 +0000
-    Ready:          True
-    Restart Count:  0
-    Limits:
-      cpu:     300m
-      memory:  250Mi
-    Requests:
-      cpu:        30m
-      memory:     125Mi
-    Liveness:     http-get http://:5000/api/ delay=40s timeout=10s period=10s #success=1 #failure=3
-    Readiness:    http-get http://:5000/api/ delay=5s timeout=15s period=10s #success=1 #failure=3
-    Environment:  &lt;none&gt;
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xrr7c (ro)
-  sidecar:
-    Container ID:   containerd://a0d45982aa56704983a89bacd664e5cbb8b38b1df943df92ad879e7c66986c22
-    Image:          envoyproxy/envoy:v1.22-latest
-    Image ID:       docker.io/envoyproxy/envoy@sha256:3b1e0114dbead3fbd9f561994f3894f5d113a815e023065cabdf0c48d55396ce
-    Port:           5002/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Sat, 11 Feb 2023 11:19:47 +0000
-    Ready:          True
-    Restart Count:  0
-    Limits:
-      cpu:     100m
-      memory:  150Mi
-    Requests:
-      cpu:        30m
-      memory:     55Mi
-    Environment:  &lt;none&gt;
-    Mounts:
-      /etc/envoy from sidecar-config (ro)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xrr7c (ro)
-Conditions:
-  Type              Status
-  Initialized       True
-  Ready             True
-  ContainersReady   True
-  PodScheduled      True
-Volumes:
-  sidecar-config:
-    Type:      ConfigMap (a volume populated by a ConfigMap)
-    Name:      pytbakt-configmap
-    Optional:  false
-  kube-api-access-xrr7c:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       &lt;nil&gt;
-    DownwardAPI:             true
-QoS Class:                   Burstable
-Node-Selectors:              &lt;none&gt;
-Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type    Reason     Age    From               Message
-  ----    ------     ----   ----               -------
-  Normal  Scheduled  3m53s  default-scheduler  Successfully assigned pytbak/pytbak-stable-bd648fd46-nj95m to instance-20220215-1853
-  Normal  Pulled     3m53s  kubelet            Container image "lgirardi/rest-test-multip:0.6" already present on machine
-  Normal  Created    3m53s  kubelet            Created container pytbak
-  Normal  Started    3m53s  kubelet            Started container pytbak
-  Normal  Pulled     3m53s  kubelet            Container image "envoyproxy/envoy:v1.22-latest" already present on machine
-  Normal  Created    3m53s  kubelet            Created container sidecar
-  Normal  Started    3m52s  kubelet            Started container sidecar
-</code></pre>
-</div>
-<p dir="auto">With curl</p>
-<p dir="auto">$ while true;do curl -I <a href="http://oracolo.k8s.it/api/fib/1" rel="nofollow">http://oracolo.k8s.it/api/fib/1</a> &amp;&amp; sleep 0.4;done</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:48 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:49 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:49 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true</code></pre>
-</div>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>application rate limit </title>
-        <author>
-            <name>lgirardi</name>
-        </author>
-        <link href="https://www.k8s.it/application-rate-limit-2.html"/>
-        <id>https://www.k8s.it/application-rate-limit-2.html</id>
-            <category term="rate limit"/>
-            <category term="python"/>
-            <category term="kubernetes"/>
-            <category term="flask"/>
-
-        <updated>2023-02-11T13:10:21+01:00</updated>
-            <summary>
-                <![CDATA[
-                    For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application. For this scenario we have 2 greddy options: the code way This is the simplest one but has some side&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p dir="auto">For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application.<br><br></p>
-<p dir="auto">For this scenario we have 2 greddy options:</p>
-<ul dir="auto">
-<li>have the logic inside the app , in a <em>code</em> way</li>
-<li>have a sidecar container that has this role</li>
-</ul>
-<p><br><br></p>
-<h2 dir="auto"><a id="user-content-the-code-way" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#the-code-way"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>the code way</h2>
-<p dir="auto">This is the simplest one but has some side effects,<br>first of all can be reaused just for the same language apps.<br>Same as before , having this rate inside the app , we are creating a role inside this app<br>that can be good or bad depending of the strategy applied,<br>imagine the request interceptor for example will consume cpu and may <em>false</em> metrics if we are not aware of it.<br><br>But anyway , it can be a solution , so in a simple python code you have to add the following for example<br>(i will use the usual <a href="https://github.com/lorenzogirardi/py-test-backend/tree/ratelimit/docker">app</a> i'm using for labs stuff)<br>I'ts Flask so you just have to add the following:<br>in requirements.txt --&gt; <code>Flask-Limiter</code></p>
-<p dir="auto">Inside your code , import the libraries</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
-</code></pre>
-</div>
-<p dir="auto">Enable the <em>limiter</em></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>limiter = Limiter(
-	get_remote_address,
-	app=app,
-	storage_uri="memory://",
-)
-</code></pre>
-</div>
-<p dir="auto">And add the limiting option in the route u'd like to rate</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>@limiter.limit("28 per second")
-</code></pre>
-</div>
-<p> </p>
-<h3 dir="auto"><a id="user-content-handson" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#handson"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Handson</h3>
-<p dir="auto">Just moved from <code>@limiter.limit("28 per second")</code> to <code>@limiter.limit("2 per second")</code></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ docker build -t lgirardi/pytbakrated .
-[+] Building 11.1s (9/9) FINISHED
- =&gt; [internal] load build definition from Dockerfile                                                                                                                                                                                     0.0s
- =&gt; =&gt; transferring dockerfile: 34B                                                                                                                                                                                                      0.0s
- =&gt; [internal] load .dockerignore                                                                                                                                                                                                        0.0s
- =&gt; =&gt; transferring context: 2B                                                                                                                                                                                                          0.0s
- =&gt; [internal] load metadata for docker.io/library/python:3.9-alpine                                                                                                                                                                     0.6s
- =&gt; [internal] load build context                                                                                                                                                                                                        0.0s
- =&gt; =&gt; transferring context: 4.47kB                                                                                                                                                                                                      0.0s
- =&gt; CACHED [1/4] FROM docker.io/library/python:3.9-alpine@sha256:8bda1e9a98fa4e87ff6e3a7682f496532b06fcbae10326a59c8656126051d4df                                                                                                        0.0s
- =&gt; [2/4] COPY . /app                                                                                                                                                                                                                    0.0s
- =&gt; [3/4] WORKDIR /app                                                                                                                                                                                                                   0.0s
- =&gt; [4/4] RUN pip install -r requirements.txt                                                                                                                                                                                            9.9s
- =&gt; exporting to image                                                                                                                                                                                                                   0.4s
- =&gt; =&gt; exporting layers                                                                                                                                                                                                                  0.4s
- =&gt; =&gt; writing image sha256:583ec19905662414ad6bdb3b0da1042ec799ec46f8a676fac6553364cd02bf1e                                                                                                                                             0.0s
- =&gt; =&gt; naming to docker.io/lgirardi/pytbakrated
-</code></pre>
-</div>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ docker run -p 5000:5000 lgirardi/pytbakrated
- * Serving Flask app 'app'
- * Debug mode: off
-2023-02-11 10:36:06,264 INFO werkzeug MainThread : WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://172.17.0.2:5000
-2023-02-11 10:36:06,264 INFO werkzeug MainThread : Press CTRL+C to quit
-</code></pre>
-</div>
-<p dir="auto">With a simple curl you can check if it's working , so the rate will be triggered if u go over 2 req/sec</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>$ while true; do curl -I localhost:5000/api/fib/1 &amp;&amp; sleep 0.4;done
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:54 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:54 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 429 TOO MANY REQUESTS
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:55 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 117
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:55 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 200 OK
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:56 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Vary: Accept-Encoding
-Connection: close
-
-HTTP/1.1 429 TOO MANY REQUESTS
-Server: Werkzeug/2.2.2 Python/3.9.16
-Date: Sat, 11 Feb 2023 10:37:56 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 117
-</code></pre>
-</div>
-<p dir="auto">in the same way the contrainer logs are showing the same</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>2023-02-11 10:37:54,359 INFO werkzeug Thread-34 : 172.17.0.1 - - [11/Feb/2023 10:37:54] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:54,778 INFO werkzeug Thread-36 : 172.17.0.1 - - [11/Feb/2023 10:37:54] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:55,196 INFO flask-limiter Thread-38 : ratelimit 2 per 1 second (172.17.0.1) exceeded at endpoint: fib
-2023-02-11 10:37:55,197 INFO werkzeug Thread-38 : 172.17.0.1 - - [11/Feb/2023 10:37:55] "HEAD /api/fib/1 HTTP/1.1" 429 -
-2023-02-11 10:37:55,616 INFO werkzeug Thread-40 : 172.17.0.1 - - [11/Feb/2023 10:37:55] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:56,035 INFO werkzeug Thread-42 : 172.17.0.1 - - [11/Feb/2023 10:37:56] "HEAD /api/fib/1 HTTP/1.1" 200 -
-2023-02-11 10:37:56,455 INFO flask-limiter Thread-44 : ratelimit 2 per 1 second (172.17.0.1) exceeded at endpoint: fib
-2023-02-11 10:37:56,456 INFO werkzeug Thread-44 : 172.17.0.1 - - [11/Feb/2023 10:37:56] "HEAD /api/fib/1 HTTP/1.1" 429 -
-</code></pre>
-</div>
-<p dir="auto">Honestly there are few pro and cons ... but i'd like to enter in those details with a more practical exmaple ...<br>just few concepts anyway are:</p>
-<ul dir="auto">
-<li>is using the same pool of connections</li>
-<li>it's impacting the same metric that i'm using for autoscaling</li>
-<li>is stealing resources from app</li>
-<li>is really simple rate limit that can fight with others stuff</li>
-</ul>
-<p><br><br></p>
-<h2 dir="auto"><a id="user-content-the-sidecar-way" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#the-sidecar-way"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>the sidecar way</h2>
-<p dir="auto">Yes i know , this is a <em>stretch</em>, since we have service mesh , gateway etc etc that embrace this concept.<br>However, for a specific reason, i created just a sidecar container that can be reused without the needs to implement the infrastructure mentioned before</p>
-<p dir="auto">First of all the choice, tons of possibility, from nginx reverse proxy , to haproxy to <em>whatever</em> proxy ...<br>in this scenario i took the opportunity to use <strong>envoy</strong> , i've already used it with istio , and is really really flexible<br>(sometimes too much, in a way to be confused :-)</p>
-<p dir="auto">Anyway ... it's just a sidecar<br>In an existing app you have to add the following to add envoy</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      - name: sidecar
-        image: envoyproxy/envoy:v1.22-latest
-        resources:
-          limits:
-            cpu: 100m
-            memory: 150Mi
-          requests:
-            cpu: 30m
-            memory: 55Mi
-        ports:
-          - name: http
-            containerPort: 5002
-            protocol: TCP
-        volumeMounts:
-          - name: sidecar-config
-            mountPath: "/etc/envoy"
-            readOnly: true
-      volumes:
-        - name: sidecar-config
-          configMap:
-            name: pytbakt-configmap
-</code></pre>
-</div>
-<p dir="auto">(great fantasy for the name :-)</p>
-<p dir="auto">and ... well the most important configuration is the <code>pytbakt-configmap</code> that is the envoy configuration</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pytbakt-configmap
-  labels:
-    app: pytbak
-  namespace: pytbak
-data:
-  envoy.yaml: |
-    static_resources:
-      listeners:
-      - name: listener_0
-        address:
-          socket_address:
-            address: 0.0.0.0
-            port_value: 5002
-        filter_chains:
-        - filters:
-          - name: envoy.filters.network.http_connection_manager
-            typed_config:
-              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-              stat_prefix: ingress_http
-              route_config:
-                name: local_route
-                virtual_hosts:
-                - name: local_service
-                  domains: ["*"]
-                  routes:
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: pytbak
-              http_filters:
-              - name: envoy.filters.http.local_ratelimit
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                  stat_prefix: http_local_rate_limiter
-                  token_bucket:
-                    max_tokens: 29
-                    tokens_per_fill: 29
-                    fill_interval: 1s
-                  filter_enabled:
-                    runtime_key: local_rate_limit_enabled
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  filter_enforced:
-                    runtime_key: local_rate_limit_enforced
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  response_headers_to_add:
-                  - append_action: OVERWRITE_IF_EXISTS_OR_ADD
-                    header:
-                      key: x-local-rate-limit
-                      value: 'true'
-                  local_rate_limit_per_downstream_connection: false
-
-              - name: envoy.filters.http.router
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
-
-      clusters:
-      - name: pytbak
-        connect_timeout: 0.25s
-        type: LOGICAL_DNS
-        dns_lookup_family: V4_ONLY
-        lb_policy: ROUND_ROBIN
-        load_assignment:
-          cluster_name: service_a
-          endpoints:
-          - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: localhost
-                    port_value: 5000
-</code></pre>
-</div>
-<p dir="auto">in a Human readable way ...</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      - name: listener_0
-        address:
-          socket_address:
-            address: 0.0.0.0
-            port_value: 5002
-</code></pre>
-</div>
-<p dir="auto">envoy proxy is listening on port 5002</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>                - name: local_service
-                  domains: ["*"]
-                  routes:
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: pytbak
-</code></pre>
-</div>
-<p dir="auto">no path or domain configuration , just handle all after <code>/</code></p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>      clusters:
-      - name: pytbak
-        connect_timeout: 0.25s
-        type: LOGICAL_DNS
-        dns_lookup_family: V4_ONLY
-        lb_policy: ROUND_ROBIN
-        load_assignment:
-          cluster_name: service_a
-          endpoints:
-          - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: localhost
-                    port_value: 5000
-</code></pre>
-</div>
-<p dir="auto">something like <em>reverse proxy</em> configuration since the app is listening on port 5000</p>
-<p dir="auto">And now the Rate limiting section</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>              http_filters:
-              - name: envoy.filters.http.local_ratelimit
-                typed_config:
-                  "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
-                  stat_prefix: http_local_rate_limiter
-                  token_bucket:
-                    max_tokens: 29
-                    tokens_per_fill: 29
-                    fill_interval: 1s
-                  filter_enabled:
-                    runtime_key: local_rate_limit_enabled
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  filter_enforced:
-                    runtime_key: local_rate_limit_enforced
-                    default_value:
-                      numerator: 100
-                      denominator: HUNDRED
-                  response_headers_to_add:
-                  - append_action: OVERWRITE_IF_EXISTS_OR_ADD
-                    header:
-                      key: x-local-rate-limit
-                      value: 'true'
-                  local_rate_limit_per_downstream_connection: false
-</code></pre>
-</div>
-<p dir="auto">we have a bucket of 29 token , and every second it re-enable the 29 token in the bucket ... i mean ... 29req/second <em>almost</em> :-)</p>
-<h3 dir="auto"><a id="user-content-handson-1" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#handson-1"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Handson</h3>
-<p dir="auto">Again i changed the rate limit to 2req/second</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>                  token_bucket:
-                    max_tokens: 2
-                    tokens_per_fill: 2
-                    fill_interval: 1s
-</code></pre>
-</div>
-<p dir="auto">in kubernetes <code>pytbak              pytbak-stable-bd648fd46-nj95m              2/2     Running       0                 13s</code></p>
-<p dir="auto">kubectl describe pod pytbak-stable-bd648fd46-nj95m -n pytbak</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>Name:         pytbak-stable-bd648fd46-nj95m
-Namespace:    pytbak
-Priority:     0
-Node:         instance-20220215-1853/10.0.254.135
-Start Time:   Sat, 11 Feb 2023 11:19:45 +0000
-Labels:       app=pytbak
-              pod-template-hash=bd648fd46
-              track=pytbak-stable
-Annotations:  cni.projectcalico.org/podIP: 10.1.156.173/32
-              cni.projectcalico.org/podIPs: 10.1.156.173/32
-              prometheus.io/path: /metrics
-              prometheus.io/port: 5000
-              prometheus.io/scrape: true
-Status:       Running
-IP:           10.1.156.173
-IPs:
-  IP:           10.1.156.173
-Controlled By:  ReplicaSet/pytbak-stable-bd648fd46
-Containers:
-  pytbak:
-    Container ID:   containerd://9a54504e73a14746299366e2941b51f7069b6649208329a3f87708b053ef1eaf
-    Image:          lgirardi/rest-test-multip:0.6
-    Image ID:       docker.io/lgirardi/rest-test-multip@sha256:c94695a04fb3b862bfb576ead460aba3528bd098327f88122d087f48380506dd
-    Port:           5000/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Sat, 11 Feb 2023 11:19:46 +0000
-    Ready:          True
-    Restart Count:  0
-    Limits:
-      cpu:     300m
-      memory:  250Mi
-    Requests:
-      cpu:        30m
-      memory:     125Mi
-    Liveness:     http-get http://:5000/api/ delay=40s timeout=10s period=10s #success=1 #failure=3
-    Readiness:    http-get http://:5000/api/ delay=5s timeout=15s period=10s #success=1 #failure=3
-    Environment:  &lt;none&gt;
-    Mounts:
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xrr7c (ro)
-  sidecar:
-    Container ID:   containerd://a0d45982aa56704983a89bacd664e5cbb8b38b1df943df92ad879e7c66986c22
-    Image:          envoyproxy/envoy:v1.22-latest
-    Image ID:       docker.io/envoyproxy/envoy@sha256:3b1e0114dbead3fbd9f561994f3894f5d113a815e023065cabdf0c48d55396ce
-    Port:           5002/TCP
-    Host Port:      0/TCP
-    State:          Running
-      Started:      Sat, 11 Feb 2023 11:19:47 +0000
-    Ready:          True
-    Restart Count:  0
-    Limits:
-      cpu:     100m
-      memory:  150Mi
-    Requests:
-      cpu:        30m
-      memory:     55Mi
-    Environment:  &lt;none&gt;
-    Mounts:
-      /etc/envoy from sidecar-config (ro)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xrr7c (ro)
-Conditions:
-  Type              Status
-  Initialized       True
-  Ready             True
-  ContainersReady   True
-  PodScheduled      True
-Volumes:
-  sidecar-config:
-    Type:      ConfigMap (a volume populated by a ConfigMap)
-    Name:      pytbakt-configmap
-    Optional:  false
-  kube-api-access-xrr7c:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       &lt;nil&gt;
-    DownwardAPI:             true
-QoS Class:                   Burstable
-Node-Selectors:              &lt;none&gt;
-Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type    Reason     Age    From               Message
-  ----    ------     ----   ----               -------
-  Normal  Scheduled  3m53s  default-scheduler  Successfully assigned pytbak/pytbak-stable-bd648fd46-nj95m to instance-20220215-1853
-  Normal  Pulled     3m53s  kubelet            Container image "lgirardi/rest-test-multip:0.6" already present on machine
-  Normal  Created    3m53s  kubelet            Created container pytbak
-  Normal  Started    3m53s  kubelet            Started container pytbak
-  Normal  Pulled     3m53s  kubelet            Container image "envoyproxy/envoy:v1.22-latest" already present on machine
-  Normal  Created    3m53s  kubelet            Created container sidecar
-  Normal  Started    3m52s  kubelet            Started container sidecar
-</code></pre>
-</div>
-<p dir="auto">With curl</p>
-<p dir="auto">$ while true;do curl -I <a href="http://oracolo.k8s.it/api/fib/1" rel="nofollow">http://oracolo.k8s.it/api/fib/1</a> &amp;&amp; sleep 0.4;done</p>
-<div class="snippet-clipboard-content notranslate position-relative overflow-auto">
-<pre class="notranslate"><code>HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:48 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:49 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:49 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:50 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 200 OK
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/html; charset=utf-8
-Content-Length: 1
-Connection: keep-alive
-vary: Accept-Encoding
-x-envoy-upstream-service-time: 2
-
-HTTP/1.1 429 Too Many Requests
-Date: Sat, 11 Feb 2023 11:29:51 GMT
-Content-Type: text/plain
-Content-Length: 18
-Connection: keep-alive
-x-local-rate-limit: true</code></pre>
-</div>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>application rate limit </title>
-        <author>
-            <name>lgirardi</name>
-        </author>
-        <link href="https://www.k8s.it/application-rate-limit.html"/>
-        <id>https://www.k8s.it/application-rate-limit.html</id>
-            <category term="rate limit"/>
-            <category term="python"/>
-            <category term="kubernetes"/>
-            <category term="flask"/>
-
-        <updated>2023-02-11T13:10:08+01:00</updated>
-            <summary>
-                <![CDATA[
-                    For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application. For this scenario we have 2 greddy options: the code way This is the simplest one but has some side&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
                 <p dir="auto">For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application.<br><br></p>
 <p dir="auto">For this scenario we have 2 greddy options:</p>
 <ul dir="auto">
@@ -2910,6 +1371,403 @@ end</code></pre>
 <p>The external one should be replaced more or less every year because is not properly water proof and ... day by day the electrical contacts become oxidized </p>
 <p> </p>
 <p> </p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>The monitoring paper</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/the-monitoring-paper.html"/>
+        <id>https://www.k8s.it/the-monitoring-paper.html</id>
+        <media:content url="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.47.24.png" medium="image" />
+            <category term="system metrics"/>
+            <category term="slo"/>
+            <category term="sli"/>
+            <category term="sla"/>
+            <category term="observability"/>
+            <category term="metrics"/>
+            <category term="customer experience"/>
+            <category term="conversion "/>
+            <category term="business metrics"/>
+            <category term="application metrics"/>
+            <category term="alerting"/>
+
+        <updated>2021-01-05T19:11:11+01:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.47.24.png" alt="" />
+                    Contrary to popular belief, monitoring an infrastructure is the opposite to just have some metrics about applications and network There are many many documents the lead this topic, one of the most interesting it's just few pages from Google around the art of slos or&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.47.24.png" class="type:primaryImage" alt="" /></p>
+                <p>Contrary to popular belief, monitoring an infrastructure is the opposite to just have some metrics about applications and network</p>
+<p>There are many many documents the lead this topic,<br>one of the most interesting it's just few pages from Google around <a href="https://static.googleusercontent.com/media/sre.google/it//static/pdf/art-of-slos-slides.pdf" target="_blank" rel="noopener noreferrer">the art of slos</a><br>or the <a href="https://www.k8s.it/media/files/The Art of SLOs - Google.pdf" target="_blank" rel="noopener noreferrer">book</a> version i took from a google onsite deep dive. <a href="https://www.k8s.it/media/files/The Art of SLOs - Google.pdf" target="_blank" rel="noopener noreferrer"></a></p>
+<p>To better details this topic i'd like to use simple statements:</p>
+<ul>
+<li>WHAT</li>
+<li>WHY</li>
+<li>WHO</li>
+<li>HOW</li>
+</ul>
+<p> </p>
+<h3>WHAT </h3>
+<p>This is probably the main argument we will discuss on this thread </p>
+<p>There no magic formulas or tools to use, if you expect to buy a tool that work with metrics out of the box, you're wrong. <br>Tools are the infrastructure to store and visualize data... but first of all you need to collect the right data.</p>
+<p>What is the DATA you need ?<br>Those are you will record moving yourself on the <span style="text-decoration: underline;">customer position</span></p>
+<p><strong>Customer position</strong> : i'm using this term because i suppose you are not an onlus so you have a customer, but customer is a overall word with the meaning of all people are using your product:</p>
+<ul>
+<li>people that buy something e-commerce (Amazon, Bestbuy, Aliexpress)</li>
+<li>people that use website to learn something (Cnn, Bloomberg, Wikipedia)</li>
+<li>people that work on finance and use finance applications (Navision, SAP, JD Edwards)</li>
+<li>people that use energy from nuclear site </li>
+</ul>
+<p>So moving yourself on the customer position you can better understand the definition of data that you need to know to better monitor your application with the righe <strong>customer metrics </strong></p>
+<p>Stupid example ... imagine an automatic gate</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-03-at-16.31.43.png" alt="" width="1092" height="522" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-03-at-16.31.43-2xl.webp 1600w"></figure>
+<p>What is the definition of "it's working?"</p>
+<ul>
+<li>it opens</li>
+</ul>
+<p>Obviously YES , but not only</p>
+<ul>
+<li>what about if it's not closing ? </li>
+<li>what about if it opens in 10 minutes , it's acceptable ?</li>
+<li>what about if after X times the automation is broken ? </li>
+<li>etc etc ...</li>
+</ul>
+<p>As you can imagine we can define not only the objective values (open/close), we can elaborate customer subjective frustration , if i have to buy an automatic gate, i will not choose the one that will take 10 minutes to open... because... because 10 minutes are too much , based on subjective value as a customer.</p>
+<p>In the same way we cannot say that our application is working because it's answers.</p>
+<p>So <span style="text-decoration: underline;">what</span> we have to consider when we start to monitor an application in production?</p>
+<p>Let's start with 3 macro clusters:</p>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>system</strong> resources, so all metrics related to the pod (cpu,network,...)</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>application</strong> standard metrics (thread, gc, errors per minute, requests per minute, ... )</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;"><strong>business</strong> metrics that are inherent from the application scope, if the application provides a checkout for goods, we need to know for example how many transactions were fine and how many rejected</span></li>
+</ul>
+<p> </p>
+<h4><strong>System</strong></h4>
+<p>Those are the most easiest and used metrics since you started to monitor services.<br>On this group we have the basis metrics related to the system usage,<br>considering the evolution of the platform those values are day by day less influential than before.<br>This is because as soon we are increasing the technology level from bare metal, to vm , to docker to serverless ... the evaluation of those numbers could raise some mistake on the interpretation , however we still need to start with the basis in order to have data to define a trend based on specific situations</p>
+<p>Here an example about the bare metal used as vsphere 6.7</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-15.49.59.png" alt="" width="1024" height="371" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.49.59-2xl.webp 1600w"></figure>
+<p>always on the system metrics we can go more in deep checking a virtual machine inside this host, here the one i used to host my kubernetes lab</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-15.53.29.png" alt="" width="1024" height="371" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-15.53.29-2xl.webp 1600w"></figure>
+<p>In the 2 images for example we can assume that we have something that move the cpu close to 100% cyclically (it's a <a href="https://www.k8s.it/kubernetes-sitespeedio.html">crawler</a> to perform check on website pages every hours)</p>
+<p> </p>
+<h4><strong>Application</strong></h4>
+<p>It's time now to move inside the kubernetes cluster and check how is going on the a web application inside the cluster<br>Since this application it is springboot based, we have the opportunity to understand how is going on from a framework side (java) and behavioural interactions.<br>Response time server to server, server errors, client errors, sql interactions, garbage collector, sidecars (is a pod with multiple images) usage, logs creation , metrics creation etc etc</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/app_metrics.png" alt="" width="1024" height="956" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/app_metrics-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/app_metrics-2xl.webp 1600w"></figure>
+<p>Having those in place you can understand from an application point of view how is going on the performances release by release.. what happen in case of bugs and critical condition (unexpected huge traffic) , the area where you can put you effort on improvements.</p>
+<p> </p>
+<h4><span style="font-weight: 400;"><strong>Business</strong></span></h4>
+<p>OK system is covered , application is covered ... what about the customer perception ?</p>
+<p>This is the most critical topic , if your application is part of a microservices funnel or a monolithic application that manage the entire product, it's supposed that in some way you have benefits from its performances</p>
+<p>So move yourself on the customer position monitoring your website from a customer point of view with business metrics , in this simple case i just monitor the cms page on top <br>It's a website:</p>
+<ul>
+<li>so how long does it take have the page ?</li>
+<li>which are the most relevant data you need to know to improve?</li>
+<li>do you have the same trends every time ?</li>
+<li>etc etc</li>
+</ul>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37.png" alt="" width="1024" height="3021" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/screencapture-services-k8s-it-grafana-d-000000053-pagesummary-influxdb-2021-01-05-17_07_37-2xl.webp 1600w"></figure>
+<p> </p>
+<p> </p>
+<h3>WHY</h3>
+<p>With those cluster of metrics we can define and plan the architecture and the forecasting for the company ... remember that when something goes wrong with no metrics you will probably cascade to situation like this</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.41.07.png" alt="" width="1024" height="441" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.41.07-2xl.webp 1600w"></figure>
+<p> </p>
+<p><strong>System</strong> metrics can share the usages and the density of you infrastructure creating the basis <span style="text-decoration: underline;">alerts</span> in case of suffering but also plan the evolution of the platform itself  </p>
+<p><span style="font-weight: 400;"><strong>Application </strong>metrics share the framework behaviour and the evolution of your application day by day , <span style="text-decoration: underline;">alerts</span> are defined to monitor the scalability, bugs and application behaviour</span></p>
+<p><strong>Business <span style="font-weight: 400;">metrics share the thresholds to use as alerts but not only... </span><br></strong>In this example we are talking about a web application <br>If you are selling something through it ,conversion is always the most relevant buzzword</p>
+<p>From the 100 visitors , who will continue the navigation till the purchase, the remaining are really a small slice (e-commerce for example)</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/conversion-impact-score-funnel-NEW.png" alt="" width="800" height="647" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/conversion-impact-score-funnel-NEW-2xl.webp 1600w"></figure>
+<p>This images comes from an 2015 <a href="https://blogs.akamai.com/2015/07/conversion-impact-score-what-is-it-and-why-do-you-need-to-know-yours.html" target="_blank" rel="noopener noreferrer">article</a> from Akamai that is really still actual ...<br>Conversion is always impacted by page response time , more close you are in the first navigation phases like searching rather than checkout where you probably have more clear will to purchase<br><br>Now we know the data around the usage of our website and we can create <strong>GOALs</strong> and <strong>KPI</strong> to improve those values in order to better fit with the customer expectation.</p>
+<p> </p>
+<p> </p>
+<h3>WHO</h3>
+<p>Those actors could be different case by case, from a small company to an enterprise, even if you are a full stack whateverops, a developer or part of monitoring team, in this scope you should not be alone. </p>
+<p><strong>System</strong> and <strong>Application</strong> are usually managed by <span style="text-decoration: underline;">sre/devops/sysadmin</span> with the help of architecture/developer to define the best framework metrics to monitor.</p>
+<p>On the opposite side <strong>Business </strong>are more close with the product side, who will be better than the <span style="text-decoration: underline;">product dept</span> (developers) itself defining the kpi and goals used as a metrics with the cooperation of the <span style="text-decoration: underline;">business dept</span> to define the <strong><span style="font-weight: 400;">thresholds.</span></strong></p>
+<p>This cooperation will be useful to define:</p>
+<ul>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Right alerts to right people</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">Support granted by ownership</span></li>
+<li style="font-weight: 400;"><span style="font-weight: 400;">No speculations, real data</span></li>
+</ul>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.39.10.png" alt="" width="1024" height="346" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.39.10-2xl.webp 1600w"></figure>
+<p> </p>
+<h3><strong>HOW</strong></h3>
+<p> </p>
+<h4>Infrastructure</h4>
+<p>First of all you have to define the monitoring/alerting platform, <br>the suggestion is to have this platform scalable with a good UI (grafana) to work with backend storage (prometheus + cortex/thanos, graphite + carbonzipper, influxdb, etc etc)</p>
+<p>Honestly if you are in a big environment and you make a mistake in metrics configuration with graphite (push model) you can saturate the space since every time you create a new metric you are creating whisper file with the dimension based on the retention schema.<br>I prefer prometheus (pull model) that could prevent those issues and better fit the kubernetes standars , will be also more easy create a /metrics page on your application rather than use sidecar pods to stream metrics with collectd/telegraf/statsd and so on.</p>
+<h4> </h4>
+<h4>Less is more</h4>
+<p><span style="font-weight: 400;">How many metrics are enough to create a valid alert?</span></p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.48.07.png" alt="" width="1024" height="764" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-2xl.webp 1600w"></figure>
+<p>The more metrics identify the service behaviour the more we can create a dedicated alert...<br>anyway  ....<br>The anti-pattern model currently applied in some cases: <br>have tons of metrics that generate only <strong>noise</strong> without identifying the healthiness of a service</p>
+<p><em>Keep it simple</em> and define the structure of your <span style="text-decoration: underline;">System,</span> <span style="text-decoration: underline;">Application</span> and <span style="text-decoration: underline;">Business</span> metrics .</p>
+<p> </p>
+<h4>Smart metrics</h4>
+<p><span style="font-weight: 400;">It’s not only ONE value that show off the healthiness, but the combination of multiple metrics that guarantee the status</span></p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.46.34.png" alt="" width="1024" height="303" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.34-2xl.webp 1600w"></figure>
+<p>This concept is really important, imagine a dynamic infrastructure based on kubernetes <a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/" target="_blank" rel="noopener noreferrer">HPA</a> </p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-18.22.01.png" alt="" width="1024" height="632" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-18.22.01-2xl.webp 1600w"></figure>
+<p>where you can probable have some value linear (like thread), mitigated by the horizontal autoscaling, you should combine multiple values to define the application status.</p>
+<p>Create the metrics alert with <strong>trends</strong> not with the pure number <br>Ex. 70 threads value alone make no sense , different applications has different threads value , what is important is the <strong>delta , </strong>the percentage is useful to understand the behaviour, +50% threads make sense in all applications rather than the effective number.<br><br></p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.46.55.png" alt="" width="1024" height="656" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.46.55-2xl.webp 1600w"></figure>
+<p> </p>
+<p>Be smart also on the evaluation with standard deviation and <strong>percentile</strong> ... mean is usually dropping the relevant value to evaluate performances under stress</p>
+<p> </p>
+<p> </p>
+<p> </p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Maximum yield with minimum expense for a static website</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/maximum-yield-with-minimum-expense.html"/>
+        <id>https://www.k8s.it/maximum-yield-with-minimum-expense.html</id>
+        <media:content url="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-16.43.11.png" medium="image" />
+            <category term="workers"/>
+            <category term="website"/>
+            <category term="static cms"/>
+            <category term="static"/>
+            <category term="serverless"/>
+            <category term="security"/>
+            <category term="publii"/>
+            <category term="minio"/>
+            <category term="kubernetes"/>
+            <category term="headers"/>
+            <category term="cms"/>
+            <category term="cloudflare"/>
+
+        <updated>2020-12-28T09:58:59+01:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-16.43.11.png" alt="" />
+                    Great marketing quote, however i think we can better share a value that is always true... keep it simple, keep it safe. I would structure this article in few relevant topics Each of the above could be a specific topic that will fit others use&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-16.43.11.png" class="type:primaryImage" alt="" /></p>
+                <p>Great marketing quote, however i think we can better share a value that is always true... <br><em><span style="text-decoration: underline;">keep it simple, keep it safe.</span></em></p>
+<p>I would structure this article in few relevant topics</p>
+<ul>
+<li>Static website</li>
+<li>Tools</li>
+<li>Security</li>
+<li>Monitor</li>
+</ul>
+<p>Each of the above could be a specific topic that will fit others use cases</p>
+<p><em>This is not a post about how to create a blog... this post will inspect into some technology that can simplify your life or your work with small but important concepts</em></p>
+<p> </p>
+<h3>Static website</h3>
+<p>Among the famous open cms i tried probably all of those,  during my career.<br>Basically are a web application with sql database in most of the cases.</p>
+<p>Now we can discuss about the meaning of content generation , that should be dynamic and be part of the user experience rather than a page generated, however today i will talk just about the usage of a cms for a static(tbd) reality.</p>
+<p>If your goal is promote your company, your hobbies, your work ... you have already heard about wordpress, joomla, drupal etc etc ... that are good (if not directly exposed) but had a huge problem... since are open and used by a relevant number of people, are subjected of vulnerability, moreover , if you install plugins the situation could be dramatic.</p>
+<p>As much you install <strong>plugins</strong> (and really some cms are not able to do anything with a plugin),<br>as much your website is bloat.<br>With the same ratio the <span style="text-decoration: underline;">performances will decrease.</span></p>
+<p>On top of this, a <span style="text-decoration: underline;">huge</span> percentage of the plugins in the cms repository are old and out of date yet still available to install on your system.</p>
+<p>So if you don't need something special (most of the blogs are wordpress only because it's easy to use) and you want to create a static website for your company, your business and so on , you can probably evaluate something different looking for , the first pillar mentioned, keep it simple.<br>Moreover the trend in a enterprise is moving from dynamic content to static as per the <strong>speed</strong> is the major KPI for a website</p>
+<p>On a secondary binary in the last years the static cms are growth</p>
+<ul>
+<li>Jekyll</li>
+<li>Gatsby</li>
+<li>Siteleaf</li>
+<li>Netlify</li>
+<li>Hugo</li>
+<li>$whatever-js (every day we have a new js framework)</li>
+<li>etc etc</li>
+</ul>
+<p>However if you are not so nerd ... or your are tremendously lazy (like me)<br>a grate alternative is <a href="https://getpublii.com/">Publii</a></p>
+<p>Publii includes a WYSIWYG (What You See Is What You Get) editor for content creation,<br>really easy to use , and the client is available for multiple platform (win,linux,mac)</p>
+<p> </p>
+<p> </p>
+<p> </p>
+<h3>Tools</h3>
+<p>I mentioned Publii before, this tool is just a simple way for lazy people to create a static website, i'll not go in deep with this software since is well explained in its website however offer multiple possibility where store the files , the main ones are s3 bucket and github pages.<br>Publii is not a pretty collaborative tool but is not supposed to have this kind of interaction on a static website, is more close to a human interaction only.<br><span style="color: var(--text-editor-body-color); font-family: var(--font-base); font-size: inherit; font-weight: var(--font-weight-normal);">On the opposite side Jekyll and the other families are more close to be collaborative based on a git project and part of a pipeline flow (runner/actions)</span></p>
+<p> </p>
+<p>Based on the backend for you html files, lets explore the <a href="https://pages.github.com/">github pages</a><br>This service is free with few limits<br><em>Published GitHub Pages sites may be no larger than 1 GB.</em><br><em>GitHub Pages sites have a soft bandwidth limit of 100GB per month.</em><br><em>GitHub Pages sites have a soft limit of 10 builds per hour.</em></p>
+<p>It's really easy to use and demand the security on the github account (always 2fa)<br>They offer a dns based on your github account and you can manage paths,<br>moreover you have the TLS/SSL for free</p>
+<p>With Publii configuration is quite easy and you can follow the instruction <a href="https://getpublii.com/docs/host-static-website-github-pages.html">here</a> </p>
+<p> </p>
+<p>Another solution is use s3 as a repository, this require a bit more stuff sometimes, however even if it's a cheeper option, why not use an s3 on-prem if it's available <br>(this is just an excuse to use kubernetes, i still suggest to use the github pages, however i like to have this kind of exercise)</p>
+<p>So welcome <a href="https://min.io/">minio</a> , a kubernetes object storage<br>The configuration is quite simple, as usual you can start with the namespace creation<br><code>kind: "Namespace"<br>apiVersion: "v1"<br>metadata:<br>  name: "minio"<br>  labels:<br>    name: "minio"</code></p>
+<p>The service (this is just a single instance so no StatefulSets set is needed)<br><code>apiVersion: v1<br>kind: Service<br>metadata:<br>  name: minio-svc<br>  namespace: minio<br>  labels:<br>    app: minio<br>spec:<br>  ports:<br>  - port: 9000<br>    protocol: TCP<br>  selector:<br>    app: minio</code></p>
+<p>PersistentVolumeClaim (from microk8s host provisioner)<br><code>apiVersion: v1<br>kind: PersistentVolumeClaim<br>metadata:<br>  namespace: minio<br>  name: minio-pv-claim<br>  labels:<br>    app: minio-storage-claim<br>spec:<br>  storageClassName: microk8s-hostpath<br>  accessModes:<br>    - ReadWriteOnce<br>  resources:<br>    requests:<br>      storage: 1Gi</code></p>
+<p>Deployment (remember to use secrets instead write directly into deployment)<br><code>kind: Deployment<br>metadata:<br>  name: minio-deployment<br>  namespace: minio<br>spec:<br>  selector:<br>    matchLabels:<br>      app: minio<br>  strategy:<br>    type: Recreate<br>  template:<br>    metadata:<br>      labels:<br>        app: minio<br>    spec:<br>      volumes:<br>      - name: storage<br>        persistentVolumeClaim:<br>          claimName: minio-pv-claim<br>      containers:<br>      - name: minio<br>        image: minio/minio:latest<br>        args:<br>        - server<br>        - /storage<br>        env:<br>        - name: MINIO_ACCESS_KEY<br>          value: "$something"<br>        - name: MINIO_SECRET_KEY<br>          value: "$somethingsecret"<br>        - name: MINIO_DOMAIN<br>          value: minio.h4x0r3d.lan<br>        ports:<br>        - containerPort: 9000<br>          hostPort: 9000<br>        volumeMounts:<br>        - name: storage<br>          mountPath: "/storage"</code></p>
+<p>Ingress resource<br><code>kind: Ingress<br>metadata:<br>  name: minio-ingress<br>  namespace: minio<br>  annotations:<br>    kubernetes.io/ingress.class: nginx<br>    nginx.org/client-max-body-size: 1000m<br>    ingress.kubernetes.io/proxy-body-size: 1000m<br>spec:<br>  rules:<br>  - host: minio.h4x0r3d.lan<br>    http:<br>      paths:<br>      - path: /<br>        backend:<br>          serviceName: minio-svc<br>          servicePort: 9000</code></p>
+<p>And at the end you will have something like this</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-13.55.38.png" alt="" width="1024" height="678" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.55.38-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.55.38-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.55.38-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.55.38-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.55.38-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.55.38-2xl.webp 1600w"></figure>
+<p>you can configure Publii in this way</p>
+<p>where bucket is the third level name of you dns and prefix "the bucket"</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-13.56.43.png" alt="" width="1024" height="811" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.56.43-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.56.43-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.56.43-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.56.43-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.56.43-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-13.56.43-2xl.webp 1600w"></figure>
+<p>Btw an object storage is <strong>NOT</strong> a web server so you need an apache or nginx configuration<br>to have the site ready to be used<br><code>&lt;VirtualHost *:80&gt;<br>    ServerAdmin l@k8s.it<br>    DocumentRoot /usr/local/apache2/htdocs/<br>    ServerName www.k8s.it<br>    ErrorLog logs/www.k8s-error_log<br>    CustomLog logs/www.k8s-access_log combined<br>    LoadModule rewrite_module modules/mod_rewrite.so<br>    ProxyRequests Off<br>    ProxyPass / http://minio-svc.minio.svc.cluster.local:9000/blog/<br>    RewriteEngine on<br>    RewriteRule ^(.*)/$ /$1/index.html [PT,L]<br> &lt;/VirtualHost&gt;</code></p>
+<p> </p>
+<p>Again ... <strong>keep it simple</strong>... there no right solutions overall , there is the right way for you needs, in my case i'm still using github pages because are free, enough to cover my needs and <em>serverless</em></p>
+<h3> </h3>
+<h3>Security</h3>
+<p>Even if the security is demanded to github, why not extend a sort of protection on top of it</p>
+<p>Second pillar , <strong>keep it safe</strong></p>
+<p>In my case i really appreciate Cloudflare and the free plan that give me the possibility to test and explore the functionality offered</p>
+<p>I've already shared how to configure a website with Cloudflare with terraform <a href="https://www.k8s.it/terraform-your-free-claudflare-account.html" target="_blank" rel="noopener noreferrer">https://www.k8s.it/terraform-your-free-claudflare-account.html</a></p>
+<p>Even if we are covered by attacks since it's static webpage ... and we also added the Cloudflare protection we can have some <em>cosmetics</em> feature that will share a better compliance with the security in 2020</p>
+<p>As i said github pages and s3 are not webserver so ... <br>how we can introduce the security headers ?</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/screencapture-securityheaders-2020-12-24-20_33_23.png" alt="" width="1024" height="1758" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_33_23-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_33_23-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_33_23-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_33_23-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_33_23-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_33_23-2xl.webp 1600w"></figure>
+<p> </p>
+<p>Again Cloudflare help us with the <a href="https://blog.cloudflare.com/cloudflare-workers-unleashed/" target="_blank" rel="noopener noreferrer">Workers</a> feature</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-edit-security-headers-2020-12-24-20_38_25-2.png" alt="" width="1024" height="516" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-edit-security-headers-2020-12-24-20_38_25-2-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-edit-security-headers-2020-12-24-20_38_25-2-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-edit-security-headers-2020-12-24-20_38_25-2-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-edit-security-headers-2020-12-24-20_38_25-2-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-edit-security-headers-2020-12-24-20_38_25-2-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-edit-security-headers-2020-12-24-20_38_25-2-2xl.webp 1600w"></figure>
+<p>The code (<a href="https://scotthelme.co.uk/security-headers-cloudflare-worker/" target="_blank" rel="noopener noreferrer">rif</a>.) is adding those headers with serverless function  for each request</p>
+<p><code>const securityHeaders = {<br>        "Content-Security-Policy": "upgrade-insecure-requests",<br>        "Strict-Transport-Security": "max-age=3600",<br>        "X-Xss-Protection": "1; mode=block",<br>        "X-Frame-Options": "DENY",<br>        "X-Content-Type-Options": "nosniff",<br>        "Permissions-Policy": "geolocation=()",<br>        "Referrer-Policy": "strict-origin-when-cross-origin"<br>    };<br><br><br>async function addHeaders(req) {<br>    const response = await fetch(req),<br>        newHeaders = new Headers(response.headers),<br>        setHeaders = Object.assign({}, securityHeaders);<br><br>    if (newHeaders.has("Content-Type") &amp;&amp; !newHeaders.get("Content-Type").includes("text/html")) {<br>        return new Response(response.body, {<br>            status: response.status,<br>            statusText: response.statusText,<br>            headers: newHeaders<br>        });<br>    }<br><br>    Object.keys(setHeaders).forEach(name =&gt; newHeaders.set(name, setHeaders[name]));<br><br><br>    return new Response(response.body, {<br>        status: response.status,<br>        statusText: response.statusText,<br>        headers: newHeaders<br>    });<br>}<br><br>addEventListener("fetch", event =&gt; event.respondWith(addHeaders(event.request)));</code></p>
+<p> </p>
+<p>Now the website is better from this point of view, adding the worker to the main route</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-27-at-13.41.47.png" alt="" width="1024" height="476" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.41.47-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.41.47-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.41.47-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.41.47-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.41.47-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.41.47-2xl.webp 1600w"></figure>
+<p>Results</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/screencapture-securityheaders-2020-12-24-20_34_27.png" alt="" width="1024" height="1959" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_34_27-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_34_27-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_34_27-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_34_27-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_34_27-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/screencapture-securityheaders-2020-12-24-20_34_27-2xl.webp 1600w"></figure>
+<p>Just a warning because Strict-Transport-Security has a low value , but it's something acceptable to me</p>
+<p>Cloudflare details the usage of workers that is limited in the free account for 100k req/day and 1k/min</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-view-security-headers-2020-12-27-13_42_52.png" alt="" width="1024" height="1954" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-view-security-headers-2020-12-27-13_42_52-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-view-security-headers-2020-12-27-13_42_52-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-view-security-headers-2020-12-27-13_42_52-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-view-security-headers-2020-12-27-13_42_52-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-view-security-headers-2020-12-27-13_42_52-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/screencapture-dash-cloudflare-9fb3653b948e447567a30f6b83e51eaf-workers-view-security-headers-2020-12-27-13_42_52-2xl.webp 1600w"></figure>
+<p>OKR </p>
+<ul>
+<li>website is managed with no database</li>
+<li>we have serverless way to host it and with free options</li>
+<li>overall protection from Cloudflare</li>
+<li>security headers from Cloudflare workers, again another serveless option</li>
+</ul>
+<p> </p>
+<p><code></code><code></code><code></code></p>
+<div>
+<div><code></code><code></code></div>
+</div>
+<h3>Monitor</h3>
+<p>What is missing now ?</p>
+<p>A bit of <strong>awareness</strong></p>
+<p>Are we safe ? maybe but better an external opinion , around the online scanner there are multiple tools , however <a href="https://probely.com/" target="_blank" rel="noopener noreferrer">Probely</a> has a good free plan</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-14.58.41.png" alt="" width="1024" height="434" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-14.58.41-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-14.58.41-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-14.58.41-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-14.58.41-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-14.58.41-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-14.58.41-2xl.webp 1600w"></figure>
+<p>Here some hints about sensitive data shared with their crowler</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-15.00.00.png" alt="" width="1024" height="512" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.00.00-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.00.00-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.00.00-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.00.00-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.00.00-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.00.00-2xl.webp 1600w"></figure>
+<p>Nothing relevant in my case... but useful to know</p>
+<p> </p>
+<p>Is now time to know , how is performing the website to do this i already had a deepdive about website usability</p>
+<p><a href="https://www.k8s.it/kubernetes-sitespeedio.html" target="_blank" rel="noopener noreferrer">https://www.k8s.it/kubernetes-sitespeedio.html</a></p>
+<p>but again we have some other feature serverless style like <a href="https://github.com/upptime/upptime" target="_blank" rel="noopener noreferrer">upptime</a> ,with github actions you can create a monitoring system like this <a href="https://lorenzogirardi.github.io/status/" target="_blank" rel="noopener noreferrer">https://lorenzogirardi.github.io/status/</a></p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-15.04.18.png" alt="" width="1024" height="774" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.04.18-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.04.18-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.04.18-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.04.18-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.04.18-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.04.18-2xl.webp 1600w"></figure>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-27-at-13.36.35.png" alt="" width="1024" height="859" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.36.35-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.36.35-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.36.35-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.36.35-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.36.35-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-27-at-13.36.35-2xl.webp 1600w"></figure>
+<p>Another alternative is <a href="https://hetrixtools.com/" target="_blank" rel="noopener noreferrer">hetrixtools</a> , free up top 15 probes that give you the possibility to monitor your websites and smtp, and have an alerting system out of the box with a telegram bot email and sms (up to 50)</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/screencapture-hetrixtools-report-uptime-c7596615176a822f81d67cfddc4aa179-2020-12-26-15_14_22.png" alt="" width="1024" height="1620" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/screencapture-hetrixtools-report-uptime-c7596615176a822f81d67cfddc4aa179-2020-12-26-15_14_22-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/screencapture-hetrixtools-report-uptime-c7596615176a822f81d67cfddc4aa179-2020-12-26-15_14_22-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/screencapture-hetrixtools-report-uptime-c7596615176a822f81d67cfddc4aa179-2020-12-26-15_14_22-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/screencapture-hetrixtools-report-uptime-c7596615176a822f81d67cfddc4aa179-2020-12-26-15_14_22-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/screencapture-hetrixtools-report-uptime-c7596615176a822f81d67cfddc4aa179-2020-12-26-15_14_22-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/screencapture-hetrixtools-report-uptime-c7596615176a822f81d67cfddc4aa179-2020-12-26-15_14_22-2xl.webp 1600w"></figure>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/18/Screenshot-2020-12-26-at-15.07.32.png" alt="" width="974" height="380" sizes="100vw" srcset="https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.07.32-xs.webp 300w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.07.32-sm.webp 480w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.07.32-md.webp 768w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.07.32-lg.webp 1024w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.07.32-xl.webp 1360w ,https://www.k8s.it/media/posts/18/responsive/Screenshot-2020-12-26-at-15.07.32-2xl.webp 1600w"></figure>
+<p> </p>
+<p> </p>
+<p>Hope this post cover how the technology could be used as much as possible in a small and cheap scenario to reflect some hints to an enterprise scenario.</p>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
+    <entry>
+        <title>Kubernetes has destroyed the virtualization... or NOT</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html"/>
+        <id>https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html</id>
+            <category term="virtualization"/>
+            <category term="virtual machines"/>
+            <category term="scalability"/>
+            <category term="pod"/>
+            <category term="kubernetes"/>
+            <category term="datacenter"/>
+            <category term="cloud"/>
+
+        <updated>2020-12-28T10:02:18+01:00</updated>
+            <summary>
+                <![CDATA[
+                    Well ... NO! Ok maybe are missing some context I started this topic looking around the data center world compared with the cloud providers, the advantage of manage services , the mindset infrastructure as a code and so on ... In the last 4y we saw&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <p>Well ... <strong>NO!</strong></p>
+<p>Ok maybe are missing some context</p>
+<p> </p>
+<p>I started this topic looking around the data center world compared with the cloud providers,<br>the advantage of manage services , the mindset infrastructure as a code and so on ...</p>
+<p>In the last 4y we saw a kubernetes rush , a lot of company are sharing the advantages and the perfect picture create into kubernetes, how they save money or scale fast ... but is always true what we see?<br>Most of the times we are saw only builded success case.</p>
+<p>Today we will take in consideration those topics :</p>
+<ul>
+<li>Virtual machines</li>
+<li>Data center</li>
+<li>Kubernetes</li>
+</ul>
+<p>I know that the Data center topic should be covered more in deep, maybe talking about the entire ecosystem (db, vertical services , corporate usage , LEGACY!!!!) however today i'd like to explore only the kubernetes and virtualization rather than lose the discussion in thousand of concepts.</p>
+<h3>Long story short</h3>
+<p>A long time ago Borg was born in Google .. now formally named kubernetes,<br>in the first period the main evaluation was:<br>"<em>why the virtualization overhead if we will use kubernetes</em>".<br><br>This concept was justified in some way for <em>overlapping</em> of duties,<br>if i migrate a vm as a kubernetes pod this means i can remove the vm <br><br></p>
+<figure class="post__image post__image--center">                      <img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607974463/misc/vm_vs_pod.png" alt="" width="337" height="181" data-is-external-image="true"></figure>
+<p> </p>
+<p> </p>
+<p>We can imagine a picture like this looking back of some years ago</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_1.png" alt="" width="745" height="386" data-is-external-image="true"></figure>
+<figure class="post__image">The introduction was good , almost all declared this could be a new way.<br>Moving faster, all companies changed a bit this picture with an expansion of kubernetes </figure>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_2.png" alt="" width="745" height="386" data-is-external-image="true"></figure><figure class="is-loaded"><img loading="lazy"  src="Kubernetes destroyed the virtualization... or NOT - LAB_files/vm_2.png" alt="" width="745" height="386" data-is-external-image="true" data-is-external-image="true"></figure>
+<p>Like an infection (good this time, not the 20covid ones) kubernetes come as a main platform for most of the online company...<br>In a datacenter , you know, there no something eternal:</p>
+<ul>
+<li>hardware in EOL</li>
+<li>generation refresh</li>
+<li>brand change</li>
+<li>good is ok but cheaper is better (usually from finance)</li>
+</ul>
+<p>Is also true , that sometimes this encouraged a forced/incorrect usage of kubernetes node labeling in order to bend the infrastructure to better fit the products migrated or the existing hardware availability</p>
+<figure class="post__image post__image--center"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607959262/misc/vm_3.png" alt="" width="748" height="389" data-is-external-image="true"></figure>
+<figure class="post__image"><figure class="is-loaded"><img loading="lazy"  src="Kubernetes destroyed the virtualization... or NOT - LAB_files/vm_3.png" alt="" data-is-external-image="true" data-is-external-image="true"></figure></figure>
+<h3>Houston we have a problem...</h3>
+<p>Working in this way, the environment could be fragmented ,<br>even if the technology is the same there are some logical segmentations that create some problems in the day by day activities.</p>
+<ul>
+<li>isolate some workloads with labels can create an hw lock-in (better approach a multi-cluster with unique controlplane)</li>
+<li>updates require to be managed in a different way looking for the label/role</li>
+<li>please do not touch the storage nodes now (fiber channel with external storage)</li>
+<li>please do not touch the storage nodes tomorrow (fiber channel with external storage)</li>
+<li>omg we lost a storage nodes (fiber channel with external storage)</li>
+<li>and so on ...</li>
+</ul>
+<p>Moreover an hardware fault could create problems .... <br>YES i know in a infrastructure as a code , with puppet foreman chef salt ansible terraform etc, this will be recovered fast ... but this is not always true ... you know... some machines/roles in a mid/ent company are still fragile.</p>
+<ul>
+<li>legacy with no ownership</li>
+<li>legacy with wrong ownership</li>
+<li>single point of failure ... (yes also in 2020)</li>
+</ul>
+<p> </p>
+<p>Other problems are related with new hardware...</p>
+<ul>
+<li>is the provisioning working as expected with new generations ?</li>
+<li>and if we change the hardware vendor ?</li>
+<li>etc etc when you have to handle new preseed/ks because the layout is changed ☠️</li>
+</ul>
+<p> </p>
+<p>Last but not least ... what about the bare metal density ?</p>
+<p><code>Allocated resources:</code><br><code> (<span class="il">Total</span> <span class="il">limits</span> <span class="il">may</span> be <span class="il">over</span> <span class="il">100</span> <span class="il">percent</span>, i.e., <span class="il">overcommitted</span>.</code><br><code> CPU Requests CPU <span class="il">Limits</span> Memory Requests Memory <span class="il">Limits</span></code><br><code> ------------ ---------- --------------- -------------</code><br><code> 55 (98%) 101300m (180%) 86376Mi (44%) 121672Mi (62%)</code></p>
+<p>This HW has 56 core with HT , we reached the 98% but this number is high <br>because some pods needs a default cpu just to fit the nodes and start, while the running cost is really low. </p>
+<p> </p>
+<h3>So why not kubernetes hosted in virtual machines ?</h3>
+<ul>
+<li>Having an abstraction layer, is quite simple tune the provisioning based on this , rather than the bare metal, it's just a metter of roles not to the entire provisioning.</li>
+<li>Hardware fault could be easily covered by live migration</li>
+<li>Maintenance and update can be manage creating a blue green approach and rolling updates</li>
+<li>Density could be increased with mode nodes in the same hw</li>
+<li>Flexibility to scale up and to upset a new datacenter in case of migration will be higher</li>
+<li>Team at the and is also able to scale , working from the vmware and not from bare metal</li>
+</ul>
+<figure class="post__image post__image--center"><figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607961166/misc/team_scale.png" alt="" width="718" height="353" data-is-external-image="true"></figure></figure>
+<h3> </h3>
+<h3>Conclusions</h3>
+<p>Virtualization and kubernetes are not antagonist, must be in addition , the first one has just change the scope to better cooperate with kubernetes</p>
+<p>Instead a layer for microservices , virtualization is now the layer that guarantee an homogeneous platform were a team can work on top to create the infrastructure having the advantage of a fully consolidated technology that is able to promote the right abstraction </p>
+<p>Last but not least , we don't need to reinvent something , we can just copy from the major competitors for the kubernetes topic<br>How is working GKE , AKS , EKS ? .... virtual machines :)</p>
             ]]>
         </content>
     </entry>
