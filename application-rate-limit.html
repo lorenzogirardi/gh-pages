@@ -1,0 +1,924 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>application rate limit  - LAB</title><meta name="description" content="For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application. For this scenario we have 2 greddy options: the code way This is the simplest one but has some side&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.k8s.it/application-rate-limit.html"><link rel="amphtml" href="https://www.k8s.it/amp/application-rate-limit.html"><link rel="alternate" type="application/atom+xml" href="https://www.k8s.it/feed.xml"><link rel="alternate" type="application/json" href="https://www.k8s.it/feed.json"><meta property="og:title" content="application rate limit  - LAB "><meta property="og:site_name" content="LAB"><meta property="og:description" content="For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application. For this scenario we have 2 greddy options: the code way This is the simplest one but has some side&hellip;"><meta property="og:url" content="https://www.k8s.it/application-rate-limit.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.k8s.it/media/website/eth0.ico" type="image/x-icon"><link rel="stylesheet" href="https://www.k8s.it/assets/css/style.css?v=b86f16152980d3ca60d9c2da73b4b225"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.k8s.it/application-rate-limit.html"},"headline":"application rate limit ","datePublished":"2023-02-11T13:10","dateModified":"2023-02-11T13:10","description":"For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application. For this scenario we have 2 greddy options: the code way This is the simplest one but has some side&hellip;","author":{"@type":"Person","name":"lgirardi","url":"https://www.k8s.it/authors/lgirardi/"},"publisher":{"@type":"Organization","name":"lgirardi"}}</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-179496482-1"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-179496482-1');</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-5Q67F19PK4"></script><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-5Q67F19PK4');</script><script async defer="defer" src="https://analytics.umami.is/script.js" data-website-id="94a85eb9-27c5-4917-944e-f18dbec7cc27"></script></head><body><div class="site-container"><header class="top" id="js-header"><a class="logo" href="https://www.k8s.it/">LAB</a><nav class="navbar js-navbar"><button class="navbar__toggle js-toggle" aria-label="Menu" aria-haspopup="true" aria-expanded="false"><span class="navbar__toggle-box"><span class="navbar__toggle-inner">Menu</span></span></button><ul class="navbar__menu"><li><a href="https://www.linkedin.com/in/lgirardi/">linkedin</a></li><li><a href="https://services.k8s.it/grafana/?orgId&#x3D;2">live monitoring</a></li><li><a href="https://www.k8s.it/whoami.html">whoami</a></li><li><a href="https://www.k8s.it/hobbies.html" target="_self">hobbies</a></li></ul></nav><div class="search"><div class="search__overlay js-search-overlay"><div class="search__overlay-inner"><form action="https://www.k8s.it/search.html" class="search__form"><input class="search__input" type="search" name="q" placeholder="search..." aria-label="search..."></form><button class="search__close js-search-close" aria-label="Close">Close</button></div></div><button class="search__btn js-search-btn" aria-label="Search"><svg role="presentation" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#search"/></svg></button></div></header><main><article class="post"><div class="hero"><figure class="hero__image hero__image--overlay"><img src="https://www.k8s.it/media/website/hero_image.png" srcset="https://www.k8s.it/media/website/responsive/hero_image-xs.webp 300w, https://www.k8s.it/media/website/responsive/hero_image-sm.webp 480w, https://www.k8s.it/media/website/responsive/hero_image-md.webp 768w, https://www.k8s.it/media/website/responsive/hero_image-lg.webp 1024w, https://www.k8s.it/media/website/responsive/hero_image-xl.webp 1360w, https://www.k8s.it/media/website/responsive/hero_image-2xl.webp 1600w" sizes="100vw" loading="eager" alt=""></figure><header class="hero__content"><div class="wrapper"><div class="post__meta"><time datetime="2023-02-11T13:10">11 Feb 2023</time></div><h1>application rate limit </h1></div></header></div><div class="wrapper post__entry"><p dir="auto">For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application.<br><br></p><p dir="auto">For this scenario we have 2 greddy options:</p><ul dir="auto"><li>have the logic inside the app , in a <em>code</em> way</li><li>have a sidecar container that has this role</li></ul><p><br><br></p><h2 dir="auto"><a id="user-content-the-code-way" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#the-code-way"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>the code way</h2><p dir="auto">This is the simplest one but has some side effects,<br>first of all can be reaused just for the same language apps.<br>Same as before , having this rate inside the app , we are creating a role inside this app<br>that can be good or bad depending of the strategy applied,<br>imagine the request interceptor for example will consume cpu and may <em>false</em> metrics if we are not aware of it.<br><br>But anyway , it can be a solution , so in a simple python code you have to add the following for example<br>(i will use the usual <a href="https://github.com/lorenzogirardi/py-test-backend/tree/ratelimit/docker">app</a> i'm using for labs stuff)<br>I'ts Flask so you just have to add the following:<br>in requirements.txt --&gt; <code>Flask-Limiter</code></p><p dir="auto">Inside your code , import the libraries</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+</code></pre></div><p dir="auto">Enable the <em>limiter</em></p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>limiter = Limiter(
+	get_remote_address,
+	app=app,
+	storage_uri="memory://",
+)
+</code></pre></div><p dir="auto">And add the limiting option in the route u'd like to rate</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>@limiter.limit("28 per second")
+</code></pre></div><p> </p><h3 dir="auto"><a id="user-content-handson" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#handson"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Handson</h3><p dir="auto">Just moved from <code>@limiter.limit("28 per second")</code> to <code>@limiter.limit("2 per second")</code></p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>$ docker build -t lgirardi/pytbakrated .
+[+] Building 11.1s (9/9) FINISHED
+ =&gt; [internal] load build definition from Dockerfile                                                                                                                                                                                     0.0s
+ =&gt; =&gt; transferring dockerfile: 34B                                                                                                                                                                                                      0.0s
+ =&gt; [internal] load .dockerignore                                                                                                                                                                                                        0.0s
+ =&gt; =&gt; transferring context: 2B                                                                                                                                                                                                          0.0s
+ =&gt; [internal] load metadata for docker.io/library/python:3.9-alpine                                                                                                                                                                     0.6s
+ =&gt; [internal] load build context                                                                                                                                                                                                        0.0s
+ =&gt; =&gt; transferring context: 4.47kB                                                                                                                                                                                                      0.0s
+ =&gt; CACHED [1/4] FROM docker.io/library/python:3.9-alpine@sha256:8bda1e9a98fa4e87ff6e3a7682f496532b06fcbae10326a59c8656126051d4df                                                                                                        0.0s
+ =&gt; [2/4] COPY . /app                                                                                                                                                                                                                    0.0s
+ =&gt; [3/4] WORKDIR /app                                                                                                                                                                                                                   0.0s
+ =&gt; [4/4] RUN pip install -r requirements.txt                                                                                                                                                                                            9.9s
+ =&gt; exporting to image                                                                                                                                                                                                                   0.4s
+ =&gt; =&gt; exporting layers                                                                                                                                                                                                                  0.4s
+ =&gt; =&gt; writing image sha256:583ec19905662414ad6bdb3b0da1042ec799ec46f8a676fac6553364cd02bf1e                                                                                                                                             0.0s
+ =&gt; =&gt; naming to docker.io/lgirardi/pytbakrated
+</code></pre></div><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>$ docker run -p 5000:5000 lgirardi/pytbakrated
+ * Serving Flask app 'app'
+ * Debug mode: off
+2023-02-11 10:36:06,264 INFO werkzeug MainThread : WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+2023-02-11 10:36:06,264 INFO werkzeug MainThread : Press CTRL+C to quit
+</code></pre></div><p dir="auto">With a simple curl you can check if it's working , so the rate will be triggered if u go over 2 req/sec</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>$ while true; do curl -I localhost:5000/api/fib/1 &amp;&amp; sleep 0.4;done
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.2 Python/3.9.16
+Date: Sat, 11 Feb 2023 10:37:54 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Vary: Accept-Encoding
+Connection: close
+
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.2 Python/3.9.16
+Date: Sat, 11 Feb 2023 10:37:54 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Vary: Accept-Encoding
+Connection: close
+
+HTTP/1.1 429 TOO MANY REQUESTS
+Server: Werkzeug/2.2.2 Python/3.9.16
+Date: Sat, 11 Feb 2023 10:37:55 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 117
+Vary: Accept-Encoding
+Connection: close
+
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.2 Python/3.9.16
+Date: Sat, 11 Feb 2023 10:37:55 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Vary: Accept-Encoding
+Connection: close
+
+HTTP/1.1 200 OK
+Server: Werkzeug/2.2.2 Python/3.9.16
+Date: Sat, 11 Feb 2023 10:37:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Vary: Accept-Encoding
+Connection: close
+
+HTTP/1.1 429 TOO MANY REQUESTS
+Server: Werkzeug/2.2.2 Python/3.9.16
+Date: Sat, 11 Feb 2023 10:37:56 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 117
+</code></pre></div><p dir="auto">in the same way the contrainer logs are showing the same</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>2023-02-11 10:37:54,359 INFO werkzeug Thread-34 : 172.17.0.1 - - [11/Feb/2023 10:37:54] "HEAD /api/fib/1 HTTP/1.1" 200 -
+2023-02-11 10:37:54,778 INFO werkzeug Thread-36 : 172.17.0.1 - - [11/Feb/2023 10:37:54] "HEAD /api/fib/1 HTTP/1.1" 200 -
+2023-02-11 10:37:55,196 INFO flask-limiter Thread-38 : ratelimit 2 per 1 second (172.17.0.1) exceeded at endpoint: fib
+2023-02-11 10:37:55,197 INFO werkzeug Thread-38 : 172.17.0.1 - - [11/Feb/2023 10:37:55] "HEAD /api/fib/1 HTTP/1.1" 429 -
+2023-02-11 10:37:55,616 INFO werkzeug Thread-40 : 172.17.0.1 - - [11/Feb/2023 10:37:55] "HEAD /api/fib/1 HTTP/1.1" 200 -
+2023-02-11 10:37:56,035 INFO werkzeug Thread-42 : 172.17.0.1 - - [11/Feb/2023 10:37:56] "HEAD /api/fib/1 HTTP/1.1" 200 -
+2023-02-11 10:37:56,455 INFO flask-limiter Thread-44 : ratelimit 2 per 1 second (172.17.0.1) exceeded at endpoint: fib
+2023-02-11 10:37:56,456 INFO werkzeug Thread-44 : 172.17.0.1 - - [11/Feb/2023 10:37:56] "HEAD /api/fib/1 HTTP/1.1" 429 -
+</code></pre></div><p dir="auto">Honestly there are few pro and cons ... but i'd like to enter in those details with a more practical exmaple ...<br>just few concepts anyway are:</p><ul dir="auto"><li>is using the same pool of connections</li><li>it's impacting the same metric that i'm using for autoscaling</li><li>is stealing resources from app</li><li>is really simple rate limit that can fight with others stuff</li></ul><p><br><br></p><h2 dir="auto"><a id="user-content-the-sidecar-way" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#the-sidecar-way"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>the sidecar way</h2><p dir="auto">Yes i know , this is a <em>stretch</em>, since we have service mesh , gateway etc etc that embrace this concept.<br>However, for a specific reason, i created just a sidecar container that can be reused without the needs to implement the infrastructure mentioned before</p><p dir="auto">First of all the choice, tons of possibility, from nginx reverse proxy , to haproxy to <em>whatever</em> proxy ...<br>in this scenario i took the opportunity to use <strong>envoy</strong> , i've already used it with istio , and is really really flexible<br>(sometimes too much, in a way to be confused :-)</p><p dir="auto">Anyway ... it's just a sidecar<br>In an existing app you have to add the following to add envoy</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>      - name: sidecar
+        image: envoyproxy/envoy:v1.22-latest
+        resources:
+          limits:
+            cpu: 100m
+            memory: 150Mi
+          requests:
+            cpu: 30m
+            memory: 55Mi
+        ports:
+          - name: http
+            containerPort: 5002
+            protocol: TCP
+        volumeMounts:
+          - name: sidecar-config
+            mountPath: "/etc/envoy"
+            readOnly: true
+      volumes:
+        - name: sidecar-config
+          configMap:
+            name: pytbakt-configmap
+</code></pre></div><p dir="auto">(great fantasy for the name :-)</p><p dir="auto">and ... well the most important configuration is the <code>pytbakt-configmap</code> that is the envoy configuration</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pytbakt-configmap
+  labels:
+    app: pytbak
+  namespace: pytbak
+data:
+  envoy.yaml: |
+    static_resources:
+      listeners:
+      - name: listener_0
+        address:
+          socket_address:
+            address: 0.0.0.0
+            port_value: 5002
+        filter_chains:
+        - filters:
+          - name: envoy.filters.network.http_connection_manager
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              stat_prefix: ingress_http
+              route_config:
+                name: local_route
+                virtual_hosts:
+                - name: local_service
+                  domains: ["*"]
+                  routes:
+                  - match:
+                      prefix: "/"
+                    route:
+                      cluster: pytbak
+              http_filters:
+              - name: envoy.filters.http.local_ratelimit
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+                  stat_prefix: http_local_rate_limiter
+                  token_bucket:
+                    max_tokens: 29
+                    tokens_per_fill: 29
+                    fill_interval: 1s
+                  filter_enabled:
+                    runtime_key: local_rate_limit_enabled
+                    default_value:
+                      numerator: 100
+                      denominator: HUNDRED
+                  filter_enforced:
+                    runtime_key: local_rate_limit_enforced
+                    default_value:
+                      numerator: 100
+                      denominator: HUNDRED
+                  response_headers_to_add:
+                  - append_action: OVERWRITE_IF_EXISTS_OR_ADD
+                    header:
+                      key: x-local-rate-limit
+                      value: 'true'
+                  local_rate_limit_per_downstream_connection: false
+
+              - name: envoy.filters.http.router
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+      clusters:
+      - name: pytbak
+        connect_timeout: 0.25s
+        type: LOGICAL_DNS
+        dns_lookup_family: V4_ONLY
+        lb_policy: ROUND_ROBIN
+        load_assignment:
+          cluster_name: service_a
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: localhost
+                    port_value: 5000
+</code></pre></div><p dir="auto">in a Human readable way ...</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>      - name: listener_0
+        address:
+          socket_address:
+            address: 0.0.0.0
+            port_value: 5002
+</code></pre></div><p dir="auto">envoy proxy is listening on port 5002</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>                - name: local_service
+                  domains: ["*"]
+                  routes:
+                  - match:
+                      prefix: "/"
+                    route:
+                      cluster: pytbak
+</code></pre></div><p dir="auto">no path or domain configuration , just handle all after <code>/</code></p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>      clusters:
+      - name: pytbak
+        connect_timeout: 0.25s
+        type: LOGICAL_DNS
+        dns_lookup_family: V4_ONLY
+        lb_policy: ROUND_ROBIN
+        load_assignment:
+          cluster_name: service_a
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: localhost
+                    port_value: 5000
+</code></pre></div><p dir="auto">something like <em>reverse proxy</em> configuration since the app is listening on port 5000</p><p dir="auto">And now the Rate limiting section</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>              http_filters:
+              - name: envoy.filters.http.local_ratelimit
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+                  stat_prefix: http_local_rate_limiter
+                  token_bucket:
+                    max_tokens: 29
+                    tokens_per_fill: 29
+                    fill_interval: 1s
+                  filter_enabled:
+                    runtime_key: local_rate_limit_enabled
+                    default_value:
+                      numerator: 100
+                      denominator: HUNDRED
+                  filter_enforced:
+                    runtime_key: local_rate_limit_enforced
+                    default_value:
+                      numerator: 100
+                      denominator: HUNDRED
+                  response_headers_to_add:
+                  - append_action: OVERWRITE_IF_EXISTS_OR_ADD
+                    header:
+                      key: x-local-rate-limit
+                      value: 'true'
+                  local_rate_limit_per_downstream_connection: false
+</code></pre></div><p dir="auto">we have a bucket of 29 token , and every second it re-enable the 29 token in the bucket ... i mean ... 29req/second <em>almost</em> :-)</p><h3 dir="auto"><a id="user-content-handson-1" class="anchor" aria-hidden="true" href="https://github.com/lorenzogirardi/Kubernetes-sidecar-ratelimit#handson-1"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Handson</h3><p dir="auto">Again i changed the rate limit to 2req/second</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>                  token_bucket:
+                    max_tokens: 2
+                    tokens_per_fill: 2
+                    fill_interval: 1s
+</code></pre></div><p dir="auto">in kubernetes <code>pytbak pytbak-stable-bd648fd46-nj95m 2/2 Running 0 13s</code></p><p dir="auto">kubectl describe pod pytbak-stable-bd648fd46-nj95m -n pytbak</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>Name:         pytbak-stable-bd648fd46-nj95m
+Namespace:    pytbak
+Priority:     0
+Node:         instance-20220215-1853/10.0.254.135
+Start Time:   Sat, 11 Feb 2023 11:19:45 +0000
+Labels:       app=pytbak
+              pod-template-hash=bd648fd46
+              track=pytbak-stable
+Annotations:  cni.projectcalico.org/podIP: 10.1.156.173/32
+              cni.projectcalico.org/podIPs: 10.1.156.173/32
+              prometheus.io/path: /metrics
+              prometheus.io/port: 5000
+              prometheus.io/scrape: true
+Status:       Running
+IP:           10.1.156.173
+IPs:
+  IP:           10.1.156.173
+Controlled By:  ReplicaSet/pytbak-stable-bd648fd46
+Containers:
+  pytbak:
+    Container ID:   containerd://9a54504e73a14746299366e2941b51f7069b6649208329a3f87708b053ef1eaf
+    Image:          lgirardi/rest-test-multip:0.6
+    Image ID:       docker.io/lgirardi/rest-test-multip@sha256:c94695a04fb3b862bfb576ead460aba3528bd098327f88122d087f48380506dd
+    Port:           5000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Sat, 11 Feb 2023 11:19:46 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     300m
+      memory:  250Mi
+    Requests:
+      cpu:        30m
+      memory:     125Mi
+    Liveness:     http-get http://:5000/api/ delay=40s timeout=10s period=10s #success=1 #failure=3
+    Readiness:    http-get http://:5000/api/ delay=5s timeout=15s period=10s #success=1 #failure=3
+    Environment:  &lt;none&gt;
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xrr7c (ro)
+  sidecar:
+    Container ID:   containerd://a0d45982aa56704983a89bacd664e5cbb8b38b1df943df92ad879e7c66986c22
+    Image:          envoyproxy/envoy:v1.22-latest
+    Image ID:       docker.io/envoyproxy/envoy@sha256:3b1e0114dbead3fbd9f561994f3894f5d113a815e023065cabdf0c48d55396ce
+    Port:           5002/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Sat, 11 Feb 2023 11:19:47 +0000
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:     100m
+      memory:  150Mi
+    Requests:
+      cpu:        30m
+      memory:     55Mi
+    Environment:  &lt;none&gt;
+    Mounts:
+      /etc/envoy from sidecar-config (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-xrr7c (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  sidecar-config:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      pytbakt-configmap
+    Optional:  false
+  kube-api-access-xrr7c:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       &lt;nil&gt;
+    DownwardAPI:             true
+QoS Class:                   Burstable
+Node-Selectors:              &lt;none&gt;
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  3m53s  default-scheduler  Successfully assigned pytbak/pytbak-stable-bd648fd46-nj95m to instance-20220215-1853
+  Normal  Pulled     3m53s  kubelet            Container image "lgirardi/rest-test-multip:0.6" already present on machine
+  Normal  Created    3m53s  kubelet            Created container pytbak
+  Normal  Started    3m53s  kubelet            Started container pytbak
+  Normal  Pulled     3m53s  kubelet            Container image "envoyproxy/envoy:v1.22-latest" already present on machine
+  Normal  Created    3m53s  kubelet            Created container sidecar
+  Normal  Started    3m52s  kubelet            Started container sidecar
+</code></pre></div><p dir="auto">With curl</p><p dir="auto">$ while true;do curl -I <a href="http://oracolo.k8s.it/api/fib/1" rel="nofollow">http://oracolo.k8s.it/api/fib/1</a> &amp;&amp; sleep 0.4;done</p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>HTTP/1.1 200 OK
+Date: Sat, 11 Feb 2023 11:29:48 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Connection: keep-alive
+vary: Accept-Encoding
+x-envoy-upstream-service-time: 2
+
+HTTP/1.1 200 OK
+Date: Sat, 11 Feb 2023 11:29:49 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Connection: keep-alive
+vary: Accept-Encoding
+x-envoy-upstream-service-time: 2
+
+HTTP/1.1 429 Too Many Requests
+Date: Sat, 11 Feb 2023 11:29:49 GMT
+Content-Type: text/plain
+Content-Length: 18
+Connection: keep-alive
+x-local-rate-limit: true
+
+HTTP/1.1 200 OK
+Date: Sat, 11 Feb 2023 11:29:50 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Connection: keep-alive
+vary: Accept-Encoding
+x-envoy-upstream-service-time: 2
+
+HTTP/1.1 200 OK
+Date: Sat, 11 Feb 2023 11:29:50 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Connection: keep-alive
+vary: Accept-Encoding
+x-envoy-upstream-service-time: 2
+
+HTTP/1.1 429 Too Many Requests
+Date: Sat, 11 Feb 2023 11:29:50 GMT
+Content-Type: text/plain
+Content-Length: 18
+Connection: keep-alive
+x-local-rate-limit: true
+
+HTTP/1.1 200 OK
+Date: Sat, 11 Feb 2023 11:29:51 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Connection: keep-alive
+vary: Accept-Encoding
+x-envoy-upstream-service-time: 2
+
+HTTP/1.1 200 OK
+Date: Sat, 11 Feb 2023 11:29:51 GMT
+Content-Type: text/html; charset=utf-8
+Content-Length: 1
+Connection: keep-alive
+vary: Accept-Encoding
+x-envoy-upstream-service-time: 2
+
+HTTP/1.1 429 Too Many Requests
+Date: Sat, 11 Feb 2023 11:29:51 GMT
+Content-Type: text/plain
+Content-Length: 18
+Connection: keep-alive
+x-local-rate-limit: true</code></pre></div></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on 11 Feb 2023</p><ul class="post__tag"><li><a href="https://www.k8s.it/flask/">flask</a></li><li><a href="https://www.k8s.it/kubernetes/">kubernetes</a></li><li><a href="https://www.k8s.it/python/">python</a></li><li><a href="https://www.k8s.it/rate-limit/">rate limit</a></li></ul><div class="post__share"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.k8s.it%2Fapplication-rate-limit.html" class="js-share facebook" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#facebook"/></svg> <span>Facebook</span> </a><a href="https://twitter.com/share?url=https%3A%2F%2Fwww.k8s.it%2Fapplication-rate-limit.html&amp;via=LAB&amp;text=application%20rate%20limit%C2%A0" class="js-share twitter" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#twitter"/></svg> <span>Twitter</span> </a><a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.k8s.it%2Fapplication-rate-limit.html" class="js-share linkedin" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg> <span>LinkedIn</span> </a><a href="https://buffer.com/add?text=application%20rate%20limit%C2%A0&amp;url=https%3A%2F%2Fwww.k8s.it%2Fapplication-rate-limit.html" class="js-share buffer" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#buffer"/></svg> <span>Buffer</span> </a><a href="https://api.whatsapp.com/send?text=application%20rate%20limit%C2%A0 https%3A%2F%2Fwww.k8s.it%2Fapplication-rate-limit.html" class="js-share whatsapp" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#whatsapp"/></svg> <span>WhatsApp</span></a></div><div class="post__bio bio"><div class="bio__info"><h3 class="bio__name"><a href="https://www.k8s.it/authors/lgirardi/" rel="author">lgirardi</a></h3><p>If it isn&#x27;t there, it can&#x27;t break.</p></div></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.k8s.it/ya-vpn-service-in-kubernetes.html" class="post__nav-link" rel="prev"><span>Previous</span> YA vpn service in kubernetes</a></div><div class="post__nav-next"><a href="https://www.k8s.it/application-rate-limit-2.html" class="post__nav-link" rel="next"><span>Next</span> application rate limit  </a><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#arrow-next"/></svg></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2023-02-11T13:10" class="feed__date">11 Feb 2023</time></div><h3 class="h1"><a href="https://www.k8s.it/application-rate-limit-4.html">application rate limit </a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2023-02-11T13:10" class="feed__date">11 Feb 2023</time></div><h3 class="h1"><a href="https://www.k8s.it/application-rate-limit-3.html">application rate limit </a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2023-02-11T13:10" class="feed__date">11 Feb 2023</time></div><h3 class="h1"><a href="https://www.k8s.it/application-rate-limit-2.html">application rate limit </a></h3></article></div></div><div class="post__comments"><div class="wrapper"></div></div></main><footer class="footer"><div class="footer__social"><a href="https://www.linkedin.com/in/lgirardi/" aria-label="LinkedIn"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg></a></div><div class="footer__copyright"><p>.</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script defer="defer" src="https://www.k8s.it/assets/js/scripts.min.js?v=f47c11534595205f20935f0db2a62a85"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.top'};</script><script>var images = document.querySelectorAll('img[loading]');
+
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].complete) {
+                images[i].classList.add('is-loaded');
+            } else {
+                images[i].addEventListener('load', function () {
+                    this.classList.add('is-loaded');
+                }, false);
+            }
+        }</script><div class="pcb" data-behaviour="badge" data-behaviour-link="#cookie-settings" data-revision="1" data-config-ttl="90" data-debug-mode="false"><div role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="pcb-title" aria-describedby="pcb-txt" class="pcb__banner"><div class="pcb__inner"><div id="pcb-title" role="heading" class="pcb__title">This website uses cookies</div><div id="pcb-txt" class="pcb__txt">Select which cookies to opt-in to via the checkboxes below; our website uses cookies to examine site traffic and user activity while on our site, for marketing, and to provide social media functionality. <a href="#not-specified">More details...</a></div><div class="pcb__buttons"><button type="button" class="pcb__btn pcb__btn--link pcb__btn--configure" aria-haspopup="dialog">Manage preferences</button> <button type="button" class="pcb__btn pcb__btn--solid pcb__btn--accept">Save</button></div></div></div><div class="pcb__popup" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="pcb-popup-title"><div class="pcb__popup__wrapper"><div class="pcb__inner pcb__popup__inner"><div class="pcb__popup__heading"><div id="pcb-popup-title" role="heading" class="pcb__title">Cookie settings</div><button class="pcb__popup__close" aria-label="Close"></button></div><div class="pcb__popup__content"><div class="pcb__txt pcb__popup__txt">We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies. <a href="#not-specified">More details...</a></div><ul class="pcb__groups"><li class="pcb__group"><details><summary class="pcb__group__title no-desc">Required</summary></details><div class="pcb__popup__switch is-checked"><input type="checkbox" data-group-name="" id="pcb-group-0" checked="checked"> <label for="pcb-group-0">Required</label></div></li><li class="pcb__group"><details><summary class="pcb__group__title no-desc">Functionality</summary></details><div class="pcb__popup__switch"><input type="checkbox" data-group-name="functions" id="functions-cookies"> <label for="functions-cookies">Functionality</label></div></li><li class="pcb__group"><details><summary class="pcb__group__title no-desc">Analytical</summary></details><div class="pcb__popup__switch"><input type="checkbox" data-group-name="analytics" id="analytics-cookies"> <label for="analytics-cookies">Analytical</label></div></li><li class="pcb__group"><details><summary class="pcb__group__title no-desc">Marketing</summary></details><div class="pcb__popup__switch"><input type="checkbox" data-group-name="marketing" id="marketing-cookies"> <label for="marketing-cookies">Marketing</label></div></li></ul></div><div class="pcb__buttons pcb__popup__buttons"><button type="button" class="pcb__btn pcb__btn--solid pcb__btn--accept">Accept all</button> <button type="button" class="pcb__btn pcb__btn--reject">Reject all</button> <button type="button" class="pcb__btn pcb__btn--save">Save settings</button></div></div></div></div><div class="pcb__overlay" aria-hidden="true"></div><button class="pcb__badge" aria-label="Cookie Policy" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="40" height="40" viewBox="0 0 23 23" fill="currentColor"><path d="M21.41 12.71c-.08-.01-.15 0-.22 0h-.03c-.03 0-.05 0-.08.01-.07 0-.13.01-.19.04-.52.21-1.44.19-2.02-.22-.44-.31-.65-.83-.62-1.53a.758.758 0 0 0-.27-.61.73.73 0 0 0-.65-.14c-1.98.51-3.49.23-4.26-.78-.82-1.08-.73-2.89.24-4.49.14-.23.14-.52 0-.75a.756.756 0 0 0-.67-.36c-.64.03-1.11-.1-1.31-.35-.19-.26-.13-.71-.01-1.29.04-.18.06-.38.03-.59-.05-.4-.4-.7-.81-.66C5.1 1.54 1 6.04 1 11.48 1 17.28 5.75 22 11.6 22c5.02 0 9.39-3.54 10.39-8.42.08-.4-.18-.78-.58-.87Zm-9.81 7.82c-5.03 0-9.12-4.06-9.12-9.06 0-4.34 3.05-8 7.25-8.86-.08.7.05 1.33.42 1.81.24.32.66.67 1.38.84-.76 1.86-.65 3.78.36 5.11.61.81 2.03 2 4.95 1.51.18.96.71 1.54 1.18 1.87.62.43 1.38.62 2.1.62.05 0 .09 0 .13-.01-1.23 3.64-4.7 6.18-8.64 6.18ZM13 17c0 .55-.45 1-1 1s-1-.45-1-1 .45-1 1-1 1 .45 1 1Zm5.29-12.3a.99.99 0 0 1-.29-.71c0-.55.45-.99 1-.99a1 1 0 0 1 .71.3c.19.19.29.44.29.71 0 .55-.45.99-1 .99a1 1 0 0 1-.71-.3ZM9 13.5c0 .83-.67 1.5-1.5 1.5S6 14.33 6 13.5 6.67 12 7.5 12s1.5.67 1.5 1.5Zm3.25.81a.744.744 0 0 1-.06-1.05c.28-.32.75-.34 1.05-.06.31.28.33.75.05 1.06-.15.16-.35.25-.56.25-.18 0-.36-.06-.5-.19ZM8.68 7.26c.41.37.44 1 .07 1.41-.2.22-.47.33-.75.33a.96.96 0 0 1-.67-.26c-.41-.37-.44-1-.07-1.41.37-.42 1-.45 1.41-.08Zm11.48 1.88c.18-.19.52-.19.7 0 .05.04.09.1.11.16.03.06.04.12.04.19 0 .13-.05.26-.15.35-.09.1-.22.15-.35.15s-.26-.05-.35-.15a.355.355 0 0 1-.11-.16.433.433 0 0 1-.04-.19c0-.13.05-.26.15-.35Zm-4.93-1.86a.75.75 0 1 1 1.059-1.06.75.75 0 0 1-1.059 1.06Z"/></svg></button></div><script>(function(win) {
+    if (!document.querySelector('.pcb')) {
+        return;
+    }
+
+    var cbConfig = {
+        behaviour: document.querySelector('.pcb').getAttribute('data-behaviour'),
+        behaviourLink: document.querySelector('.pcb').getAttribute('data-behaviour-link'),
+        revision: document.querySelector('.pcb').getAttribute('data-revision'),
+        configTTL: parseInt(document.querySelector('.pcb').getAttribute('data-config-ttl'), 10),
+        debugMode: document.querySelector('.pcb').getAttribute('data-debug-mode') === 'true',
+        initialState: null,
+        previouslyAccepted: []
+    };
+
+    var cbUI = {
+        wrapper: document.querySelector('.pcb'),
+        banner: {
+            element: null,
+            btnAccept: null,
+            btnReject: null,
+            btnConfigure: null
+        },
+        popup: {
+            element: null,
+            btnClose: null,
+            btnSave: null,
+            btnAccept: null,
+            btnReject: null,
+            checkboxes: null,
+        },
+        overlay: null,
+        badge: null,
+        blockedScripts: document.querySelectorAll('script[type^="gdpr-blocker/"]'),
+        triggerLinks: cbConfig.behaviourLink ? document.querySelectorAll('a[href*="' + cbConfig.behaviourLink + '"]') : null
+    };
+
+    function initUI () {
+        // setup banner elements
+        cbUI.banner.element = cbUI.wrapper.querySelector('.pcb__banner');
+        cbUI.banner.btnAccept = cbUI.banner.element.querySelector('.pcb__btn--accept');
+        cbUI.banner.btnReject = cbUI.banner.element.querySelector('.pcb__btn--reject');
+        cbUI.banner.btnConfigure = cbUI.banner.element.querySelector('.pcb__btn--configure');
+
+        // setup popup elements
+        if (cbUI.wrapper.querySelector('.pcb__popup')) {
+            cbUI.popup.element = cbUI.wrapper.querySelector('.pcb__popup');
+            cbUI.popup.btnClose = cbUI.wrapper.querySelector('.pcb__popup__close');
+            cbUI.popup.btnSave = cbUI.popup.element.querySelector('.pcb__btn--save');
+            cbUI.popup.btnAccept = cbUI.popup.element.querySelector('.pcb__btn--accept');
+            cbUI.popup.btnReject = cbUI.popup.element.querySelector('.pcb__btn--reject');
+            cbUI.popup.checkboxes = cbUI.popup.element.querySelector('input[type="checkbox"]');
+            // setup overlay
+            cbUI.overlay = cbUI.wrapper.querySelector('.pcb__overlay');
+        }
+
+        cbUI.badge = cbUI.wrapper.querySelector('.pcb__badge');
+
+        if (cbConfig.behaviour.indexOf('link') > -1) {
+            for (var i = 0; i < cbUI.triggerLinks.length; i++) {
+                cbUI.triggerLinks[i].addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showBannerOrPopup();
+                });
+            }
+        }
+    }
+
+    function initState () {
+        var lsKeyName = getConfigName();
+        var currentConfig = localStorage.getItem(lsKeyName);
+        var configIsFresh = checkIfConfigIsFresh();
+
+        if (!configIsFresh || currentConfig === null) {
+            if (cbConfig.debugMode) {
+                console.log('🍪 Config not found, or configuration expired');
+            }
+
+            showBanner();
+        } else if (typeof currentConfig === 'string') {
+            if (cbConfig.debugMode) {
+                console.log('🍪 Config founded');
+            }
+
+            showBadge();
+
+            if (cbUI.popup.element) {
+                var allowedGroups = currentConfig.split(',');
+                var checkedCheckboxes = cbUI.popup.element.querySelectorAll('input[type="checkbox"]:checked');
+
+                for (var j = 0; j < checkedCheckboxes.length; j++) {
+                    var name = checkedCheckboxes[j].getAttribute('data-group-name');
+
+                    if (name && name !== '-' && allowedGroups.indexOf(name) === -1) {
+                        checkedCheckboxes[j].checked = false;
+                    }
+                }
+
+                for (var i = 0; i < allowedGroups.length; i++) {
+                    var checkbox = cbUI.popup.element.querySelector('input[type="checkbox"][data-group-name="' + allowedGroups[i] + '"]');
+
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+
+                    allowCookieGroup(allowedGroups[i]);
+                }
+            }
+        }
+
+        setTimeout(function () {
+            cbConfig.initialState = getInitialStateOfConsents();
+        }, 0);
+    }
+
+    function checkIfConfigIsFresh () {
+        var lastConfigSave = localStorage.getItem('publii-gdpr-cookies-config-save-date');
+
+        if (lastConfigSave === null) {
+            return false;
+        }
+
+        lastConfigSave = parseInt(lastConfigSave, 10);
+
+        if (lastConfigSave === 0) {
+            return true;
+        }
+
+        if (+new Date() - lastConfigSave < cbConfig.configTTL * 24 * 60 * 60 * 1000) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function initBannerEvents () {
+        cbUI.banner.btnAccept.addEventListener('click', function (e) {
+            e.preventDefault();
+            acceptAllCookies('banner');
+            showBadge();
+        }, false);
+
+        if (cbUI.banner.btnReject) {
+            cbUI.banner.btnReject.addEventListener('click', function (e) {
+                e.preventDefault();
+                rejectAllCookies();
+                showBadge();
+            }, false);
+        }
+
+        if (cbUI.banner.btnConfigure) {
+            cbUI.banner.btnConfigure.addEventListener('click', function (e) {
+                e.preventDefault();
+                hideBanner();
+                showAdvancedPopup();
+                showBadge();
+            }, false);
+        }
+    }
+
+    function initPopupEvents () {
+        if (!cbUI.popup.element) {
+            return;
+        }
+
+        cbUI.overlay.addEventListener('click', function (e) {
+            hideAdvancedPopup();
+        }, false);
+
+        cbUI.popup.element.addEventListener('click', function (e) {
+            e.stopPropagation();
+        }, false);
+
+        cbUI.popup.btnAccept.addEventListener('click', function (e) {
+            e.preventDefault();
+            acceptAllCookies('popup');
+        }, false);
+
+        cbUI.popup.btnReject.addEventListener('click', function (e) {
+            e.preventDefault();
+            rejectAllCookies();
+        }, false);
+
+        cbUI.popup.btnSave.addEventListener('click', function (e) {
+            e.preventDefault();
+            saveConfiguration();
+        }, false);
+
+        cbUI.popup.btnClose.addEventListener('click', function (e) {
+            e.preventDefault();
+            hideAdvancedPopup();
+        }, false);
+    }
+
+    function initBadgeEvents () {
+        if (!cbUI.badge) {
+            return;
+        }
+
+        cbUI.badge.addEventListener('click', function (e) {
+            showBannerOrPopup();
+        }, false);
+    }
+
+    initUI();
+    initState();
+    initBannerEvents();
+    initPopupEvents();
+    initBadgeEvents();
+
+    /**
+     * API
+     */
+    function addScript (src, inline) {
+        var newScript = document.createElement('script');
+
+        if (src) {
+            newScript.setAttribute('src', src);
+        }
+
+        if (inline) {
+            newScript.text = inline;
+        }
+
+        document.body.appendChild(newScript);
+    }
+
+    function allowCookieGroup (allowedGroup) {
+        var scripts = document.querySelectorAll('script[type="gdpr-blocker/' + allowedGroup + '"]');
+        cbConfig.previouslyAccepted.push(allowedGroup);
+    
+        for (var j = 0; j < scripts.length; j++) {
+            addScript(scripts[j].src, scripts[j].text);
+        }
+
+        var groupEvent = new Event('publii-cookie-banner-unblock-' + allowedGroup);
+        document.body.dispatchEvent(groupEvent);
+        unlockEmbeds(allowedGroup);
+
+        if (cbConfig.debugMode) {
+            console.log('🍪 Allowed group: ' + allowedGroup);
+        }
+    }
+
+    function showBannerOrPopup () {
+        if (cbUI.popup.element) {
+            showAdvancedPopup();
+        } else {
+            showBanner();
+        }
+    }
+
+    function showAdvancedPopup () {
+        cbUI.popup.element.classList.add('is-visible');
+        cbUI.overlay.classList.add('is-visible');
+        cbUI.popup.element.setAttribute('aria-hidden', 'false');
+        cbUI.overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function hideAdvancedPopup () {
+        cbUI.popup.element.classList.remove('is-visible');
+        cbUI.overlay.classList.remove('is-visible');
+        cbUI.popup.element.setAttribute('aria-hidden', 'true');
+        cbUI.overlay.setAttribute('aria-hidden', 'true');
+    }
+
+    function showBanner () {
+        cbUI.banner.element.classList.add('is-visible');
+        cbUI.banner.element.setAttribute('aria-hidden', 'false');
+    }
+
+    function hideBanner () {
+        cbUI.banner.element.classList.remove('is-visible');
+        cbUI.banner.element.setAttribute('aria-hidden', 'true');
+    }
+
+    function showBadge () {
+        if (!cbUI.badge) {
+            return;
+        }
+
+        cbUI.badge.classList.add('is-visible');
+        cbUI.badge.setAttribute('aria-hidden', 'false');
+    }
+
+    function getConfigName () {
+        var lsKeyName = 'publii-gdpr-allowed-cookies';
+
+        if (cbConfig.revision) {
+            lsKeyName = lsKeyName + '-v' + parseInt(cbConfig.revision, 10);
+        }
+
+        return lsKeyName;
+    }
+
+    function storeConfiguration (allowedGroups) {
+        var lsKeyName = getConfigName();
+        var dataToStore = allowedGroups.join(',');
+        localStorage.setItem(lsKeyName, dataToStore);
+
+        if (cbConfig.configTTL === 0) {
+            localStorage.setItem('publii-gdpr-cookies-config-save-date', 0);
+
+            if (cbConfig.debugMode) {
+                console.log('🍪 Store never expiring configuration');
+            }
+        } else {
+            localStorage.setItem('publii-gdpr-cookies-config-save-date', +new Date());
+        }
+    }
+
+    function getInitialStateOfConsents () {
+        if (!cbUI.popup.element) {
+            return [];
+        }
+
+        var checkedGroups = cbUI.popup.element.querySelectorAll('input[type="checkbox"]:checked');
+        var groups = [];
+
+        for (var i = 0; i < checkedGroups.length; i++) {
+            var allowedGroup = checkedGroups[i].getAttribute('data-group-name');
+
+            if (allowedGroup !== '') {
+                groups.push(allowedGroup);
+            }
+        }
+
+        if (cbConfig.debugMode) {
+            console.log('🍪 Initial state: ' + groups.join(', '));
+        }
+
+        return groups;
+    }
+
+    function getCurrentStateOfConsents () {
+        if (!cbUI.popup.element) {
+            return [];
+        }
+
+        var checkedGroups = cbUI.popup.element.querySelectorAll('input[type="checkbox"]:checked');
+        var groups = [];
+
+        for (var i = 0; i < checkedGroups.length; i++) {
+            var allowedGroup = checkedGroups[i].getAttribute('data-group-name');
+
+            if (allowedGroup !== '') {
+                groups.push(allowedGroup);
+            }
+        }
+
+        if (cbConfig.debugMode) {
+            console.log('🍪 State to save: ' + groups.join(', '));
+        }
+
+        return groups;
+    }
+
+    function getAllGroups () {
+        if (!cbUI.popup.element) {
+            return [];
+        }
+
+        var checkedGroups = cbUI.popup.element.querySelectorAll('input[type="checkbox"]');
+        var groups = [];
+
+        for (var i = 0; i < checkedGroups.length; i++) {
+            var allowedGroup = checkedGroups[i].getAttribute('data-group-name');
+
+            if (allowedGroup !== '') {
+                groups.push(allowedGroup);
+            }
+        }
+
+        return groups;
+    }
+
+    function acceptAllCookies (source) {
+        var groupsToAccept = getAllGroups();
+        storeConfiguration(groupsToAccept);
+
+        for (var i = 0; i < groupsToAccept.length; i++) {
+            var group = groupsToAccept[i];
+
+            if (cbConfig.initialState.indexOf(group) > -1 || cbConfig.previouslyAccepted.indexOf(group) > -1) {
+                if (cbConfig.debugMode) {
+                    console.log('🍪 Skip previously activated group: ' + group);
+                }
+
+                continue;
+            }
+
+            allowCookieGroup(group);
+        }
+
+        if (cbUI.popup.element) {
+            var checkboxesToCheck = cbUI.popup.element.querySelectorAll('input[type="checkbox"]');
+
+            for (var j = 0; j < checkboxesToCheck.length; j++) {
+                checkboxesToCheck[j].checked = true;
+            }
+        }
+
+        if (cbConfig.debugMode) {
+            console.log('🍪 Accept all cookies: ', groupsToAccept.join(', '));
+        }
+
+        if (source === 'popup') {
+            hideAdvancedPopup();
+        } else if (source === 'banner') {
+            hideBanner();
+        }
+    }
+
+    function rejectAllCookies () {
+        if (cbConfig.debugMode) {
+            console.log('🍪 Reject all cookies');
+        }
+
+        storeConfiguration([]);
+        setTimeout(function () {
+            window.location.reload();
+        }, 100);
+    }
+
+    function saveConfiguration () {
+        var groupsToAccept = getCurrentStateOfConsents();
+        storeConfiguration(groupsToAccept);
+
+        if (cbConfig.debugMode) {
+            console.log('🍪 Save new config: ', groupsToAccept.join(', '));
+        }
+
+        if (reloadIsNeeded(groupsToAccept)) {
+            setTimeout(function () {
+                window.location.reload();
+            }, 100);
+            return;
+        }
+
+        for (var i = 0; i < groupsToAccept.length; i++) {
+            var group = groupsToAccept[i];
+
+            if (cbConfig.initialState.indexOf(group) > -1 || cbConfig.previouslyAccepted.indexOf(group) > -1) {
+                if (cbConfig.debugMode) {
+                    console.log('🍪 Skip previously activated group: ' + group);
+                }
+
+                continue;
+            }
+
+            allowCookieGroup(group);
+        }
+
+        hideAdvancedPopup();
+    }
+
+    function reloadIsNeeded (groupsToAccept) {
+        // check if user rejected consent for initial groups
+        var initialGroups = cbConfig.initialState;
+        var previouslyAcceptedGroups = cbConfig.previouslyAccepted;
+        var groupsToCheck = initialGroups.concat(previouslyAcceptedGroups);
+
+        for (var i = 0; i < groupsToCheck.length; i++) {
+            var groupToCheck = groupsToCheck[i];
+
+            if (groupsToAccept.indexOf(groupToCheck) === -1) {
+                if (cbConfig.debugMode) {
+                    console.log('🍪 Reload is needed due lack of: ', groupToCheck);
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function unlockEmbeds (cookieGroup) {
+        var iframesToUnlock = document.querySelectorAll('.pec-wrapper[data-consent-group-id="' + cookieGroup + '"]');
+
+        for (var i = 0; i < iframesToUnlock.length; i++) {
+            var iframeWrapper = iframesToUnlock[i];
+            iframeWrapper.querySelector('.pec-overlay').classList.remove('is-active');
+            iframeWrapper.querySelector('.pec-overlay').setAttribute('aria-hidden', 'true');
+            var iframe = iframeWrapper.querySelector('iframe');
+            iframe.setAttribute('src', iframe.getAttribute('data-consent-src'));
+        }
+    }
+
+    win.publiiEmbedConsentGiven = function (cookieGroup) {
+        // it will unlock embeds
+        allowCookieGroup(cookieGroup);
+
+        var checkbox = cbUI.popup.element.querySelector('input[type="checkbox"][data-group-name="' + cookieGroup + '"]');
+
+        if (checkbox) {
+            checkbox.checked = true;
+        }
+
+        var groupsToAccept = getCurrentStateOfConsents();
+        storeConfiguration(groupsToAccept);
+
+        if (cbConfig.debugMode) {
+            console.log('🍪 Save new config: ', groupsToAccept.join(', '));
+        }
+    }
+})(window);</script></body></html>
