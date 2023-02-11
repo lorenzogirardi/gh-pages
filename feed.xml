@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2023-02-11T13:18:59+01:00</updated>
+    <updated>2023-02-11T13:23:20+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -29,7 +29,7 @@
             <category term="envoy"/>
             <category term="api-gateway"/>
 
-        <updated>2023-02-11T13:18:59+01:00</updated>
+        <updated>2023-02-11T13:23:20+01:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.18.48.png" alt="" />
@@ -528,6 +528,7 @@ Content-Type: text/plain
 Content-Length: 18
 Connection: keep-alive
 x-local-rate-limit: true</code></pre>
+<p>Both solution are working, different ways and different impacts on the app. In the next episode i will explain why i did this job , however, now in case u need a simple way to rate limit you app you can have a sidecar container out of the box.</p>
 </div>
             ]]>
         </content>
