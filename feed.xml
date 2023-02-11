@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2023-02-11T13:15:42+01:00</updated>
+    <updated>2023-02-11T13:18:59+01:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -14,9 +14,9 @@
         <author>
             <name>lgirardi</name>
         </author>
-        <link href="https://www.k8s.it/application-rate-limit-4.html"/>
-        <id>https://www.k8s.it/application-rate-limit-4.html</id>
-        <media:content url="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.08.13.png" medium="image" />
+        <link href="https://www.k8s.it/application-rate-limiting.html"/>
+        <id>https://www.k8s.it/application-rate-limiting.html</id>
+        <media:content url="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.18.48.png" medium="image" />
             <category term="standalone"/>
             <category term="sidecar conatiner"/>
             <category term="sidecar"/>
@@ -29,16 +29,16 @@
             <category term="envoy"/>
             <category term="api-gateway"/>
 
-        <updated>2023-02-11T13:15:42+01:00</updated>
+        <updated>2023-02-11T13:18:59+01:00</updated>
             <summary>
                 <![CDATA[
-                        <img src="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.08.13.png" alt="" />
+                        <img src="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.18.48.png" alt="" />
                     For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application. For this scenario we have 2 greddy options: the code way This is the simplest one but has some side&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
-                    <p><img src="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.08.13.png" class="type:primaryImage" alt="" /></p>
+                    <p><img src="https://www.k8s.it/media/posts/42/Screenshot-2023-02-11-at-13.18.48.png" class="type:primaryImage" alt="" /></p>
                 <p dir="auto">For some reasons that i will share later on in a dedicated discussion, i had the need to create a rate limit inside the application.<br><br></p>
 <p dir="auto">For this scenario we have 2 greddy options:</p>
 <ul dir="auto">
