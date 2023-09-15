@@ -1,0 +1,6 @@
+Contact: mailto:security@k8s.it
+Expires: 2033-01-01T00:01:00.000Z
+Encryption: https://www.k8s.it/media/files/key0xC8C434D06DF702B6.asc
+Preferred-Languages: en
+Canonical: https://www.k8s.it/security.txt
+
