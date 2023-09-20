@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2023-08-16T13:07:40+02:00</updated>
+    <updated>2023-09-20T10:01:49+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -1808,7 +1808,7 @@ end</code></pre>
             <category term="application metrics"/>
             <category term="alerting"/>
 
-        <updated>2021-01-05T19:11:11+01:00</updated>
+        <updated>2023-09-20T10:01:49+02:00</updated>
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.47.24.png" alt="" />
@@ -1921,7 +1921,6 @@ end</code></pre>
 <h4> </h4>
 <h4>Less is more</h4>
 <p><span style="font-weight: 400;">How many metrics are enough to create a valid alert?</span></p>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/20/Screenshot-2021-01-05-at-17.48.07.png" alt="" width="1024" height="764" sizes="100vw" srcset="https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-xs.webp 300w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-sm.webp 480w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-md.webp 768w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-lg.webp 1024w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-xl.webp 1360w ,https://www.k8s.it/media/posts/20/responsive/Screenshot-2021-01-05-at-17.48.07-2xl.webp 1600w"></figure>
 <p>The more metrics identify the service behaviour the more we can create a dedicated alert...<br>anyway  ....<br>The anti-pattern model currently applied in some cases: <br>have tons of metrics that generate only <strong>noise</strong> without identifying the healthiness of a service</p>
 <p><em>Keep it simple</em> and define the structure of your <span style="text-decoration: underline;">System,</span> <span style="text-decoration: underline;">Application</span> and <span style="text-decoration: underline;">Business</span> metrics .</p>
 <p> </p>
