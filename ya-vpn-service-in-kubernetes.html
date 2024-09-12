@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>YA vpn service in kubernetes - LAB</title><meta name="description" content="Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.k8s.it/ya-vpn-service-in-kubernetes.html"><link rel="alternate" type="application/atom+xml" href="https://www.k8s.it/feed.xml"><link rel="alternate" type="application/json" href="https://www.k8s.it/feed.json"><meta property="og:title" content="YA vpn service in kubernetes - LAB "><meta property="og:site_name" content="LAB"><meta property="og:description" content="Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;"><meta property="og:url" content="https://www.k8s.it/ya-vpn-service-in-kubernetes.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.k8s.it/media/website/eth0.ico" type="image/x-icon"><link rel="stylesheet" href="https://www.k8s.it/assets/css/style.css?v=17252d75cb2d913b6e2ae856f642b081"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.k8s.it/ya-vpn-service-in-kubernetes.html"},"headline":"YA vpn service in kubernetes","datePublished":"2022-07-18T23:08","dateModified":"2022-07-27T07:58","description":"Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;","author":{"@type":"Person","name":"lgirardi","url":"https://www.k8s.it/authors/lgirardi/"},"publisher":{"@type":"Organization","name":"lgirardi"}}</script><noscript><style>img[loading] {
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>YA vpn service in kubernetes - LAB</title><meta name="description" content="Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;"><meta name="generator" content="Publii Open-Source CMS for Static Site"><link rel="canonical" href="https://www.k8s.it/ya-vpn-service-in-kubernetes.html"><link rel="alternate" type="application/atom+xml" href="https://www.k8s.it/feed.xml"><link rel="alternate" type="application/json" href="https://www.k8s.it/feed.json"><meta property="og:title" content="YA vpn service in kubernetes - LAB "><meta property="og:site_name" content="LAB"><meta property="og:description" content="Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;"><meta property="og:url" content="https://www.k8s.it/ya-vpn-service-in-kubernetes.html"><meta property="og:type" content="article"><link rel="shortcut icon" href="https://www.k8s.it/media/website/eth0.ico" type="image/x-icon"><link rel="stylesheet" href="https://www.k8s.it/assets/css/style.css?v=21da29f0ae0b3be132c4b37f1ecd6fa6"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.k8s.it/ya-vpn-service-in-kubernetes.html"},"headline":"YA vpn service in kubernetes","datePublished":"2022-07-18T23:08","dateModified":"2024-09-12T21:54","description":"Table of contents Why Key generation Kubernetes deployment Test and results Why Honestly i was scared to dismiss my beloved ipsec based on strongswan, however on of my colleagues shared me how low is the overhead of wireguard, so i was interested to check myself. First&hellip;","author":{"@type":"Person","name":"lgirardi","url":"https://www.k8s.it/authors/lgirardi/"},"publisher":{"@type":"Organization","name":"lgirardi"}}</script><noscript><style>img[loading] {
                     opacity: 1;
                 }</style></noscript><script async src="https://www.googletagmanager.com/gtag/js?id=UA-179496482-1"></script><script>window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -124,7 +124,7 @@ DNS = 1.1.1.1
 PublicKey = &lt;server_publickey_me&gt;
 AllowedIPs = 0.0.0.0/0, ::/0
 Endpoint = &lt;your-public-ip&gt;:31820
-</code></pre></div><h2 dir="auto"> </h2><h2 dir="auto">Test and results</h2><p dir="auto">From mobile<br><a href="https://res.cloudinary.com/ethzero/video/upload/v1658175554/misc/wireguard-mobile.mp4" title="wirecardmobile" rel="nofollow"><img loading="lazy" src="https://camo.githubusercontent.com/6ce79561a4eab7bc80d169a5c3f3f184d6f14642fe06fa6de0d72b0be062285f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3234302f76313635383137353835372f6d6973632f77697265636172646d6f62696c652e706e67" alt="wirecardmobile" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_240/v1658175857/misc/wirecardmobile.png" data-is-external-image="true"></a></p><p dir="auto">And what about the resources usage with 1g file download...<br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/8b842d08f4e0858968e44bb161c194c426e7eb624e1f22dcab7a61cf28eb58b1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383137363737332f6d6973632f77697265677561726465736b746f702e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/8b842d08f4e0858968e44bb161c194c426e7eb624e1f22dcab7a61cf28eb58b1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383137363737332f6d6973632f77697265677561726465736b746f702e706e67" alt="" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1658176773/misc/wireguardesktop.png" data-is-external-image="true"></a></p><p dir="auto"><br><br></p><p dir="auto">So i'm really impressed by the efficiency of this tool ... i was reading a lot of good mention about it,<br>however today i discovered another tool for my swiss army knife</p><p dir="auto"> </p><h3 dir="auto">UPDATE</h3><p dir="auto">Added a monitoring service as a sidecar container based on prometheus exporter <a href="https://github.com/MindFlavor/prometheus_wireguard_exporter">https://github.com/MindFlavor/prometheus_wireguard_exporter</a></p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>      annotations:
+</code></pre></div><h2 dir="auto"> </h2><h2 dir="auto">Test and results</h2><p dir="auto">From mobile</p><figure class="post__video"><video loading="lazy" width="300" height="150" controls="controls" data-mce-fragment="1"><source src="https://res.cloudinary.com/ethzero/video/upload/v1658175554/misc/wireguard-mobile.mp4" type="video/mp4"></video></figure><p dir="auto">And what about the resources usage with 1g file download...<br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/8b842d08f4e0858968e44bb161c194c426e7eb624e1f22dcab7a61cf28eb58b1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383137363737332f6d6973632f77697265677561726465736b746f702e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/8b842d08f4e0858968e44bb161c194c426e7eb624e1f22dcab7a61cf28eb58b1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383137363737332f6d6973632f77697265677561726465736b746f702e706e67" alt="" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1658176773/misc/wireguardesktop.png" data-is-external-image="true"></a></p><p dir="auto"><br><br></p><p dir="auto">So i'm really impressed by the efficiency of this tool ... i was reading a lot of good mention about it,<br>however today i discovered another tool for my swiss army knife</p><p dir="auto"> </p><h3 dir="auto">UPDATE</h3><p dir="auto">Added a monitoring service as a sidecar container based on prometheus exporter <a href="https://github.com/MindFlavor/prometheus_wireguard_exporter">https://github.com/MindFlavor/prometheus_wireguard_exporter</a></p><div class="snippet-clipboard-content notranslate position-relative overflow-auto"><pre class="notranslate"><code>      annotations:
         prometheus.io/scrape: "true"
         prometheus.io/path: "/metrics"
         prometheus.io/port: "9586"
@@ -139,7 +139,7 @@ Endpoint = &lt;your-public-ip&gt;:31820
               add:
                 - NET_ADMIN
                 - NET_BIND_SERVICE
-</code></pre></div><p dir="auto">configuration file available in monitoring branch <a href="https://github.com/lorenzogirardi/kubernetes-wireguard/blob/monitoring/deploy/wireguard-dpl.yaml">https://github.com/lorenzogirardi/kubernetes-wireguard/blob/monitoring/deploy/wireguard-dpl.yaml</a></p><p dir="auto">Grafana</p><p dir="auto"><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/28a65e4b0102d5eac3718ca9130f124b934a57eee7c959621da22e44ac153081/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383930313235322f6d6973632f67726166616e612d7769726567756172642e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/28a65e4b0102d5eac3718ca9130f124b934a57eee7c959621da22e44ac153081/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383930313235322f6d6973632f67726166616e612d7769726567756172642e706e67" alt="" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1658901252/misc/grafana-wireguard.png" data-is-external-image="true"></a></p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on 27 Jul 2022</p><ul class="post__tag"><li><a href="https://www.k8s.it/kubernetes/">kubernetes</a></li><li><a href="https://www.k8s.it/performances/">performances</a></li><li><a href="https://www.k8s.it/system-metrics/">system metrics</a></li><li><a href="https://www.k8s.it/vpn/">vpn</a></li><li><a href="https://www.k8s.it/wireguard/">wireguard</a></li></ul><div class="post__share"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share facebook" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#facebook"/></svg> <span>Facebook</span> </a><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html&amp;via=LAB&amp;text=YA%20vpn%20service%20in%20kubernetes" class="js-share twitter" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#twitter"/></svg> <span>Twitter</span> </a><a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share linkedin" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg> <span>LinkedIn</span> </a><a href="https://buffer.com/add?text=YA%20vpn%20service%20in%20kubernetes&amp;url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share buffer" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#buffer"/></svg> <span>Buffer</span> </a><a href="https://api.whatsapp.com/send?text=YA%20vpn%20service%20in%20kubernetes https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share whatsapp" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#whatsapp"/></svg> <span>WhatsApp</span></a></div><div class="post__bio bio"><div><h3 class="bio__name"><a href="https://www.k8s.it/authors/lgirardi/" rel="author">lgirardi</a></h3><div class="bio__desc">If it isn't there, it can't break.</div></div></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.k8s.it/lazy-people-do-it-better.html" class="post__nav-link" rel="prev"><span>Previous</span> Lazy people do it better</a></div><div class="post__nav-next"><a href="https://www.k8s.it/application-rate-limiting.html" class="post__nav-link" rel="next"><span>Next</span> application rate limit  </a><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#arrow-next"/></svg></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2020-08-25T18:53" class="feed__date">25 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-postfix.html"> Kubernetes postfix</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2020-08-11T20:50" class="feed__date">11 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-servicemesh.html">Kubernetes servicemesh</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2020-08-11T20:48" class="feed__date">11 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-apacherr.html">Kubernetes apache httpd</a></h3></article></div></div><div class="post__comments"><div class="wrapper"></div></div></main><footer class="footer"><div class="footer__social"><a href="https://www.linkedin.com/in/lgirardi/" aria-label="LinkedIn"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg></a></div><div class="footer__copyright"><p>.</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script defer="defer" src="https://www.k8s.it/assets/js/scripts.min.js?v=f47c11534595205f20935f0db2a62a85"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.top'};</script><script>var images = document.querySelectorAll('img[loading]');
+</code></pre></div><p dir="auto">configuration file available in monitoring branch <a href="https://github.com/lorenzogirardi/kubernetes-wireguard/blob/monitoring/deploy/wireguard-dpl.yaml">https://github.com/lorenzogirardi/kubernetes-wireguard/blob/monitoring/deploy/wireguard-dpl.yaml</a></p><p dir="auto">Grafana</p><p dir="auto"><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/28a65e4b0102d5eac3718ca9130f124b934a57eee7c959621da22e44ac153081/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383930313235322f6d6973632f67726166616e612d7769726567756172642e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/28a65e4b0102d5eac3718ca9130f124b934a57eee7c959621da22e44ac153081/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383930313235322f6d6973632f67726166616e612d7769726567756172642e706e67" alt="" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1658901252/misc/grafana-wireguard.png" data-is-external-image="true"></a></p></div><footer class="wrapper post__footer"><p class="post__last-updated">This article was updated on 12 Sep 2024</p><ul class="post__tag"><li><a href="https://www.k8s.it/kubernetes/">kubernetes</a></li><li><a href="https://www.k8s.it/performances/">performances</a></li><li><a href="https://www.k8s.it/system-metrics/">system metrics</a></li><li><a href="https://www.k8s.it/vpn/">vpn</a></li><li><a href="https://www.k8s.it/wireguard/">wireguard</a></li></ul><div class="post__share"><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share facebook" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#facebook"/></svg> <span>Facebook</span> </a><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html&amp;via=LAB&amp;text=YA%20vpn%20service%20in%20kubernetes" class="js-share twitter" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#twitter"/></svg> <span>Twitter</span> </a><a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share linkedin" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg> <span>LinkedIn</span> </a><a href="https://buffer.com/add?text=YA%20vpn%20service%20in%20kubernetes&amp;url=https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share buffer" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#buffer"/></svg> <span>Buffer</span> </a><a href="https://api.whatsapp.com/send?text=YA%20vpn%20service%20in%20kubernetes https%3A%2F%2Fwww.k8s.it%2Fya-vpn-service-in-kubernetes.html" class="js-share whatsapp" rel="nofollow noopener noreferrer"><svg class="icon" aria-hidden="true" focusable="false"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#whatsapp"/></svg> <span>WhatsApp</span></a></div><div class="post__bio bio"><div><h3 class="bio__name"><a href="https://www.k8s.it/authors/lgirardi/" rel="author">lgirardi</a></h3><div class="bio__desc">If it isn't there, it can't break.</div></div></div></footer></article><nav class="post__nav"><div class="post__nav-inner"><div class="post__nav-prev"><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#arrow-prev"/></svg> <a href="https://www.k8s.it/lazy-people-do-it-better.html" class="post__nav-link" rel="prev"><span>Previous</span> Lazy people do it better</a></div><div class="post__nav-next"><a href="https://www.k8s.it/application-rate-limiting.html" class="post__nav-link" rel="next"><span>Next</span> application rate limit  </a><svg width="1.041em" height="0.416em" aria-hidden="true"><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#arrow-next"/></svg></div></div></nav><div class="post__related related"><div class="wrapper"><h2 class="h5 related__title">You should also read:</h2><article class="related__item"><div class="feed__meta"><time datetime="2020-08-25T18:53" class="feed__date">25 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-postfix.html"> Kubernetes postfix</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2020-08-11T20:50" class="feed__date">11 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-servicemesh.html">Kubernetes servicemesh</a></h3></article><article class="related__item"><div class="feed__meta"><time datetime="2020-08-11T20:48" class="feed__date">11 Aug 2020</time></div><h3 class="h1"><a href="https://www.k8s.it/kubernetes-apacherr.html">Kubernetes apache httpd</a></h3></article></div></div><div class="post__comments"><div class="wrapper"></div></div></main><footer class="footer"><div class="footer__social"><a href="https://www.linkedin.com/in/lgirardi/" aria-label="LinkedIn"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#linkedin"/></svg></a></div><div class="footer__copyright"><p>.</p></div><button onclick="backToTopFunction()" id="backToTop" class="footer__bttop" aria-label="Back to top" title="Back to top"><svg><use xlink:href="https://www.k8s.it/assets/svg/svg-map.svg#toparrow"/></svg></button></footer></div><script defer="defer" src="https://www.k8s.it/assets/js/scripts.min.js?v=f47c11534595205f20935f0db2a62a85"></script><script>window.publiiThemeMenuConfig={mobileMenuMode:'sidebar',animationSpeed:300,submenuWidth: 'auto',doubleClickTime:500,mobileMenuExpandableSubmenus:true,relatedContainerForOverlayMenuSelector:'.top'};</script><script>var images = document.querySelectorAll('img[loading]');
         for (var i = 0; i < images.length; i++) {
             if (images[i].complete) {
                 images[i].classList.add('is-loaded');
@@ -160,6 +160,7 @@ Endpoint = &lt;your-public-ip&gt;:31820
         configTTL: parseInt(document.querySelector('.pcb').getAttribute('data-config-ttl'), 10),
         debugMode: document.querySelector('.pcb').getAttribute('data-debug-mode') === 'true',
         initialState: null,
+        initialLsState: null,
         previouslyAccepted: []
     };
 
@@ -226,10 +227,60 @@ Endpoint = &lt;your-public-ip&gt;:31820
                 console.log('🍪 Config not found, or configuration expired');
             }
 
+            if (window.publiiCBGCM) {
+                gtag('consent', 'default', {
+                    'ad_storage': window.publiiCBGCM.defaultState.ad_storage ? 'granted' : 'denied',
+                    'ad_personalization': window.publiiCBGCM.defaultState.ad_personalization ? 'granted' : 'denied',
+                    'ad_user_data': window.publiiCBGCM.defaultState.ad_user_data ? 'granted' : 'denied',
+                    'analytics_storage': window.publiiCBGCM.defaultState.analytics_storage ? 'granted' : 'denied',
+                    'personalization_storage': window.publiiCBGCM.defaultState.personalization_storage ? 'granted' : 'denied',
+                    'functionality_storage': window.publiiCBGCM.defaultState.functionality_storage ? 'granted' : 'denied',
+                    'security_storage': window.publiiCBGCM.defaultState.security_storage ? 'granted' : 'denied'
+                });  
+                
+                if (cbConfig.debugMode) {
+                    console.log('🍪 GCMv2 DEFAULT STATE: ' + JSON.stringify({
+                        'ad_storage': window.publiiCBGCM.defaultState.ad_storage ? 'granted' : 'denied',
+                        'ad_personalization': window.publiiCBGCM.defaultState.ad_personalization ? 'granted' : 'denied',
+                        'ad_user_data': window.publiiCBGCM.defaultState.ad_user_data ? 'granted' : 'denied',
+                        'analytics_storage': window.publiiCBGCM.defaultState.analytics_storage ? 'granted' : 'denied',
+                        'personalization_storage': window.publiiCBGCM.defaultState.personalization_storage ? 'granted' : 'denied',
+                        'functionality_storage': window.publiiCBGCM.defaultState.functionality_storage ? 'granted' : 'denied',
+                        'security_storage': window.publiiCBGCM.defaultState.security_storage ? 'granted' : 'denied'
+                    }));
+                }
+            }
+
             showBanner();
         } else if (typeof currentConfig === 'string') {
             if (cbConfig.debugMode) {
                 console.log('🍪 Config founded');
+            }
+
+            cbConfig.initialLsState = currentConfig.split(',');
+
+            if (window.publiiCBGCM) {
+                gtag('consent', 'default', {
+                    'ad_storage': getDefaultConsentState(currentConfig, 'ad_storage'),
+                    'ad_personalization': getDefaultConsentState(currentConfig, 'ad_personalization'),
+                    'ad_user_data': getDefaultConsentState(currentConfig, 'ad_user_data'),
+                    'analytics_storage': getDefaultConsentState(currentConfig, 'analytics_storage'),
+                    'personalization_storage': getDefaultConsentState(currentConfig, 'personalization_storage'),
+                    'functionality_storage': getDefaultConsentState(currentConfig, 'functionality_storage'),
+                    'security_storage': getDefaultConsentState(currentConfig, 'security_storage')
+                });
+                
+                if (cbConfig.debugMode) {
+                    console.log('🍪 GCMv2 DEFAULT STATE: ' + JSON.stringify({
+                        'ad_storage': getDefaultConsentState(currentConfig, 'ad_storage'),
+                        'ad_personalization': getDefaultConsentState(currentConfig, 'ad_personalization'),
+                        'ad_user_data': getDefaultConsentState(currentConfig, 'ad_user_data'),
+                        'analytics_storage': getDefaultConsentState(currentConfig, 'analytics_storage'),
+                        'personalization_storage': getDefaultConsentState(currentConfig, 'personalization_storage'),
+                        'functionality_storage': getDefaultConsentState(currentConfig, 'functionality_storage'),
+                        'security_storage': getDefaultConsentState(currentConfig, 'security_storage')
+                    }));
+                }
             }
 
             showBadge();
@@ -281,6 +332,25 @@ Endpoint = &lt;your-public-ip&gt;:31820
         }
 
         return false;
+    }
+
+    function getDefaultConsentState (currentConfig, consentGroup) {
+        let configGroups = currentConfig.split(',');
+
+        for (let i = 0; i < configGroups.length; i++) {
+            let groupName = configGroups[i];
+            let group = window.publiiCBGCM.groups.find(group => group.cookieGroup === groupName);
+
+            if (group && group[consentGroup]) {
+                return 'granted';
+            }
+        }  
+        
+        if (window.publiiCBGCM.defaultState[consentGroup]) {
+            return 'granted'; 
+        }
+        
+        return 'denied';
     }
 
     function initBannerEvents () {
@@ -389,6 +459,30 @@ Endpoint = &lt;your-public-ip&gt;:31820
 
         if (cbConfig.debugMode) {
             console.log('🍪 Allowed group: ' + allowedGroup);
+        }
+
+        if (window.publiiCBGCM && cbConfig.initialLsState.indexOf(allowedGroup) === -1) {
+            let consentResult = {};
+            let group = window.publiiCBGCM.groups.find(group => group.cookieGroup === allowedGroup);
+
+            if (group) {
+                let foundSomeConsents = false;
+
+                Object.keys(group).forEach(key => {
+                    if (key !== 'cookieGroup' && group[key] === true) {
+                        consentResult[key] = 'granted';
+                        foundSomeConsents = true;
+                    }
+                });
+
+                if (foundSomeConsents) {
+                    gtag('consent', 'update', consentResult);   
+
+                    if (cbConfig.debugMode) {
+                        console.log('🍪 GCMv2 UPDATE: ' + JSON.stringify(consentResult));
+                    }
+                }
+            }
         }
     }
 
@@ -613,7 +707,7 @@ Endpoint = &lt;your-public-ip&gt;:31820
         for (var i = 0; i < groupsToCheck.length; i++) {
             var groupToCheck = groupsToCheck[i];
 
-            if (groupsToAccept.indexOf(groupToCheck) === -1) {
+            if (groupToCheck !== '' && groupsToAccept.indexOf(groupToCheck) === -1) {
                 if (cbConfig.debugMode) {
                     console.log('🍪 Reload is needed due lack of: ', groupToCheck);
                 }
