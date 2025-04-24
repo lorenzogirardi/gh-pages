@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2024-09-12T21:54:57+02:00</updated>
+    <updated>2023-09-20T10:01:49+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -1053,9 +1053,7 @@ Endpoint = &lt;your-public-ip&gt;:31820
 </div>
 <h2 dir="auto"> </h2>
 <h2 dir="auto">Test and results</h2>
-<p dir="auto">From mobile</p>
-<figure class="post__video"><video loading="lazy" width="300" height="150" controls="controls" data-mce-fragment="1">
-<source src="https://res.cloudinary.com/ethzero/video/upload/v1658175554/misc/wireguard-mobile.mp4" type="video/mp4" /></video></figure>
+<p dir="auto">From mobile<br><a href="https://res.cloudinary.com/ethzero/video/upload/v1658175554/misc/wireguard-mobile.mp4" title="wirecardmobile" rel="nofollow"><img loading="lazy" src="https://camo.githubusercontent.com/6ce79561a4eab7bc80d169a5c3f3f184d6f14642fe06fa6de0d72b0be062285f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3234302f76313635383137353835372f6d6973632f77697265636172646d6f62696c652e706e67" alt="wirecardmobile" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_240/v1658175857/misc/wirecardmobile.png" data-is-external-image="true"></a></p>
 <p dir="auto">And what about the resources usage with 1g file download...<br><a target="_blank" rel="noopener noreferrer" href="https://camo.githubusercontent.com/8b842d08f4e0858968e44bb161c194c426e7eb624e1f22dcab7a61cf28eb58b1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383137363737332f6d6973632f77697265677561726465736b746f702e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/8b842d08f4e0858968e44bb161c194c426e7eb624e1f22dcab7a61cf28eb58b1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f76313635383137363737332f6d6973632f77697265677561726465736b746f702e706e67" alt="" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/v1658176773/misc/wireguardesktop.png" data-is-external-image="true"></a></p>
 <p dir="auto"><br><br></p>
 <p dir="auto">So i'm really impressed by the efficiency of this tool ... i was reading a lot of good mention about it,<br>however today i discovered another tool for my swiss army knife</p>
