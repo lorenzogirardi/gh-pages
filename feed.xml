@@ -3,12 +3,386 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2023-09-20T10:01:49+02:00</updated>
+    <updated>2025-04-24T19:21:20+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
     <id>https://www.k8s.it</id>
 
+    <entry>
+        <title>Websocket, Cloudflare tunnel, apache httpd and a bit of security</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/websocket-cloudflare-tunnel-apache-and-irritation.html"/>
+        <id>https://www.k8s.it/websocket-cloudflare-tunnel-apache-and-irritation.html</id>
+            <category term="workers"/>
+            <category term="websocket"/>
+            <category term="tunnel"/>
+            <category term="security"/>
+            <category term="httpd"/>
+            <category term="headers"/>
+            <category term="cloudflare"/>
+            <category term="argo"/>
+            <category term="apache httpd"/>
+
+        <updated>2023-08-03T21:56:27+02:00</updated>
+            <summary>
+                <![CDATA[
+                    Here we are In today's interconnected world, exposing your home lab or self-hosted services to the internet can be both necessary and risky. Traditional methods like port forwarding or VPNs come with their own set of challenges and security concerns. This is where Cloudflare Tunnel&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                <div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1ipkcf23cd9">The Infrastructure Overview</a></li>
+<li><a href="#mcetoc_1h6ufv7hs6">Starting point </a></li>
+<li><a href="#mcetoc_1ipkcjle2e7">Why Cloudflare Tunnel?</a></li>
+<li><a href="#mcetoc_1ipkcks8uea">Setting Up Cloudflared in Kubernetes</a>
+<ul>
+<li><a href="#mcetoc_1ipkcf23cdc">Configuration</a></li>
+<li><a href="#mcetoc_1ipkcf23cdd">Deployment</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1ipkcllt0ec">How the Traffic Flows: Sequence Diagram</a></li>
+<li><a href="#mcetoc_1ipkcjle2e8">Security Considerations</a>
+<ul>
+<li><a href="#mcetoc_1ipkcf23cdh">1. Cloudflare WAF Protection</a></li>
+<li><a href="#mcetoc_1ipkcf23cdi">2. Zero Trust Network Architecture</a></li>
+<li><a href="#mcetoc_1ipkcf23cdj">3. Defense in Depth</a></li>
+<li><a href="#mcetoc_1ipkcf23cdk">4. Credential Management</a></li>
+<li><a href="#mcetoc_1ipkcf23cdl">5. HTTPS Everywhere</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1ipkd2pj3k4">Monitoring and Observability</a></li>
+<li><a href="#mcetoc_1ipkd2pj3k5">Advanced Configurations</a>
+<ul>
+<li><a href="#mcetoc_1ipkd2pj3k6">Load Balancing</a></li>
+<li><a href="#mcetoc_1ipkd2pj3k7">Path-Based Routing</a></li>
+<li><a href="#mcetoc_1ipkd2pj3k8">Apache configuration</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1ipkd2pj3k9">Conclusion</a></li>
+</ul>
+</div>
+<p>Here we are</p>
+<h2 id="mcetoc_1ipkcf23cd9" class="text-xl font-bold text-text-100 mt-1 -mb-0.5">The Infrastructure Overview</h2>
+<p class="whitespace-pre-wrap break-words">In today's interconnected world, exposing your home lab or self-hosted services to the internet can be both necessary and risky. Traditional methods like port forwarding or VPNs come with their own set of challenges and security concerns. This is where Cloudflare Tunnel (formerly Argo Tunnel) comes in as an elegant solution.</p>
+<p class="whitespace-pre-wrap break-words">In this article, I'll walk you through how I've implemented a secure infrastructure using Cloudflare Tunnel with WebSocket support, running on a Kubernetes cluster with Apache HTTPD as a reverse proxy. This setup allows me to securely expose internal services without opening ports on my residential firewall while gaining the benefits of Cloudflare's security features.</p>
+<h2 id="mcetoc_1h6ufv7hs6">Starting point </h2>
+<p>This one of the scenarios (what made me crazy) where websocket are in use , grafana, since version 8.~ starts to use websocket to update dashboards</p>
+<figure class="post__image"><img loading="lazy"  src="https://www.k8s.it/media/posts/44/home_all_v1.drawio-4.png" alt="" width="763" height="371" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/44/responsive/home_all_v1.drawio-4-xs.webp 640w ,https://www.k8s.it/media/posts/44/responsive/home_all_v1.drawio-4-sm.webp 768w ,https://www.k8s.it/media/posts/44/responsive/home_all_v1.drawio-4-md.webp 1024w ,https://www.k8s.it/media/posts/44/responsive/home_all_v1.drawio-4-lg.webp 1366w ,https://www.k8s.it/media/posts/44/responsive/home_all_v1.drawio-4-xl.webp 1600w ,https://www.k8s.it/media/posts/44/responsive/home_all_v1.drawio-4-2xl.webp 1920w"></figure>
+<p> </p>
+<p>The original idea was to define a "role" for each aspect<br><br></p>
+<figure class="post__image"><img loading="lazy"  src="https://www.k8s.it/media/posts/44/cworkers.png" alt="" width="47" height="59" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/44/responsive/cworkers-xs.webp 640w ,https://www.k8s.it/media/posts/44/responsive/cworkers-sm.webp 768w ,https://www.k8s.it/media/posts/44/responsive/cworkers-md.webp 1024w ,https://www.k8s.it/media/posts/44/responsive/cworkers-lg.webp 1366w ,https://www.k8s.it/media/posts/44/responsive/cworkers-xl.webp 1600w ,https://www.k8s.it/media/posts/44/responsive/cworkers-2xl.webp 1920w"></figure> Used as global security header , this will take care to implement the same level of security for each application exposed</p>
+<figure class="post__image"><img loading="lazy"  src="https://www.k8s.it/media/posts/44/cfwaf.png" alt="" width="68" height="59" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/44/responsive/cfwaf-xs.webp 640w ,https://www.k8s.it/media/posts/44/responsive/cfwaf-sm.webp 768w ,https://www.k8s.it/media/posts/44/responsive/cfwaf-md.webp 1024w ,https://www.k8s.it/media/posts/44/responsive/cfwaf-lg.webp 1366w ,https://www.k8s.it/media/posts/44/responsive/cfwaf-xl.webp 1600w ,https://www.k8s.it/media/posts/44/responsive/cfwaf-2xl.webp 1920w"></figure>Used to "obfuscate" the origin and implement a sort of protection even if it's the free version of Cloudflare </p>
+<figure class="post__image"><img loading="lazy"  src="https://www.k8s.it/media/posts/44/Screenshot-2023-08-12-at-11.46.00.png" alt="" width="62" height="76" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.46.00-xs.webp 640w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.46.00-sm.webp 768w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.46.00-md.webp 1024w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.46.00-lg.webp 1366w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.46.00-xl.webp 1600w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.46.00-2xl.webp 1920w"></figure> Firewall linux based cause i need to make same acl and fw rules</p>
+<p><img loading="lazy" src="https://roi4cio.com/fileadmin/user_upload/vmware-esxi.png" alt="VMware ESXi" width="96" height="60" data-is-external-image="true"> Vmware esxi as a "flat" platform to abstract hardware brands, extend portability, backups, etc etc</p>
+<p> </p>
+<p><img loading="lazy" src="https://juststickers.in/wp-content/uploads/2018/11/kubernetes-wordmark.png" alt="Kubernetes Logo and Wordmark Sticker - Just Stickers" width="57" height="57" data-is-external-image="true"> Kubernetes for all the workloads can be run as immutable images</p>
+<figure class="post__image"><img loading="lazy"  src="https://www.k8s.it/media/posts/44/Screenshot-2023-08-12-at-11.54.58.png" alt="" width="66" height="64" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.54.58-xs.webp 640w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.54.58-sm.webp 768w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.54.58-md.webp 1024w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.54.58-lg.webp 1366w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.54.58-xl.webp 1600w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2023-08-12-at-11.54.58-2xl.webp 1920w"></figure> Virtual machines when i need disk pressure </p>
+<p>The code used for workers was the following</p>
+<div>
+<div><code>const securityHeaders = {</code></div>
+<div><code>"Content-Security-Policy":"upgrade-insecure-requests",</code></div>
+<div><code>"Strict-Transport-Security":"max-age=3600;includeSubdomains",</code></div>
+<div><code>"X-Xss-Protection":"1; mode=block",</code></div>
+<div><code>"X-Frame-Options":"DENY",</code></div>
+<div><code>"X-Content-Type-Options":"nosniff",</code></div>
+<div><code>"Permissions-Policy":"geolocation=()",</code></div>
+<div><code>"Referrer-Policy":"strict-origin-when-cross-origin"</code></div>
+<div><code>};</code></div>
+<br>
+<div><code>async function addHeaders(req) {</code></div>
+<div><code>constresponse=awaitfetch(req),</code></div>
+<div><code>newHeaders=newHeaders(response.headers),</code></div>
+<div><code>setHeaders=Object.assign({},securityHeaders);</code></div>
+<br>
+<div><code>if (newHeaders.has("Content-Type") &amp;&amp;!newHeaders.get("Content-Type").includes("text/html")) {</code></div>
+<div><code>returnnewResponse(response.body,{</code></div>
+<div><code>status: response.status,</code></div>
+<div><code>statusText: response.statusText,</code></div>
+<div><code>headers: newHeaders</code></div>
+<div><code>});</code></div>
+<div><code>}</code></div>
+<br>
+<div><code>Object.keys(setHeaders).forEach(name=&gt;newHeaders.set(name,setHeaders[name]));</code></div>
+<br>
+<div><code>returnnewResponse(response.body,{</code></div>
+<div><code>status: response.status,</code></div>
+<div><code>statusText: response.statusText,</code></div>
+<div><code>headers: newHeaders</code></div>
+<div><code>});</code></div>
+<div><code>}</code></div>
+<br>
+<div><code>addEventListener("fetch", event =&gt; event.respondWith(addHeaders(event.request)));</code></div>
+<div> </div>
+</div>
+<div>Anyway now there is a specific topic in cloudflare portal about the alter headers for security ... <a href="https://developers.cloudflare.com/workers/examples/security-headers/" target="_blank" rel="noopener noreferrer">https://developers.cloudflare.com/workers/examples/security-headers/</a></div>
+<div> </div>
+<div> </div>
+<div>
+<h2 id="mcetoc_1ipkcjle2e7" class="whitespace-pre-wrap break-words">Why Cloudflare Tunnel?</h2>
+</div>
+<div>
+<p class="whitespace-pre-wrap break-words">Before diving into the technical details, let's understand why this approach is superior:</p>
+<ol class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal space-y-1.5 pl-7">
+<li class="whitespace-normal break-words"><strong>No Open Inbound Ports</strong>: Cloudflare Tunnel establishes an outbound-only connection, eliminating the need to open ports on your firewall</li>
+<li class="whitespace-normal break-words"><strong>DDoS Protection</strong>: Cloudflare's network absorbs and mitigates attack traffic before it reaches your infrastructure</li>
+<li class="whitespace-normal break-words"><strong>Zero Trust Access</strong>: Integrate with Cloudflare Access for identity-based authentication</li>
+<li class="whitespace-normal break-words"><strong>TLS Encryption</strong>: All traffic is encrypted end-to-end</li>
+<li class="whitespace-normal break-words"><strong>WebSocket Support</strong>: Critical for real-time applications and API</li>
+</ol>
+</div>
+<div>
+<p> </p>
+<h2 id="mcetoc_1ipkcks8uea">Setting Up Cloudflared in Kubernetes</h2>
+<p>The core component of this setup is cloudflared, the daemon that creates and maintains the secure tunnel. Here's how I've deployed it in Kubernetes:</p>
+<h3 id="mcetoc_1ipkcf23cdc" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">Configuration</h3>
+<p class="whitespace-pre-wrap break-words">Let's examine the key components of the <code class="bg-text-200/5 border border-0.5 border-border-300 text-danger-000 whitespace-pre-wrap rounded-[0.4rem] px-1 py-px text-[0.9rem]">ConfigMap</code> that defines how cloudflared operates:</p>
+<div class="relative group/copy rounded-lg">
+<div class="sticky opacity-0 group-hover/copy:opacity-100 top-2 py-2 h-12 w-0 float-right">
+<div class="absolute right-0 h-8 px-2 items-center inline-flex">
+<div class="relative"> </div>
+</div>
+</div>
+<div class="text-text-500 text-xs p-3.5 pb-0">yaml</div>
+<div class="">
+<pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed"><code class="language-yaml"><span class="token key">apiVersion</span><span class="token">:</span> v1
+<span class="token key">kind</span><span class="token">:</span> ConfigMap
+<span class="token key">metadata</span><span class="token">:</span>
+  <span class="token key">name</span><span class="token">:</span> cloudflared
+  <span class="token key">namespace</span><span class="token">:</span> cloudflared
+<span class="token key">data</span><span class="token">:</span>
+  <span class="token key">config.yaml</span><span class="token">:</span> <span class="token">|</span>
+    # Name of the tunnel
+    tunnel: home
+    credentials-file: /etc/cloudflared/creds/credentials.json
+    metrics: 0.0.0.0:2000
+<span class="token scalar">    no-autoupdate: true</span>
+    
+    <span class="token"># Ingress rules define traffic routing</span>
+    <span class="token key">ingress</span><span class="token">:</span>
+    <span class="token"># Special case for Let's Encrypt verification</span>
+    <span class="token">-</span> <span class="token key">hostname</span><span class="token">:</span> services.k8s.it
+      <span class="token key">path</span><span class="token">:</span> /.well<span class="token">-</span>known/acme<span class="token">-</span>challenge/
+      <span class="token key">service</span><span class="token">:</span> $internal-ingress
+      <span class="token key">originRequest</span><span class="token">:</span>
+        <span class="token key">httpHostHeader</span><span class="token">:</span> <span class="token">"services.k8s.it"</span>
+        <span class="token key">noTLSVerify</span><span class="token">:</span> <span class="token">true</span>
+        <span class="token key">http2Origin</span><span class="token">:</span> <span class="token">true</span>
+    
+    <span class="token"># Main service routing</span>
+    <span class="token">-</span> <span class="token key">hostname</span><span class="token">:</span> services.k8s.it
+      <span class="token key">service</span><span class="token">:</span> $internal-ingress
+      <span class="token key">originRequest</span><span class="token">:</span>
+        <span class="token key">httpHostHeader</span><span class="token">:</span> <span class="token">"services.k8s.it"</span>
+        <span class="token key">noTLSVerify</span><span class="token">:</span> <span class="token">true</span>
+        <span class="token key">http2Origin</span><span class="token">:</span> <span class="token">true</span>
+    
+    <span class="token"># Default rule</span>
+    <span class="token">-</span> <span class="token key">service</span><span class="token">:</span> http_status<span class="token">:</span><span class="token">404</span></code></pre>
+</div>
+</div>
+<p class="whitespace-pre-wrap break-words">This configuration maps different hostnames to internal services, with special handling for WebSockets and HTTP/2 connections.</p>
+<h3 id="mcetoc_1ipkcf23cdd" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">Deployment</h3>
+<p class="whitespace-pre-wrap break-words">Here's the deployment configuration for cloudflared:</p>
+<div class="relative group/copy rounded-lg">
+<div class="sticky opacity-0 group-hover/copy:opacity-100 top-2 py-2 h-12 w-0 float-right">
+<div class="absolute right-0 h-8 px-2 items-center inline-flex">
+<div class="relative"> </div>
+</div>
+</div>
+<div class="text-text-500 text-xs p-3.5 pb-0">yaml</div>
+<div class="">
+<pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed"><code class="language-yaml"><span class="token key">apiVersion</span><span class="token">:</span> apps/v1
+<span class="token key">kind</span><span class="token">:</span> Deployment
+<span class="token key">metadata</span><span class="token">:</span>
+  <span class="token key">name</span><span class="token">:</span> cloudflared
+<span class="token key">spec</span><span class="token">:</span>
+  <span class="token key">selector</span><span class="token">:</span>
+    <span class="token key">matchLabels</span><span class="token">:</span>
+      <span class="token key">app</span><span class="token">:</span> cloudflared
+  <span class="token key">replicas</span><span class="token">:</span> <span class="token">2</span>  <span class="token"># For high availability</span>
+  <span class="token key">template</span><span class="token">:</span>
+    <span class="token key">metadata</span><span class="token">:</span>
+      <span class="token key">annotations</span><span class="token">:</span>
+        <span class="token key">prometheus.io/path</span><span class="token">:</span> /metrics
+        <span class="token key">prometheus.io/port</span><span class="token">:</span> <span class="token">"2000"</span>
+        <span class="token key">prometheus.io/scrape</span><span class="token">:</span> <span class="token">"true"</span>
+      <span class="token key">labels</span><span class="token">:</span>
+        <span class="token key">app</span><span class="token">:</span> cloudflared
+    <span class="token key">spec</span><span class="token">:</span>
+      <span class="token key">containers</span><span class="token">:</span>
+      <span class="token">-</span> <span class="token key">name</span><span class="token">:</span> cloudflared
+        <span class="token key">image</span><span class="token">:</span> cloudflare/cloudflared<span class="token">:</span>2023.7.0
+        <span class="token key">args</span><span class="token">:</span>
+        <span class="token">-</span> tunnel
+        <span class="token">-</span> <span class="token">-</span><span class="token">-</span>config
+        <span class="token">-</span> /etc/cloudflared/config/config.yaml
+        <span class="token">-</span> run
+        <span class="token key">livenessProbe</span><span class="token">:</span>
+          <span class="token key">httpGet</span><span class="token">:</span>
+            <span class="token key">path</span><span class="token">:</span> /ready
+            <span class="token key">port</span><span class="token">:</span> <span class="token">2000</span>
+          <span class="token key">failureThreshold</span><span class="token">:</span> <span class="token">1</span>
+          <span class="token key">initialDelaySeconds</span><span class="token">:</span> <span class="token">10</span>
+          <span class="token key">periodSeconds</span><span class="token">:</span> <span class="token">10</span>
+        <span class="token key">volumeMounts</span><span class="token">:</span>
+        <span class="token">-</span> <span class="token key">name</span><span class="token">:</span> config
+          <span class="token key">mountPath</span><span class="token">:</span> /etc/cloudflared/config
+          <span class="token key">readOnly</span><span class="token">:</span> <span class="token">true</span>
+        <span class="token">-</span> <span class="token key">name</span><span class="token">:</span> creds
+          <span class="token key">mountPath</span><span class="token">:</span> /etc/cloudflared/creds
+          <span class="token key">readOnly</span><span class="token">:</span> <span class="token">true</span>
+      <span class="token key">volumes</span><span class="token">:</span>
+      <span class="token">-</span> <span class="token key">name</span><span class="token">:</span> creds
+        <span class="token key">secret</span><span class="token">:</span>
+          <span class="token key">secretName</span><span class="token">:</span> tunnel<span class="token">-</span>credentials
+      <span class="token">-</span> <span class="token key">name</span><span class="token">:</span> config
+        <span class="token key">configMap</span><span class="token">:</span>
+          <span class="token key">name</span><span class="token">:</span> cloudflared
+          <span class="token key">items</span><span class="token">:</span>
+          <span class="token">-</span> <span class="token key">key</span><span class="token">:</span> config.yaml
+            <span class="token key">path</span><span class="token">:</span> config.yaml</code></pre>
+</div>
+</div>
+<p class="whitespace-pre-wrap break-words">Notice the use of multiple replicas for redundancy and the liveness probe that ensures connectivity to Cloudflare's edge network.</p>
+<p> </p>
+<h2 id="mcetoc_1ipkcllt0ec">How the Traffic Flows: Sequence Diagram</h2>
+<p class="whitespace-pre-wrap break-words">Let's visualize how a request flows through this infrastructure:</p>
+<div class="relative group/copy rounded-lg">
+<div class="sticky opacity-0 group-hover/copy:opacity-100 top-2 py-2 h-12 w-0 float-right">
+<div class="absolute right-0 h-8 px-2 items-center inline-flex">
+<div class="relative"> </div>
+</div>
+</div>
+<div class="">
+<pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed"><code>User -&gt; Cloudflare -&gt; Cloudflared -&gt; Kubernetes Ingress -&gt; Apache HTTPD -&gt; Application</code></pre>
+</div>
+</div>
+<figure class="post__image"><img loading="lazy"  src="https://www.k8s.it/media/posts/44/Screenshot-2025-04-24-at-19.07.35.png" alt="" width="1598" height="1438" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/44/responsive/Screenshot-2025-04-24-at-19.07.35-xs.webp 640w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2025-04-24-at-19.07.35-sm.webp 768w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2025-04-24-at-19.07.35-md.webp 1024w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2025-04-24-at-19.07.35-lg.webp 1366w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2025-04-24-at-19.07.35-xl.webp 1600w ,https://www.k8s.it/media/posts/44/responsive/Screenshot-2025-04-24-at-19.07.35-2xl.webp 1920w"></figure>
+<p> </p>
+<h2 id="mcetoc_1ipkcjle2e8">Security Considerations</h2>
+<p class="whitespace-pre-wrap break-words"> </p>
+<h3 id="mcetoc_1ipkcf23cdh" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">1. Cloudflare WAF Protection</h3>
+<p class="whitespace-pre-wrap break-words">Cloudflare's Web Application Firewall provides protection against:</p>
+<ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-1.5 pl-7">
+<li class="whitespace-normal break-words">SQL injection attacks</li>
+<li class="whitespace-normal break-words">Cross-site scripting (XSS)</li>
+<li class="whitespace-normal break-words">Cross-site request forgery (CSRF)</li>
+<li class="whitespace-normal break-words">DDoS attacks</li>
+<li class="whitespace-normal break-words">Common vulnerabilities</li>
+</ul>
+<h3 id="mcetoc_1ipkcf23cdi" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">2. Zero Trust Network Architecture</h3>
+<p class="whitespace-pre-wrap break-words">The setup follows zero trust principles:</p>
+<ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-1.5 pl-7">
+<li class="whitespace-normal break-words">No exposed ports on the residential firewall</li>
+<li class="whitespace-normal break-words">All connections initiated outbound from inside the network</li>
+<li class="whitespace-normal break-words">No direct path from internet to internal services</li>
+</ul>
+<h3 id="mcetoc_1ipkcf23cdj" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">3. Defense in Depth</h3>
+<p class="whitespace-pre-wrap break-words">Multiple security layers provide redundant protection:</p>
+<ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-1.5 pl-7">
+<li class="whitespace-normal break-words">Cloudflare WAF (first line of defense)</li>
+<li class="whitespace-normal break-words">Kubernetes network policies (segmentation)</li>
+<li class="whitespace-normal break-words">Apache as an additional security layer (request filtering)</li>
+<li class="whitespace-normal break-words">Application-level security</li>
+</ul>
+<h3 id="mcetoc_1ipkcf23cdk" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">4. Credential Management</h3>
+<p class="whitespace-pre-wrap break-words">Cloudflared credentials require careful handling:</p>
+<ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-1.5 pl-7">
+<li class="whitespace-normal break-words">Store tunnel credentials as Kubernetes secrets</li>
+<li class="whitespace-normal break-words">Regular credential rotation</li>
+<li class="whitespace-normal break-words">Limit access to credential management</li>
+</ul>
+<h3 id="mcetoc_1ipkcf23cdl" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">5. HTTPS Everywhere</h3>
+<p class="whitespace-pre-wrap break-words">All traffic is encrypted:</p>
+<ul class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-disc space-y-1.5 pl-7">
+<li class="whitespace-normal break-words">TLS between user and Cloudflare</li>
+<li class="whitespace-normal break-words">TLS in the tunnel between Cloudflare and cloudflared</li>
+<li class="whitespace-normal break-words">Optional TLS for internal communications</li>
+</ul>
+<p> </p>
+<h2 id="mcetoc_1ipkd2pj3k4" class="text-xl font-bold text-text-100 mt-1 -mb-0.5">Monitoring and Observability</h2>
+<p class="whitespace-pre-wrap break-words">The infrastructure includes robust monitoring:</p>
+<ol class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal space-y-1.5 pl-7">
+<li class="whitespace-normal break-words"><strong>Prometheus Integration</strong>: Cloudflared exposes metrics on port 2000</li>
+<li class="whitespace-normal break-words"><strong>Grafana Dashboards</strong>: Visualize performance and security metrics</li>
+<li class="whitespace-normal break-words"><strong>Logs Aggregation</strong>: Collect logs from all components for analysis</li>
+</ol>
+<div class="relative group/copy rounded-lg">
+<div class="sticky opacity-0 group-hover/copy:opacity-100 top-2 py-2 h-12 w-0 float-right">
+<div class="absolute right-0 h-8 px-2 items-center inline-flex">
+<div class="relative"> </div>
+</div>
+</div>
+<div class="text-text-500 text-xs p-3.5 pb-0">yaml</div>
+<div class="">
+<pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed"><code class="language-yaml"><span class="token key">annotations</span><span class="token">:</span>
+  <span class="token key">prometheus.io/path</span><span class="token">:</span> /metrics
+  <span class="token key">prometheus.io/port</span><span class="token">:</span> <span class="token">"2000"</span>
+  <span class="token key">prometheus.io/scrape</span><span class="token">:</span> <span class="token">"true"</span></code></pre>
+</div>
+</div>
+<h2 id="mcetoc_1ipkd2pj3k5" class="text-xl font-bold text-text-100 mt-1 -mb-0.5">Advanced Configurations</h2>
+<h3 id="mcetoc_1ipkd2pj3k6" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">Load Balancing</h3>
+<p class="whitespace-pre-wrap break-words">For high availability, the setup uses multiple cloudflared replicas:</p>
+<div class="relative group/copy rounded-lg">
+<div class="sticky opacity-0 group-hover/copy:opacity-100 top-2 py-2 h-12 w-0 float-right">
+<div class="absolute right-0 h-8 px-2 items-center inline-flex">
+<div class="relative"> </div>
+</div>
+</div>
+<div class="">
+<pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed"><code class="language-yaml"><span class="token key">replicas</span><span class="token">:</span> <span class="token">2</span>  <span class="token"># Multiple instances for reliability</span></code></pre>
+</div>
+</div>
+<p class="whitespace-pre-wrap break-words">Cloudflare's global network automatically balances connections across available tunnels.</p>
+<h3 id="mcetoc_1ipkd2pj3k7" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">Path-Based Routing</h3>
+<p class="whitespace-pre-wrap break-words">The ingress configuration supports path-based routing:</p>
+<div class="relative group/copy rounded-lg">
+<div class="sticky opacity-0 group-hover/copy:opacity-100 top-2 py-2 h-12 w-0 float-right">
+<div class="absolute right-0 h-8 px-2 items-center inline-flex">
+<div class="relative"> </div>
+</div>
+</div>
+<div class="">
+<pre class="code-block__code !my-0 !rounded-lg !text-sm !leading-relaxed"><code class="language-yaml"><span class="token">-</span> <span class="token key">hostname</span><span class="token">:</span> services.k8s.it
+  <span class="token key">path</span><span class="token">:</span> /.well<span class="token">-</span>known/acme<span class="token">-</span>challenge/
+  <span class="token key">service</span><span class="token">:</span> http<span class="token">:</span>//$internal-ingress</code></pre>
+</div>
+</div>
+<p class="whitespace-pre-wrap break-words">This allows for complex routing scenarios based on domain and path.</p>
+<p> </p>
+<h3 id="mcetoc_1ipkd2pj3k8" class="text-lg font-bold text-text-100 mt-1 -mb-1.5">Apache configuration</h3>
+<pre class="language-apacheconf"><code>      &lt;Location /grafana/&gt;
+        ProxyPass  http://IP:3000/
+      &lt;/Location&gt;
+
+      &lt;Location /grafana/api/live/ws&gt;
+        ProxyPass  ws://IP:3000/api/live/ws
+      &lt;/Location&gt;</code></pre>
+</div>
+<div> </div>
+<div>
+<h2 id="mcetoc_1ipkd2pj3k9" class="text-xl font-bold text-text-100 mt-1 -mb-0.5">Conclusion</h2>
+<p class="whitespace-pre-wrap break-words">This architecture provides a secure, reliable way to expose home lab services to the internet. By leveraging Cloudflare Tunnel with WebSocket support, you get:</p>
+<ol class="[&amp;:not(:last-child)_ul]:pb-1 [&amp;:not(:last-child)_ol]:pb-1 list-decimal space-y-1.5 pl-7">
+<li class="whitespace-normal break-words">Enhanced security with no open ports</li>
+<li class="whitespace-normal break-words">Protection from Cloudflare's global network</li>
+<li class="whitespace-normal break-words">Reliable connections for modern web applications</li>
+<li class="whitespace-normal break-words">Simplified management through Kubernetes</li>
+</ol>
+<p class="whitespace-pre-wrap break-words">The combination of cloudflared, Kubernetes, and Apache HTTPD creates a robust infrastructure that's both secure and flexible, allowing you to safely expose services without compromising on security.</p>
+<p class="whitespace-pre-wrap break-words">Remember that security is a continuous process - regularly update components, review configurations, and monitor for unusual activity to maintain a strong security posture.</p>
+</div>
+<p> </p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>HPA vs Rate-limit</title>
         <author>
@@ -1979,106 +2353,6 @@ end</code></pre>
 <p> </p>
 <p>Hope this post cover how the technology could be used as much as possible in a small and cheap scenario to reflect some hints to an enterprise scenario.</p>
 <p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Kubernetes has destroyed the virtualization... or NOT</title>
-        <author>
-            <name>lgirardi</name>
-        </author>
-        <link href="https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html"/>
-        <id>https://www.k8s.it/kubernetes-destroyed-the-virtualization-or-not.html</id>
-            <category term="virtualization"/>
-            <category term="virtual machines"/>
-            <category term="scalability"/>
-            <category term="pod"/>
-            <category term="kubernetes"/>
-            <category term="datacenter"/>
-            <category term="cloud"/>
-
-        <updated>2020-12-07T14:40:52+01:00</updated>
-            <summary>
-                <![CDATA[
-                    Well ... NO! Ok maybe are missing some context I started this topic looking around the data center world compared with the cloud providers, the advantage of manage services , the mindset infrastructure as a code and so on ... In the last 4y we saw&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>Well ... <strong>NO!</strong></p>
-<p>Ok maybe are missing some context</p>
-<p> </p>
-<p>I started this topic looking around the data center world compared with the cloud providers,<br>the advantage of manage services , the mindset infrastructure as a code and so on ...</p>
-<p>In the last 4y we saw a kubernetes rush , a lot of company are sharing the advantages and the perfect picture create into kubernetes, how they save money or scale fast ... but is always true what we see?<br>Most of the times we are saw only builded success case.</p>
-<p>Today we will take in consideration those topics :</p>
-<ul>
-<li>Virtual machines</li>
-<li>Data center</li>
-<li>Kubernetes</li>
-</ul>
-<p>I know that the Data center topic should be covered more in deep, maybe talking about the entire ecosystem (db, vertical services , corporate usage , LEGACY!!!!) however today i'd like to explore only the kubernetes and virtualization rather than lose the discussion in thousand of concepts.</p>
-<h3>Long story short</h3>
-<p>A long time ago Borg was born in Google .. now formally named kubernetes,<br>in the first period the main evaluation was:<br>"<em>why the virtualization overhead if we will use kubernetes</em>".<br><br>This concept was justified in some way for <em>overlapping</em> of duties,<br>if i migrate a vm as a kubernetes pod this means i can remove the vm <br><br></p>
-<figure class="post__image post__image--center">                      <img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607974463/misc/vm_vs_pod.png" alt="" width="337" height="181" data-is-external-image="true"></figure>
-<p> </p>
-<p> </p>
-<p>We can imagine a picture like this looking back of some years ago</p>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_1.png" alt="" width="745" height="386" data-is-external-image="true"></figure>
-<figure class="post__image">The introduction was good , almost all declared this could be a new way.<br>Moving faster, all companies changed a bit this picture with an expansion of kubernetes </figure>
-<figure class="post__image post__image--center"><img  src="https://res.cloudinary.com/ethzero/image/upload/v1607963386/misc/vm_2.png" alt="" width="745" height="386" data-is-external-image="true"></figure><figure class="is-loaded"><img loading="lazy"  src="Kubernetes destroyed the virtualization... or NOT - LAB_files/vm_2.png" alt="" width="745" height="386" data-is-external-image="true" data-is-external-image="true"></figure>
-<p>Like an infection (good this time, not the 20covid ones) kubernetes come as a main platform for most of the online company...<br>In a datacenter , you know, there no something eternal:</p>
-<ul>
-<li>hardware in EOL</li>
-<li>generation refresh</li>
-<li>brand change</li>
-<li>good is ok but cheaper is better (usually from finance)</li>
-</ul>
-<p>Is also true , that sometimes this encouraged a forced/incorrect usage of kubernetes node labeling in order to bend the infrastructure to better fit the products migrated or the existing hardware availability</p>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607959262/misc/vm_3.png" alt="" width="748" height="389" data-is-external-image="true"></figure>
-<figure class="post__image"><figure class="is-loaded"><img loading="lazy"  src="Kubernetes destroyed the virtualization... or NOT - LAB_files/vm_3.png" alt="" data-is-external-image="true" data-is-external-image="true"></figure></figure>
-<h3>Houston we have a problem...</h3>
-<p>Working in this way, the environment could be fragmented ,<br>even if the technology is the same there are some logical segmentations that create some problems in the day by day activities.</p>
-<ul>
-<li>isolate some workloads with labels can create an hw lock-in (better approach a multi-cluster with unique controlplane)</li>
-<li>updates require to be managed in a different way looking for the label/role</li>
-<li>please do not touch the storage nodes now (fiber channel with external storage)</li>
-<li>please do not touch the storage nodes tomorrow (fiber channel with external storage)</li>
-<li>omg we lost a storage nodes (fiber channel with external storage)</li>
-<li>and so on ...</li>
-</ul>
-<p>Moreover an hardware fault could create problems .... <br>YES i know in a infrastructure as a code , with puppet foreman chef salt ansible terraform etc, this will be recovered fast ... but this is not always true ... you know... some machines/roles in a mid/ent company are still fragile.</p>
-<ul>
-<li>legacy with no ownership</li>
-<li>legacy with wrong ownership</li>
-<li>single point of failure ... (yes also in 2020)</li>
-</ul>
-<p> </p>
-<p>Other problems are related with new hardware...</p>
-<ul>
-<li>is the provisioning working as expected with new generations ?</li>
-<li>and if we change the hardware vendor ?</li>
-<li>etc etc when you have to handle new preseed/ks because the layout is changed ☠️</li>
-</ul>
-<p> </p>
-<p>Last but not least ... what about the bare metal density ?</p>
-<p><code>Allocated resources:</code><br><code> (<span class="il">Total</span> <span class="il">limits</span> <span class="il">may</span> be <span class="il">over</span> <span class="il">100</span> <span class="il">percent</span>, i.e., <span class="il">overcommitted</span>.</code><br><code> CPU Requests CPU <span class="il">Limits</span> Memory Requests Memory <span class="il">Limits</span></code><br><code> ------------ ---------- --------------- -------------</code><br><code> 55 (98%) 101300m (180%) 86376Mi (44%) 121672Mi (62%)</code></p>
-<p>This HW has 56 core with HT , we reached the 98% but this number is high <br>because some pods needs a default cpu just to fit the nodes and start, while the running cost is really low. </p>
-<p> </p>
-<h3>So why not kubernetes hosted in virtual machines ?</h3>
-<ul>
-<li>Having an abstraction layer, is quite simple tune the provisioning based on this , rather than the bare metal, it's just a metter of roles not to the entire provisioning.</li>
-<li>Hardware fault could be easily covered by live migration</li>
-<li>Maintenance and update can be manage creating a blue green approach and rolling updates</li>
-<li>Density could be increased with mode nodes in the same hw</li>
-<li>Flexibility to scale up and to upset a new datacenter in case of migration will be higher</li>
-<li>Team at the and is also able to scale , working from the vmware and not from bare metal</li>
-</ul>
-<figure class="post__image post__image--center"><figure class="post__image"><img loading="lazy"  src="https://res.cloudinary.com/ethzero/image/upload/v1607961166/misc/team_scale.png" alt="" width="718" height="353" data-is-external-image="true"></figure></figure>
-<h3> </h3>
-<h3>Conclusions</h3>
-<p>Virtualization and kubernetes are not antagonist, must be in addition , the first one has just change the scope to better cooperate with kubernetes</p>
-<p>Instead a layer for microservices , virtualization is now the layer that guarantee an homogeneous platform were a team can work on top to create the infrastructure having the advantage of a fully consolidated technology that is able to promote the right abstraction </p>
-<p>Last but not least , we don't need to reinvent something , we can just copy from the major competitors for the kubernetes topic<br>How is working GKE , AKS , EKS ? .... virtual machines :)</p>
             ]]>
         </content>
     </entry>
