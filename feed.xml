@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2025-04-24T19:50:57+02:00</updated>
+    <updated>2025-04-26T00:36:45+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -16,6 +16,7 @@
         </author>
         <link href="https://www.k8s.it/building-a-scalable-image-cdn-with-minio-imgproxy-and-cloudflare.html"/>
         <id>https://www.k8s.it/building-a-scalable-image-cdn-with-minio-imgproxy-and-cloudflare.html</id>
+        <media:content url="https://www.k8s.it/media/posts/45/Screenshot-2025-04-26-at-00.36.24.png" medium="image" />
             <category term="minio"/>
             <category term="kubernetes"/>
             <category term="imgproxy"/>
@@ -26,11 +27,13 @@
         <updated>2025-04-24T19:50:57+02:00</updated>
             <summary>
                 <![CDATA[
+                        <img src="https://www.k8s.it/media/posts/45/Screenshot-2025-04-26-at-00.36.24.png" alt="" />
                     Intro In today's digital landscape, efficiently serving images is critical for website performance. Users expect fast-loading, responsive websites, and images often account for the majority of a page's weight. In this article, I'll walk you through building a powerful, scalable image CDN using open-source tools&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
+                    <p><img src="https://www.k8s.it/media/posts/45/Screenshot-2025-04-26-at-00.36.24.png" class="type:primaryImage" alt="" /></p>
                 <div tabindex="0">
 <div class="grid-cols-1 grid gap-2.5 [&amp;_&gt;_*]:min-w-0 !gap-3.5">
 <h1 id="mcetoc_1ipkej97e16a"></h1>
@@ -277,6 +280,7 @@ https://images.yourdomain.com/unsafe/format:webp/plain/s3://bucket/image.jpg</co
         </author>
         <link href="https://www.k8s.it/websocket-cloudflare-tunnel-apache-and-irritation.html"/>
         <id>https://www.k8s.it/websocket-cloudflare-tunnel-apache-and-irritation.html</id>
+        <media:content url="https://www.k8s.it/media/posts/44/Screenshot-2025-04-26-at-00.35.02.png" medium="image" />
             <category term="workers"/>
             <category term="websocket"/>
             <category term="tunnel"/>
@@ -290,11 +294,13 @@ https://images.yourdomain.com/unsafe/format:webp/plain/s3://bucket/image.jpg</co
         <updated>2023-08-03T21:56:27+02:00</updated>
             <summary>
                 <![CDATA[
+                        <img src="https://www.k8s.it/media/posts/44/Screenshot-2025-04-26-at-00.35.02.png" alt="" />
                     Here we are In today's interconnected world, exposing your home lab or self-hosted services to the internet can be both necessary and risky. Traditional methods like port forwarding or VPNs come with their own set of challenges and security concerns. This is where Cloudflare Tunnel&hellip;
                 ]]>
             </summary>
         <content type="html">
             <![CDATA[
+                    <p><img src="https://www.k8s.it/media/posts/44/Screenshot-2025-04-26-at-00.35.02.png" class="type:primaryImage" alt="" /></p>
                 <div class="post__toc">
 <h3>Table of Contents</h3>
 <ul>
