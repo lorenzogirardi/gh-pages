@@ -3,12 +3,279 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2025-04-28T21:43:19+02:00</updated>
+    <updated>2025-08-31T18:40:27+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
     <id>https://www.k8s.it</id>
 
+    <entry>
+        <title>Redefining e-commerce for the Age of Conversational AI</title>
+        <author>
+            <name>lgirardi</name>
+        </author>
+        <link href="https://www.k8s.it/redefining-ux-for-the-age-of-conversational-ai.html"/>
+        <id>https://www.k8s.it/redefining-ux-for-the-age-of-conversational-ai.html</id>
+        <media:content url="https://www.k8s.it/media/posts/47/chat-driven-user-experience.png" medium="image" />
+            <category term="ux"/>
+            <category term="mcp"/>
+            <category term="jsonld"/>
+            <category term="conversional"/>
+            <category term="chatgpt"/>
+            <category term="ai"/>
+
+        <updated>2025-08-31T18:33:39+02:00</updated>
+            <summary>
+                <![CDATA[
+                        <img src="https://www.k8s.it/media/posts/47/chat-driven-user-experience.png" alt="" />
+                    Dynamic UX with jsonld and mcp Redefining SEO for the Age of Conversational AI Table of Contents This article began as a classic exploration into JSON-LD and its impact on structured data for e-commerce. However, as research and experimentation progressed, a fundamental realization emerged: what’s&hellip;
+                ]]>
+            </summary>
+        <content type="html">
+            <![CDATA[
+                    <p><img src="https://www.k8s.it/media/posts/47/chat-driven-user-experience.png" class="type:primaryImage" alt="" /></p>
+                <div class="markdown-heading" dir="auto">
+<h1 id="mcetoc_1j40fb98sdl" class="heading-element" dir="auto" tabindex="-1">Dynamic UX with jsonld and mcp</h1>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98sdm" class="heading-element" dir="auto" tabindex="-1">Redefining SEO for the Age of Conversational AI</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<div class="markdown-heading" dir="auto">
+<h3 id="mcetoc_1j40fb98sdn" class="heading-element" dir="auto" tabindex="-1">Table of Contents</h3>
+<div class="post__toc">
+<h3>Table of Contents</h3>
+<ul>
+<li><a href="#mcetoc_1j40fb98sdl">Dynamic UX with jsonld and mcp</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98sdm">Redefining SEO for the Age of Conversational AI</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98sdn">Table of Contents</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1j40fb98sdo">Introduction</a></li>
+<li><a href="#mcetoc_1j40fb98sdp">User Behavior Shift: Conversational AI Discovery Is the New Entry Point</a></li>
+<li><a href="#mcetoc_1j40fb98sdq">Case Study: Upgrading demo-app-eshop</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98sdr">Setup</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1j40fb98sds">Screenshots and What They Show</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98sdt">Application overview</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1j40fb98sdu">Technical Deep Dive: Jules’ JSON-LD Integration</a></li>
+<li><a href="#mcetoc_1j40fb98sdv">How JSON-LD Transforms E-Commerce for AI Discovery</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98se0">Immediate AI Advantages</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98se1">Traditional</a></li>
+<li><a href="#mcetoc_1j40fb98se2">Jsonld</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1j40fb98se3">Query-Optimized Content</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1j40fb98se4">Business Impact of AI-Friendly Content</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98se5">Strategic Advantages</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98se6">Traditional</a></li>
+<li><a href="#mcetoc_1j40fb98se7">Jsonld</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1j40fb98se8">Future-Proofing Your Commerce Strategy</a></li>
+</ul>
+</li>
+<li><a href="#mcetoc_1j40fb98se9">Conclusion: Why This Is Strategic</a></li>
+<li><a href="#mcetoc_1j40fb98sea">Reflections: Is This Really the Future?</a>
+<ul>
+<li><a href="#mcetoc_1j40fb98seb">What is still missing?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<p> </p>
+<div class="markdown-heading" dir="auto">
+<h2 dir="auto" tabindex="-1"> </h2>
+<h2 id="mcetoc_1j40fb98sdo" class="heading-element" dir="auto" tabindex="-1">Introduction</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto">This article began as a classic exploration into JSON-LD and its impact on structured data for e-commerce. However, as research and experimentation progressed, a fundamental realization emerged: what’s actually changing is the entire user experience paradigm. The way end-users interact with digital products is shifting beyond traditional web and app models—toward dynamic, conversational discovery driven by AI.</p>
+<p dir="auto">For years, the typical customer journey followed one of several well-established routes:</p>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>Traditional Website Experience:</strong> Customers access product information via desktop or mobile browsers, interacting with a backend-for-frontend (BFF) architecure that serves tailored content.<br><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/42e578c6a2a39d3722b804ebcebe4f03f4c5465633e6c5c6d5b19222a8eec789/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3438302f76313735363635333435392f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f747261646974696f6e616c312e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/42e578c6a2a39d3722b804ebcebe4f03f4c5465633e6c5c6d5b19222a8eec789/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3438302f76313735363635333435392f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f747261646974696f6e616c312e706e67" alt="Traditional Website Experience" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_480/v1756653459/ai/dynamic_ux_with_jsonld_and_mcp/misc/traditional1.png" data-is-external-image="true"></a></p>
+</li>
+<li>
+<p dir="auto"><strong>Mobile App Direct API Access:</strong> Users connected through native apps, directly hitting underlying APIs for transactional or product data.<br><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/b0345b8805aa2b5a6721a2f8d43367c2a7fab21de066045368172857c598076b/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3438302f76313735363635333435392f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f747261646974696f6e616c322e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/b0345b8805aa2b5a6721a2f8d43367c2a7fab21de066045368172857c598076b/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3438302f76313735363635333435392f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f747261646974696f6e616c322e706e67" alt="Mobile App Direct API Access" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_480/v1756653459/ai/dynamic_ux_with_jsonld_and_mcp/misc/traditional2.png" data-is-external-image="true"></a></p>
+</li>
+<li>
+<p dir="auto"><strong>Partner Integrations:</strong> Third-party platforms aggregate or resell products by connecting directly to the e-commerce native APIs, creating new distribution channels.<br><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/6861c048621415b2be5e9e6f4480150118ac5b1aec8c35a08be4d642fc4a65ad/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3438302f76313735363635333435392f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f747261646974696f6e616c332e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/6861c048621415b2be5e9e6f4480150118ac5b1aec8c35a08be4d642fc4a65ad/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3438302f76313735363635333435392f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f747261646974696f6e616c332e706e67" alt="Partner Integrations" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_480/v1756653459/ai/dynamic_ux_with_jsonld_and_mcp/misc/traditional3.png" data-is-external-image="true"></a><br><br><br><br></p>
+</li>
+</ul>
+<p dir="auto">What’s new (and truly disruptive) is the rise of AI-powered chat interfaces.</p>
+<ul dir="auto">
+<li><strong>Conversational AI Discovery:</strong> The customer asks an AI assistant (via desktop chat, mobile app bot, or integrated partner channel) for product information. Instead of static, pre-built pages, content is dynamically constructed on demand, tailored to the specific user question, intent, and context.<br><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/ce6564b4da95a3b820f852537ee3fd785903e836c7b4290a8ebee793d169cce1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363635333435392f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f636861742d64726976656e2d757365722d657870657269656e63652e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/ce6564b4da95a3b820f852537ee3fd785903e836c7b4290a8ebee793d169cce1/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363635333435392f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f636861742d64726976656e2d757365722d657870657269656e63652e706e67" alt="Conversational AI Discovery" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756653459/ai/dynamic_ux_with_jsonld_and_mcp/misc/chat-driven-user-experience.png" data-is-external-image="true"></a></li>
+</ul>
+<p dir="auto">This shift means that sites must expose product data in ways instantly consumable by AI—not just for classic SEO, but for rich, contextual, real-time answers. JSON-LD becomes the bridge, enabling e-commerce sites to participate fully in the conversational, intent-driven commerce ecosystem.</p>
+<p dir="auto">The days when classic SEO alone could guarantee visibility for products online are ending. As users move to conversational AI platforms—ChatGPT, Gemini, Perplexity, and Mistral—websites must expose data in a way that is instantly machine-readable and context-aware. This involves a shift from simple keywords and descriptions to rich, structured data using <a href="https://json-ld.org/" rel="nofollow">JSON-LD</a> and <a href="https://schema.org/" rel="nofollow">schema.org</a>.</p>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98sdp" class="heading-element" dir="auto" tabindex="-1">User Behavior Shift: Conversational AI Discovery Is the New Entry Point</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto">Search is evolving rapidly. More and more users now seek answers, recommendations, and product suggestions directly through conversational platforms—sometimes bypassing traditional search engines altogether. AI chat platforms now provide:</p>
+<ul dir="auto">
+<li><strong>Direct answers</strong> to complex, natural-language queries (for example: “Show me blue Gucci sneakers under £1000 and tell me if they’re in stock”)</li>
+<li><strong>Contextual relevance</strong>, understanding and matching user intent far beyond simple keyword search</li>
+<li><strong>Instant access</strong> to product details, images,localtion, prices, and offers—sourced from structured, machine-consumable site content</li>
+</ul>
+<p dir="auto">This shift signals a fundamental change: <strong>the future center of digital product discovery is not search (SEO) alone, but Conversational AI Discovery</strong>.<br>If product information isn’t provided in a structured, AI-friendly way, it won’t appear in chat results—resulting in missed opportunities and lost sales.</p>
+<p dir="auto">While SEO is still a supporting element in this ecosystem, the primary focus for the next generation of digital commerce is ensuring that products are discoverable, interpretable, and actionable within conversational AI environments.<br>Those who adapt will gain visibility and relevance; those who don’t risk disappearing from the main channel where user queries begin.</p>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98sdq" class="heading-element" dir="auto" tabindex="-1">Case Study: Upgrading demo-app-eshop</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<div class="markdown-heading" dir="auto">
+<h3 id="mcetoc_1j40fb98sdr" class="heading-element" dir="auto" tabindex="-1">Setup</h3>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<ul dir="auto">
+<li>Both versions of the shop were dockerized and served via ngrok to simulate real-world exposure.</li>
+<li>Live tests were run with AI chat platforms to analyze how each version responded to product queries.</li>
+</ul>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98sds" class="heading-element" dir="auto" tabindex="-1">Screenshots and What They Show</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<div class="markdown-heading" dir="auto">
+<h3 id="mcetoc_1j40fb98sdt" class="heading-element" dir="auto" tabindex="-1">Application overview</h3>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/2dbc6009027d20ccea35f6a7ae62870f5678a35dfb6bd97e370bcb32777d7d0c/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535323335312f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f706c702d747261646974696f6e616c2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/2dbc6009027d20ccea35f6a7ae62870f5678a35dfb6bd97e370bcb32777d7d0c/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535323335312f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f706c702d747261646974696f6e616c2e706e67" alt="traditional plp" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756552351/ai/dynamic_ux_with_jsonld_and_mcp/traditional/plp-traditional.png" data-is-external-image="true"></a></p>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/939ecdbc49fb5ce0c2f5d07f71ac61834e667b41f6c70f5a1c74d5f8e1458414/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535313730312f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f7064702d747261646974696f6e616c2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/939ecdbc49fb5ce0c2f5d07f71ac61834e667b41f6c70f5a1c74d5f8e1458414/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535313730312f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f7064702d747261646974696f6e616c2e706e67" alt="traditional pdp" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756551701/ai/dynamic_ux_with_jsonld_and_mcp/traditional/pdp-traditional.png" data-is-external-image="true"></a></p>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98sdu" class="heading-element" dir="auto" tabindex="-1">Technical Deep Dive: Jules’ JSON-LD Integration</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto"><strong>Process Overview:</strong></p>
+<ol dir="auto">
+<li><strong>Enhanced Open Graph Metadata</strong> Open Graph tags were upgraded to make previews richer on social and chat platforms.</li>
+<li><strong>Insertion of JSON-LD Structured Data</strong> A script using schema.org/Product was added. This embeds all product details in a format AI models are designed to read.</li>
+</ol>
+<p dir="auto"><strong>Sample Code Snippet:</strong></p>
+<div class="highlight highlight-source-tsx notranslate position-relative overflow-auto" dir="auto">
+<pre><span class="pl-k">const</span> <span class="pl-s1">jsonLd</span> <span class="pl-c1">=</span> <span class="pl-kos">{</span>
+  <span class="pl-s">"@context"</span>: <span class="pl-s">"https://schema.org"</span><span class="pl-kos">,</span>
+  <span class="pl-s">"@type"</span>: <span class="pl-s">"Product"</span><span class="pl-kos">,</span>
+  name<span class="pl-kos">,</span>
+  description<span class="pl-kos">,</span>
+  <span class="pl-c1">image</span>: <span class="pl-s1">imageUrl</span><span class="pl-kos">,</span>
+  <span class="pl-c1">offers</span>: <span class="pl-kos">{</span>
+    <span class="pl-s">"@type"</span>: <span class="pl-s">"Offer"</span><span class="pl-kos">,</span>
+    <span class="pl-c1">price</span>: <span class="pl-kos">(</span><span class="pl-s1">price</span> <span class="pl-c1">/</span> <span class="pl-c1">100</span><span class="pl-kos">)</span><span class="pl-kos">.</span><span class="pl-en">toString</span><span class="pl-kos">(</span><span class="pl-kos">)</span><span class="pl-kos">,</span>
+    <span class="pl-c1">priceCurrency</span>: <span class="pl-s">"GBP"</span><span class="pl-kos">,</span>
+    <span class="pl-c1">availability</span>: <span class="pl-s">"https://schema.org/InStock"</span>
+  <span class="pl-kos">}</span><span class="pl-kos">,</span>
+  <span class="pl-c1">url</span>: <span class="pl-s1">url</span>
+<span class="pl-kos">}</span><span class="pl-kos">;</span>
+<span class="pl-k">return</span> <span class="pl-kos">(</span>
+  <span class="pl-c1">&lt;</span><span class="pl-s1">div</span><span class="pl-c1">&gt;</span>
+    <span class="pl-kos">{</span><span class="pl-c">/* Product UI ... */</span><span class="pl-kos">}</span>
+    <span class="pl-c1">&lt;</span><span class="pl-s1">script</span> <span class="pl-c1">type</span><span class="pl-c1">=</span><span class="pl-s">"application/ld+json"</span> <span class="pl-c1">dangerouslySetInnerHTML</span><span class="pl-c1">=</span><span class="pl-kos">{</span><span class="pl-kos">{</span> <span class="pl-c1">__html</span>: <span class="pl-c1">JSON</span><span class="pl-kos">.</span><span class="pl-en">stringify</span><span class="pl-kos">(</span><span class="pl-s1">jsonLd</span><span class="pl-kos">)</span> <span class="pl-kos">}</span><span class="pl-kos">}</span> <span class="pl-kos">/&gt;</span>
+  <span class="pl-kos">&lt;/</span><span class="pl-s1">div</span><span class="pl-c1">&gt;</span>
+<span class="pl-kos">)</span><span class="pl-kos">;</span></pre>
+<div class="zeroclipboard-container"> </div>
+</div>
+<ul dir="auto">
+<li>Updated in <code>src/app/products/[id]/page.tsx</code></li>
+<li>Every product detail is mapped to its schema property and updated dynamically per page load.</li>
+<li>Minimal code effort for massive increase in machine and AI visibility.</li>
+</ul>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/9fc52bd5dac8d3ae212de1567268e774d90b10854f42b133475841d878933e6e/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363733312f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f6a756c65732d70726f6d70742e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/9fc52bd5dac8d3ae212de1567268e774d90b10854f42b133475841d878933e6e/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363733312f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f6a756c65732d70726f6d70742e706e67" alt="jules" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756556731/ai/dynamic_ux_with_jsonld_and_mcp/misc/jules-prompt.png" data-is-external-image="true"></a></p>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/0030c1568a27f9871a06bf48f25492511778424eb31f8ecc4235590160be782f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363733372f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f6769746875622d636f6d6d69742d6a736f6e6c642e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/0030c1568a27f9871a06bf48f25492511778424eb31f8ecc4235590160be782f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363733372f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6d6973632f6769746875622d636f6d6d69742d6a736f6e6c642e706e67" alt="git" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756556737/ai/dynamic_ux_with_jsonld_and_mcp/misc/github-commit-jsonld.png" data-is-external-image="true"></a></p>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98sdv" class="heading-element" dir="auto" tabindex="-1">How JSON-LD Transforms E-Commerce for AI Discovery</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<div class="markdown-heading" dir="auto">
+<h3 id="mcetoc_1j40fb98se0" class="heading-element" dir="auto" tabindex="-1">Immediate AI Advantages</h3>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<ul dir="auto">
+<li><strong>Direct Information Extraction:</strong> AI engines obtain precise product info (name, price, availability, image) instantly—without network scraping, error, or delay.</li>
+<li><strong>Contextual User Matching:</strong> Every question an AI gets (“What’s the price?” “Is it in stock?” “Describe the design and material”) is fully answerable with high accuracy.</li>
+<li><strong>Future-Proof and Omni-Channel:</strong> JSON-LD and schema.org format is compatible with chatbots, voice assistants, search engines, social platforms, and future digital channels.</li>
+<li><strong>Rapid Development:</strong> As verified in this project, changes require minimal engineering and immediately open the shop to AI-driven referrals.</li>
+</ul>
+<div class="markdown-heading" dir="auto">
+<h4 id="mcetoc_1j40fb98se1" class="heading-element" dir="auto" tabindex="-1">Traditional</h4>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/784d6e5a5c39e7fa98e73c1650c228d3d62bfaf9b4d195577f1c1ce042389a32/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535323933332f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f7064702d736f757263652d747261646974696f6e616c2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/784d6e5a5c39e7fa98e73c1650c228d3d62bfaf9b4d195577f1c1ce042389a32/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535323933332f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f7064702d736f757263652d747261646974696f6e616c2e706e67" alt="src pdp traditional" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756552933/ai/dynamic_ux_with_jsonld_and_mcp/traditional/pdp-source-traditional.png" data-is-external-image="true"></a></p>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/1c611d52a58f1fdac39f5c528f1efdc5ec1f3e35bf9d97f2351373fca542ba43/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363431382f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f736368656d612d76616c69646174696f6e2d747261646974696f6e616c2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/1c611d52a58f1fdac39f5c528f1efdc5ec1f3e35bf9d97f2351373fca542ba43/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363431382f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f736368656d612d76616c69646174696f6e2d747261646974696f6e616c2e706e67" alt="schema validation traditional" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756556418/ai/dynamic_ux_with_jsonld_and_mcp/traditional/schema-validation-traditional.png" data-is-external-image="true"></a></p>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/28e422545c60540dc09c1fb9a0c1b6a5f53991089872eca4fd000361d70571de/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363431382f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f726963682d746573742d747261646974696f6e616c2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/28e422545c60540dc09c1fb9a0c1b6a5f53991089872eca4fd000361d70571de/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363431382f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f726963682d746573742d747261646974696f6e616c2e706e67" alt="src pdp traditional" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756556418/ai/dynamic_ux_with_jsonld_and_mcp/traditional/rich-test-traditional.png" data-is-external-image="true"></a></p>
+<div class="markdown-heading" dir="auto">
+<h4 id="mcetoc_1j40fb98se2" class="heading-element" dir="auto" tabindex="-1">Jsonld</h4>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/e704e9e548e930635a9e1ee047873c2ff6e052127660487b574dea7b3f81d856/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363034382f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6a736f6e6c642f7064702d736f757263652d6a736f6e6c642e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/e704e9e548e930635a9e1ee047873c2ff6e052127660487b574dea7b3f81d856/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363034382f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6a736f6e6c642f7064702d736f757263652d6a736f6e6c642e706e67" alt="src pdp jsonld" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756556048/ai/dynamic_ux_with_jsonld_and_mcp/jsonld/pdp-source-jsonld.png" data-is-external-image="true"></a></p>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/71454972b889a9838e97728ae2498ad5bb9ecc9939b574b39b57139571095e7f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363034362f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6a736f6e6c642f736368656d612d76616c69646174696f6e2d6a736f6e6c642e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/71454972b889a9838e97728ae2498ad5bb9ecc9939b574b39b57139571095e7f/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363034362f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6a736f6e6c642f736368656d612d76616c69646174696f6e2d6a736f6e6c642e706e67" alt="schema validation jsonld" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756556046/ai/dynamic_ux_with_jsonld_and_mcp/jsonld/schema-validation-jsonld.png" data-is-external-image="true"></a></p>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/5a27c3a2a25db4a00bedadc9ab3fef10cde37908734c6589d318f78fe98f0a9e/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363034352f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6a736f6e6c642f726963682d746573742d6a736f6e6c642e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/5a27c3a2a25db4a00bedadc9ab3fef10cde37908734c6589d318f78fe98f0a9e/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363034352f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6a736f6e6c642f726963682d746573742d6a736f6e6c642e706e67" alt="src pdp jsonld" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756556045/ai/dynamic_ux_with_jsonld_and_mcp/jsonld/rich-test-jsonld.png" data-is-external-image="true"></a></p>
+<div class="markdown-heading" dir="auto">
+<h3 id="mcetoc_1j40fb98se3" class="heading-element" dir="auto" tabindex="-1">Query-Optimized Content</h3>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto">Traditional SEO optimizes for keywords. AI SEO, enabled by JSON-LD, optimizes for <strong>user requests</strong>. Structured data ensures the answer matches the actual question, not what the developer <em>hopes</em> will be understood.</p>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98se4" class="heading-element" dir="auto" tabindex="-1">Business Impact of AI-Friendly Content</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<div class="markdown-heading" dir="auto">
+<h3 id="mcetoc_1j40fb98se5" class="heading-element" dir="auto" tabindex="-1">Strategic Advantages</h3>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<ul dir="auto">
+<li><strong>Visibility Where It Matters</strong> Products become “findable” by any platform, not just search engines. AI chat results are now the main driver of discovery.</li>
+<li><strong>Conversion-Boosting Experiences</strong> Detailed, relevant, and rich results build trust and drive faster purchase decisions. Users get full answers without friction.</li>
+<li><strong>B2B Integration Power</strong> Resellers, affiliates, and partners can integrate products via machine-readable feeds—no custom scraping required.</li>
+<li><strong>Analytics Evolution</strong> Organizations can now track conversational engagement, AI-driven sessions, and measure new channels of customer interaction.</li>
+</ul>
+<div class="markdown-heading" dir="auto">
+<h4 id="mcetoc_1j40fb98se6" class="heading-element" dir="auto" tabindex="-1">Traditional</h4>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/fee59bd75bb09b9fac9e59f1efaf2ebb06f57337d3be60b9edd4ac425d9a4c45/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535333133302f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f706572706c65786974792d636861742d747261646974696f6e616c2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/fee59bd75bb09b9fac9e59f1efaf2ebb06f57337d3be60b9edd4ac425d9a4c45/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535333133302f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f747261646974696f6e616c2f706572706c65786974792d636861742d747261646974696f6e616c2e706e67" alt="perplexity traditional answer" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756553130/ai/dynamic_ux_with_jsonld_and_mcp/traditional/perplexity-chat-traditional.png" data-is-external-image="true"></a></p>
+<div class="markdown-heading" dir="auto">
+<h4 id="mcetoc_1j40fb98se7" class="heading-element" dir="auto" tabindex="-1">Jsonld</h4>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto"><a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/201525928d9c4082c79122dae79336eb3e481078e67e5c42caa610e8613c4e69/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363034362f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6a736f6e6c642f706572706c65786974792d636861742d6a736f6e2e706e67"><img loading="lazy" src="https://camo.githubusercontent.com/201525928d9c4082c79122dae79336eb3e481078e67e5c42caa610e8613c4e69/68747470733a2f2f7265732e636c6f7564696e6172792e636f6d2f6574687a65726f2f696d6167652f75706c6f61642f635f7363616c652c775f3732302f76313735363535363034362f61692f64796e616d69635f75785f776974685f6a736f6e6c645f616e645f6d63702f6a736f6e6c642f706572706c65786974792d636861742d6a736f6e2e706e67" alt="perplexity jsonld answer" data-canonical-src="https://res.cloudinary.com/ethzero/image/upload/c_scale,w_720/v1756556046/ai/dynamic_ux_with_jsonld_and_mcp/jsonld/perplexity-chat-json.png" data-is-external-image="true"></a></p>
+<div class="markdown-heading" dir="auto">
+<h3 id="mcetoc_1j40fb98se8" class="heading-element" dir="auto" tabindex="-1">Future-Proofing Your Commerce Strategy</h3>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto">The retail future is conversational; traditional keywords are giving way to voice and chat recommendations. JSON-LD makes a product catalog “first-class content” in every context—chat, voice, smart home, and social commerce.</p>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98se9" class="heading-element" dir="auto" tabindex="-1">Conclusion: Why This Is Strategic</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto">The experiment proves a simple truth: <strong>Structured data is the new foundation for digital commerce, not only for Google search but for all the intelligent platforms users will increasingly rely on.</strong></p>
+<ul dir="auto">
+<li><strong>Quick impact for minimal technical effort</strong></li>
+<li><strong>Gains in AI SEO are immediate and measurable</strong></li>
+<li><strong>Strategic advantage in a fast-evolving digital landscape</strong></li>
+</ul>
+<p dir="auto">Smart businesses will empower their content with AI-centric structure today, gaining visibility, relevance, and adaptability for tomorrow’s shopping journeys.</p>
+<div class="markdown-heading" dir="auto">
+<h2 id="mcetoc_1j40fb98sea" class="heading-element" dir="auto" tabindex="-1">Reflections: Is This Really the Future?</h2>
+<svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></div>
+<p dir="auto">So is this the future? Yes and no.<br>There are enormous new opportunities ahead, but also many new challenges. Conversational platforms like ChatGPT, Claude, Gemini, and Perplexity are quickly becoming the primary interfaces for users—but at present, these interfaces are asynchronous and opaque.</p>
+<ul dir="auto">
+<li><strong>Who is calling your e-commerce?</strong><br>Shop owners never know who is querying their business—there’s no clear user identification when the interaction goes through AI agents.</li>
+<li><strong>Unintended side effects of open data</strong><br>The more information we expose, the greater the risk of undesirable consequences. For example, if you publish the number of items in stock, competitors can easily analyze your business performance.</li>
+<li><strong>Sensitive data risks</strong><br>There's always the danger of unintentionally exposing sensitive data that should remain private.</li>
+<li><strong>WAF (Web Application Firewall) solutions</strong><br>Security solutions for filtering and protecting traffic, like WAFs, become much trickier when the main traffic source is indirect or mediated by AI chat platforms.</li>
+</ul>
+<div class="markdown-heading" dir="auto">
+<h3 id="mcetoc_1j40fb98seb" class="heading-element" dir="auto" tabindex="-1">What is still missing?</h3>
+<a id="user-content-what-is-still-missing" class="anchor" aria-label="Permalink: What is still missing?" href="https://github.com/lorenzogirardi/dynamic_ux_with_jsonld_and_mcp#what-is-still-missing"><svg class="octicon octicon-link" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg></a></div>
+<p dir="auto">Realistically, just as search engine monopolies formed around Google, Yahoo, Baidu, or Bing, we’re likely to see a small handful of dominant chat platforms.<br>These will almost certainly evolve to include sort of collaboration/registration/whatever processes, mechanisms for optimizing the way queries work, and features to pass specific fields enabling a full, end-to-end traceable session—from chat request to final e-commerce transaction.</p>
+<p dir="auto">In short, the frontier is wide open but incomplete:</p>
+<ul dir="auto">
+<li><strong>We need session traceability and user context</strong></li>
+<li><strong>We must balance data openness with business privacy and security</strong></li>
+<li><strong>We should prepare for a future where e-commerce optimization is not just SEO, but also “Chat Optimization” and secure, user-aware integrations with AI platforms</strong></li>
+</ul>
+<p dir="auto">This is just the beginning, and the conversation—and technology—will keep evolving.</p>
+            ]]>
+        </content>
+    </entry>
     <entry>
         <title>Migrating Homelab from VMware ESXi to Proxmox: A New Era</title>
         <author>
@@ -2390,178 +2657,6 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 <h3>Price </h3>
 <p>nuc7PJYH ~ 160€<br>G.Skill Ripjaws SO-DIMM 16GB DDR4-2400Mhz 2x8GB ~ 60€<br>hard disk ssd 250db ~ 40€<br><br>Is not cheap as a raspberry 4 but it's 10 time more performant and guarantee a full server experience with the possibility to play and grow your skills and challenges</p>
 <p> </p>
-<p> </p>
-<p> </p>
-            ]]>
-        </content>
-    </entry>
-    <entry>
-        <title>Ambient sensor for mere mortal</title>
-        <author>
-            <name>lgirardi</name>
-        </author>
-        <link href="https://www.k8s.it/ambient-sensor-for-mere-mortal.html"/>
-        <id>https://www.k8s.it/ambient-sensor-for-mere-mortal.html</id>
-
-        <updated>2021-01-24T22:10:12+01:00</updated>
-            <summary>
-                <![CDATA[
-                    In the home automation era, I was quite curious to understand how is working a simple thermal sensor I tried this simple experiment following the suggestion of one of my colleagues, i was thinking to start with Arduino , however he suggested to try nodemcu&hellip;
-                ]]>
-            </summary>
-        <content type="html">
-            <![CDATA[
-                <p>In the home automation era, I was quite curious to understand how is working a simple thermal sensor</p>
-<h3>WHAT WE NEED ?</h3>
-<ul>
-<li>ESP8266</li>
-<li>DHT22</li>
-<li>usb power</li>
-<li>Influxdb</li>
-<li>Grafana</li>
-</ul>
-<p>I tried this simple experiment following the suggestion of one of my colleagues, i was thinking to start with Arduino , however he suggested to try nodemcu</p>
-<p>So what is <em>nodemcu?<br></em>It's an open source platform developed for IoT , you can <em>compile</em> the firmware with the most used sensors available , but the main feature is the Lua support<br>When i starts with Arduino i created some C software really horrible 😇<br>with Lua instead it was quite simple create this kind of functionality.</p>
-<p>The hardware platform is really nice and simple </p>
-<h4>ESP8266</h4>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-21.39.16.png" alt="" width="640" height="565" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-xs.webp 640w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-sm.webp 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-md.webp 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-lg.webp 1366w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-xl.webp 1600w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.39.16-2xl.webp 1920w"></figure>
-<p> </p>
-<p>It's natively support wifi and with the sensor dht22 you are able to have the temperature, humidity ... and well also a dew point since is it a maths of previous values</p>
-<h4>DHT22</h4>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-21.42.27.png" alt="" width="640" height="602" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-xs.webp 640w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-sm.webp 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-md.webp 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-lg.webp 1366w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-xl.webp 1600w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.42.27-2xl.webp 1920w"></figure>
-<p> </p>
-<p>Price for both is really cheaper (aliexpress)</p>
-<p>esp8266    --&gt; 3$<br>dht22          --&gt; 1$</p>
-<p>Once you receive the hardware you can start to work on it </p>
-<p>With <a href="https://nodemcu-build.com/">https://nodemcu-build.com/</a> you can build the firmware that fit your needs (in the next screen what is needed to interact with the thermal sensor)</p>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-21.46.37.png" alt="" width="640" height="484" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-xs.webp 640w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-sm.webp 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-md.webp 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-lg.webp 1366w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-xl.webp 1600w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-21.46.37-2xl.webp 1920w"></figure>
-<p> </p>
-<p>To load the firmware you should need <a href="https://github.com/espressif/esptool">https://github.com/espressif/esptool</a></p>
-<p>with a command like this<br><code>python esptool.py -b 115200 --port=/dev/cu.<wbr>wchusbserial1410 write_flash  -fm=dio -fs=32m 0x0000 <span class="il">nodemcu</span>-master-12-modules-<wbr>2016-01-09-18-51-26-float.bin</code></p>
-<p>Now.... it's time to create the Lua script</p>
-<h3>Configuration</h3>
-<p>This is working since 2016 so i think we can consider stable 😁</p>
-<pre><code>local SSID = "name wifi"
-local SSID_PASSWORD = "password wifi"
-local DEVICE = "name device"
-local temperature = 20.0
-
-wifi.setmode(wifi.STATION)
-wifi.sta.config(SSID,SSID_PASSWORD)
-wifi.sta.autoconnect(1)
-
-local HOST = "server database"
-local URI = "/write?db=collectd"
-
-function build_post_request(host, uri, data_table)
-
-     local data = data_table.Data_type .. ",device=" .. data_table.Device .. " " .. "value=" .. data_table.Value
-
-     --for param,value in pairs(data_table) do
-    --      data = data .. param.."="..value.."&amp;"
-    -- end
-    print(data)
-
-     request = "POST "..uri.." HTTP/1.1\r\n"..
-     "Host: "..host.."\r\n"..
-     "Connection: close\r\n"..
-     "Content-Type: application/x-www-form-urlencoded\r\n"..
-     "Content-Length: "..string.len(data).."\r\n"..
-     "\r\n"..
-     data
-
-     print(request)
-
-     return request
-end
-
-local function display(sck,response)
-     print(response)
-end
-
--- When using send_sms: the "from" number HAS to be your twilio number.
--- If you have a free twilio account the "to" number HAS to be your twilio verified number.
--- The numbers MUST include the country code.
--- DO NOT add the "+" sign.
-local function send_data(data_type,device,value)
-
-     local data = {
-      Data_type = data_type,
-      Device = device,
-      Value = value
-     }
-
-     socket = net.createConnection(net.TCP,0)
-     socket:on("receive",display)
-     socket:connect(8086,HOST)
-
-     socket:on("connection",function(sck)
-
-          local post_request = build_post_request(HOST,URI,data)
-          sck:send(post_request)
-     end)
-end
-
-function check_wifi()
- local ip = wifi.sta.getip()
-
- if(ip==nil) then
-   print("Connecting...")
- else
-  tmr.stop(0)
-  print("Connected to AP!")
-  print(ip)
-  --send_data("15551234567","12223456789","Hello from your ESP8266")
-
-  local t, h, d = getTempHumi()
-
-  print("Temp:"..t .." C\n")
-  print("Humi:"..h .." RH\n")
-  print("Dew:"..d .." DP\n")
-
-  send_data("temperature", DEVICE, t)
-  send_data("humidity", DEVICE, h)
-  send_data("dew_point", DEVICE, d)
-
-  tmr.alarm(0,30000,1,check_wifi)
-
- end
-
-end
-
-tmr.alarm(0,5000,1,check_wifi)
-
-function getTempHumi()
-    pin = 4
-    local status,temp,humi,temp_decimial,humi_decimial = dht.read(pin)
-    if( status == dht.OK ) then
-    -- Float firmware using this example
-      print("DHT Temperature:"..temp..";".."Humidity:"..humi)
-    elseif( status == dht.ERROR_CHECKSUM ) then
-      print( "DHT Checksum error." );
-    elseif( status == dht.ERROR_TIMEOUT ) then
-      print( "DHT Time out." );
-    end
-    local dewpoint= (humi/100)^(1/8) * (112 + (0.9 * temp)) - 112 + (0.1 * temp)
-
-    return temp, humi, (string.format("%.1f", dewpoint))
-end</code></pre>
-<h4>Customizations</h4>
-<p>local SSID = "wifi name"  <br>local SSID_PASSWORD = "wifi password" <br>local DEVICE = "name device"        --&gt; name of you board/room </p>
-<p>local HOST = "server database"     --&gt; your influxdb installation<br>local URI = "/write?db=collectd"     --&gt; your database name </p>
-<p> </p>
-<p>So we have the hardware , we loaded the firmware, we created the code, but how to interact with the platform... well there are many way however <a href="https://esp8266.ru/esplorer/" target="_blank" rel="noopener noreferrer">ESPlorer</a> has a nice gui even if it's java based ☠️</p>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/ESPlorer-panels.png" alt="" width="640" height="373" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-xs.webp 640w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-sm.webp 768w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-md.webp 1024w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-lg.webp 1366w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-xl.webp 1600w ,https://www.k8s.it/media/posts/23/responsive/ESPlorer-panels-2xl.webp 1920w"></figure>
-<p> </p>
-<h3>Results</h3>
-<p><a href="https://services.k8s.it/grafana/d/000000079/temperature?viewPanel=5&amp;orgId=2&amp;refresh=1m">https://services.k8s.it/grafana/d/000000079/temperature?viewPanel=5&amp;orgId=2&amp;refresh=1m</a></p>
-<p>above you can see the live results .... and on grafana we can create a graph like this</p>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-22.11.01.png" alt="" width="1024" height="408" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-xs.webp 640w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-sm.webp 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-md.webp 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-lg.webp 1366w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-xl.webp 1600w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.11.01-2xl.webp 1920w"></figure>
-<p>The delta delta in the <em>Humidity is generated by an </em>humidifier</p>
-<figure class="post__image post__image--center"><img loading="lazy"  src="https://www.k8s.it/media/posts/23/Screenshot-2021-01-24-at-22.06.50.png" alt="" width="640" height="738" sizes="(max-width: 1920px) 100vw, 1920px" srcset="https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-xs.webp 640w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-sm.webp 768w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-md.webp 1024w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-lg.webp 1366w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-xl.webp 1600w ,https://www.k8s.it/media/posts/23/responsive/Screenshot-2021-01-24-at-22.06.50-2xl.webp 1920w"></figure>
-<p> </p>
-<p>I have one sensor for all rooms ... and also external </p>
-<p>The external one should be replaced more or less every year because is not properly water proof and ... day by day the electrical contacts become oxidized </p>
 <p> </p>
 <p> </p>
             ]]>
