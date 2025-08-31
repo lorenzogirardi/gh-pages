@@ -3,7 +3,7 @@
     <title>LAB</title>
     <link href="https://www.k8s.it/feed.xml" rel="self" />
     <link href="https://www.k8s.it" />
-    <updated>2025-08-31T23:16:50+02:00</updated>
+    <updated>2025-08-31T23:34:25+02:00</updated>
     <author>
         <name>lgirardi</name>
     </author>
@@ -28,7 +28,7 @@
             <summary>
                 <![CDATA[
                         <img src="https://www.k8s.it/media/posts/47/chat-driven-user-experience.png" alt="" />
-                    Dynamic UX with jsonld and mcp Table of Contents This article began as a classic exploration into JSON-LD and its impact on structured data for e-commerce. However, as research and experimentation progressed, a fundamental realization emerged: what’s actually changing is the entire user experience paradigm.
+                    Dynamic UX with jsonld and mcp This article began as a classic exploration into JSON-LD and its impact on structured data for e-commerce. However, as research and experimentation progressed, a fundamental realization emerged: what’s actually changing is the entire user experience paradigm. The way end-users&hellip;
                 ]]>
             </summary>
         <content type="html">
@@ -37,7 +37,6 @@
                 <div class="markdown-heading" dir="auto">
 <h1 id="mcetoc_1j40fb98sdl" class="heading-element" dir="auto" tabindex="-1">Dynamic UX with jsonld and mcp</h1>
 <p> </p>
-<p><span style="color: var(--headings-color); font-family: var(--font-base); font-size: 1.42383em; font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing);">Table of Contents</span></p>
 </div>
 <div class="markdown-heading" dir="auto">
 <div class="post__toc">
